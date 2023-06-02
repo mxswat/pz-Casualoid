@@ -1,0 +1,25 @@
+VERSION = 1,
+
+option Casualoid.DisableAsthmatic
+{
+	type = boolean,
+	default = true,
+	page = Casualoid,
+	translation = Disable Asthmatic,
+}
+
+option Casualoid.DisableDeaf
+{
+	type = boolean,
+	default = true,
+	page = Casualoid,
+	translation = Disable Deaf,
+}
+
+option Casualoid.DisableSundayDriver
+{
+	type = boolean,
+	default = true,
+	page = Casualoid,
+	translation = Disable SundayDriver,
+}
