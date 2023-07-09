@@ -1,25 +1,57 @@
 VERSION = 1,
 
-option Casualoid.DisableAsthmatic
+option Casualoid.RemoveAsthmatic
 {
 	type = boolean,
 	default = true,
 	page = Casualoid,
-	translation = Disable Asthmatic,
+	translation = Remove Asthmatic,
 }
 
-option Casualoid.DisableDeaf
+option Casualoid.RemoveDeaf
 {
 	type = boolean,
 	default = true,
 	page = Casualoid,
-	translation = Disable Deaf,
+	translation = Remove Deaf,
 }
 
-option Casualoid.DisableSundayDriver
+option Casualoid.RemoveSundayDriver
 {
 	type = boolean,
 	default = true,
 	page = Casualoid,
-	translation = Disable SundayDriver,
+	translation = Remove SundayDriver,
+}
+
+option Casualoid.RemoveHardOfHearing
+{
+	type = boolean,
+	default = true,
+	page = Casualoid,
+	translation = Remove HardOfHearing,
+}
+
+option Casualoid.RemoveDisorganized
+{
+	type = boolean,
+	default = true,
+	page = Casualoid,
+	translation = Remove Disorganized,
+}
+
+option Casualoid.RemoveIlliterate
+{
+	type = boolean,
+	default = true,
+	page = Casualoid,
+	translation = Remove Illiterate,
+}
+
+option Casualoid.RemoveClumsy
+{
+	type = boolean,
+	default = true,
+	page = Casualoid,
+	translation = Remove Clumsy,
 }

@@ -1,12 +1,18 @@
+---@diagnostic disable: duplicate-set-field
 local function getNoobTraps()
 	return {
-		Asthmatic = SandboxVars.Casualoid.DisableAsthmatic,
-		Deaf = SandboxVars.Casualoid.DisableDeaf,
-		SundayDriver = SandboxVars.Casualoid.DisableSundayDriver,
+		Asthmatic = SandboxVars.Casualoid.RemoveAsthmatic,
+		Deaf = SandboxVars.Casualoid.RemoveDeaf,
+		SundayDriver = SandboxVars.Casualoid.RemoveSundayDriver,
+		HardOfHearing = SandboxVars.Casualoid.RemoveHardOfHearing,
+		Disorganized = SandboxVars.Casualoid.RemoveDisorganized,
+		Illiterate = SandboxVars.Casualoid.RemoveIlliterate,
+		Clumsy = SandboxVars.Casualoid.RemoveClumsy,
+		Nutritionist = SandboxVars.Casualoid.RemoveNutritionist,
+		Herbalist = SandboxVars.Casualoid.RemoveHerbalist,
+		AllThumbs = SandboxVars.Casualoid.RemoveAllThumbs,
 	}
 end
-
--- Maybe override TraitFactory.getTraits() instead
 
 local oldAddTrait = TraitFactory.addTrait
 TraitFactory.addTrait = function(...)
