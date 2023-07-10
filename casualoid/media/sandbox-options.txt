@@ -5,7 +5,7 @@ option Casualoid.RemoveAsthmatic
 	type = boolean,
 	default = true,
 	page = Casualoid,
-	translation = Remove Asthmatic,
+	translation = Remove_Asthmatic,
 }
 
 option Casualoid.RemoveDeaf
@@ -13,7 +13,7 @@ option Casualoid.RemoveDeaf
 	type = boolean,
 	default = true,
 	page = Casualoid,
-	translation = Remove Deaf,
+	translation = Remove_Deaf,
 }
 
 option Casualoid.RemoveSundayDriver
@@ -21,7 +21,7 @@ option Casualoid.RemoveSundayDriver
 	type = boolean,
 	default = true,
 	page = Casualoid,
-	translation = Remove SundayDriver,
+	translation = Remove_SundayDriver,
 }
 
 option Casualoid.RemoveHardOfHearing
@@ -29,7 +29,7 @@ option Casualoid.RemoveHardOfHearing
 	type = boolean,
 	default = true,
 	page = Casualoid,
-	translation = Remove HardOfHearing,
+	translation = Remove_HardOfHearing,
 }
 
 option Casualoid.RemoveDisorganized
@@ -37,7 +37,7 @@ option Casualoid.RemoveDisorganized
 	type = boolean,
 	default = true,
 	page = Casualoid,
-	translation = Remove Disorganized,
+	translation = Remove_Disorganized,
 }
 
 option Casualoid.RemoveIlliterate
@@ -45,7 +45,7 @@ option Casualoid.RemoveIlliterate
 	type = boolean,
 	default = true,
 	page = Casualoid,
-	translation = Remove Illiterate,
+	translation = Remove_Illiterate,
 }
 
 option Casualoid.RemoveClumsy
@@ -53,5 +53,36 @@ option Casualoid.RemoveClumsy
 	type = boolean,
 	default = true,
 	page = Casualoid,
-	translation = Remove Clumsy,
+	translation = Remove_Clumsy,
+}
+
+option Casualoid.RemoveNutritionist
+{
+	type = boolean,
+	default = true,
+	page = Casualoid,
+	translation = Remove_Nutritionist,
+}
+
+option Casualoid.RemoveHerbalist
+{
+	type = boolean,
+	default = true,
+	page = Casualoid,
+	translation = Remove_Herbalist,
+}
+
+option Casualoid.RemoveAllThumbs
+{
+	type = boolean,
+	default = true,
+	page = Casualoid,
+	translation = Remove_AllThumbs,
+}
+
+
+option Casualoid.FasterActionsModifier
+{
+	type = integer, min = 0, max = 100, default = 50,
+	page = Casualoid, translation = FasterActionsModifier,
 }
