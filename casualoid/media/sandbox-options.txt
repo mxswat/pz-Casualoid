@@ -80,9 +80,18 @@ option Casualoid.RemoveAllThumbs
 	translation = Remove_AllThumbs,
 }
 
-
 option Casualoid.FasterActionsModifier
 {
 	type = integer, min = 0, max = 100, default = 50,
 	page = Casualoid, translation = FasterActionsModifier,
+}
+
+option Casualoid.WoodWeightModifier = {
+	type = integer, min = 0, max = 100, default = 40,
+	page = Casualoid, translation = WoodWeightModifier,
+}
+
+option Casualoid.MetalWeightModifier = {
+	type = integer, min = 0, max = 100, default = 40,
+	page = Casualoid, translation = WoodWeightModifier,
 }
