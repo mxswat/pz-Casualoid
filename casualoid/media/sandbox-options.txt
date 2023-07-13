@@ -95,3 +95,13 @@ option Casualoid.MetalWeightModifier = {
 	type = integer, min = 0, max = 100, default = 40,
 	page = Casualoid, translation = WoodWeightModifier,
 }
+
+option Casualoid.MultiSelect1 = {
+	type = string, default = Base.Vest,
+	page = Casualoid, translation = MultiSelect1,
+}
+
+option Casualoid.MultiSelect2 = {
+	type = string, default = AllThumbs;Desensitized;WeakStomach;IronGut;Hemophobic;Asthmatic,
+  page = Casualoid, translation = MultiSelect2,
+}
