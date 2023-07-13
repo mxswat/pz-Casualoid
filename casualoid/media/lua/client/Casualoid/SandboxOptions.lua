@@ -15,7 +15,12 @@ end
 function SandboxOptionsScreen:overrideTextBox(control, name)
   local button = ISButton:new(control:getX(), control:getY(), control:getWidth(), control:getHeight(), 'Override', self,
     function()
-      local modal = MultiSelectModal:new(name, {"A", "B", "C", "D", "F", "A", "B", "C", "D", "F"});
+      local value = {}
+      for i in string.gmatch(control:getText(), "([^;]+)") do
+        value[#value + 1] = i
+      end
+
+      local modal = MultiSelectModal:new(name, value);
       modal:initialise();
       modal:addToUIManager();
     end);
