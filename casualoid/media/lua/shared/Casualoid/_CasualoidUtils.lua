@@ -10,15 +10,17 @@ function CasualoidPrint(...)
   print('Casualoid:' .. printResult)
 end
 
-function CasualoidStringToTable(string)
-  local table = {}
-  local map = {}
-  for text in string.gmatch(string, "([^;]+)") do
-    table[#table + 1] = text
-    map[text] = true
+function CasualoidParseSandboxString(text)
+  local res = {
+    values = {},
+    map = {}
+  }
+  for v in string.gmatch(text, "([^;]+)") do
+    res.values[#res.values + 1] = v
+    res.map[v] = true
   end
 
-  return table, map
+  return res
 end
 
 function CasualoidPrintTable(node)

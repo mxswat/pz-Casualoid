@@ -11,18 +11,21 @@ function MultiSelectModal:createChildren()
   self.tickBox:initialise()
 
   self:addChild(self.tickBox)
-  for index, value in ipairs(self.values) do
-    local option = self.tickBox:addOption(value, value)
-    self.tickBox:setSelected(option, true or false)
+
+  local res = CasualoidParseSandboxString(self.selectedValuesString)
+  
+  for _, value in ipairs(self.options) do
+    local tBoxOption = self.tickBox:addOption(value:getLabel(), value:getType(), value:getTexture())
+    self.tickBox:setSelected(tBoxOption, res.map[value:getType()])
   end
 
   self:setHeight(self.tickBox:getHeight() + titleBarHeight + 10)
 end
 
-function MultiSelectModal:onTicked(index, selected)
+function MultiSelectModal:onTicked()
   local string = ''
-  for i, v in pairs(self.tickBox.selected) do
-    if self.tickBox.selected[i] then
+  for i, isSelected in pairs(self.tickBox.selected) do
+    if isSelected then
       string = self.tickBox.optionData[i] .. ';' .. string
     end
   end
@@ -30,7 +33,7 @@ function MultiSelectModal:onTicked(index, selected)
   CasualoidPrint('MultiSelectModal:onTicked.string', string)
 end
 
-function MultiSelectModal:onMouseDownOutside(x, y)
+function MultiSelectModal:onMouseDownOutside()
   self:close()
   return true
 end
@@ -39,14 +42,16 @@ function MultiSelectModal:close()
   self:removeFromUIManager()
 end
 
-function MultiSelectModal:new(name, values)
+function MultiSelectModal:new(name, selectedValuesString, options)
   local width = 260
   local height = 180
   local x = getCore():getScreenWidth() / 2 - (width / 2);
   local y = getCore():getScreenHeight() / 2 - (height / 2);
   local o = ISCollapsableWindowJoypad.new(self, x, y, width, height)
-  o.values = values
-  o.title = "Set Values for: " .. name;
+  o.selectedValuesString = selectedValuesString
+  o.options = options
+  o.title = name;
+  o.backgroundColor = {r=0, g=0, b=0, a=0.95};
   o:setResizable(false)
   return o
 end

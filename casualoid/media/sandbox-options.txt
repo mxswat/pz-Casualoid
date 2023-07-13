@@ -96,6 +96,16 @@ option Casualoid.MetalWeightModifier = {
 	page = Casualoid, translation = WoodWeightModifier,
 }
 
+option Casualoid.MultiSelectDisablePositiveTraits = {
+	type = string, default = Herbalist,
+	page = Casualoid, translation = MultiSelectDisablePositiveTraits,
+}
+
+option Casualoid.MultiSelectDisableNegativeTraits = {
+	type = string, default = Herbalist,
+	page = Casualoid, translation = MultiSelectDisableNegativeTraits,
+}
+
 option Casualoid.MultiSelect1 = {
 	type = string, default = AllThumbs;Desensitized;WeakStomach;IronGut;Hemophobic;Asthmatic,
 	page = Casualoid, translation = MultiSelect1,
