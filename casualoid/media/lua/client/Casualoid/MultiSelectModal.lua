@@ -7,20 +7,32 @@ function MultiSelectModal:createChildren()
 
   local titleBarHeight = self:titleBarHeight()
 
-  self.tickBox = ISTickBox:new(10, titleBarHeight + 6, self:getWidth() - 20, 0, "", self, self.onTickBox)
+  self.tickBox = ISTickBox:new(10, titleBarHeight + 6, self:getWidth() - 20, 0, "", self, self.onTicked)
   self.tickBox:initialise()
 
   self:addChild(self.tickBox)
   for index, value in ipairs(self.values) do
-    self.tickBox:addOption(value, value)
+    local option = self.tickBox:addOption(value, value)
+    self.tickBox:setSelected(option, true or false)
   end
 
   self:setHeight(self.tickBox:getHeight() + titleBarHeight + 10)
 end
 
+function MultiSelectModal:onTicked(index, selected)
+  local string = ''
+  for i, v in pairs(self.tickBox.selected) do
+    if self.tickBox.selected[i] then
+      string = self.tickBox.optionData[i] .. ';' .. string
+    end
+  end
+
+  CasualoidPrint('MultiSelectModal:onTicked.string', string)
+end
+
 function MultiSelectModal:onMouseDownOutside(x, y)
-	self:close()
-	return true
+  self:close()
+  return true
 end
 
 function MultiSelectModal:close()

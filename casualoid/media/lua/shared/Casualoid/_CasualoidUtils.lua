@@ -10,6 +10,17 @@ function CasualoidPrint(...)
   print('Casualoid:' .. printResult)
 end
 
+function CasualoidStringToTable(string)
+  local table = {}
+  local map = {}
+  for text in string.gmatch(string, "([^;]+)") do
+    table[#table + 1] = text
+    map[text] = true
+  end
+
+  return table, map
+end
+
 function CasualoidPrintTable(node)
   local cache, stack, output = {}, {}, {}
   local depth = 1

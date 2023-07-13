@@ -13,18 +13,13 @@ function SandboxOptionsScreen:createPanel(page)
 end
 
 function SandboxOptionsScreen:overrideTextBox(control, name)
-  local button = ISButton:new(control:getX(), control:getY(), control:getWidth(), control:getHeight(), 'Override', self,
+  local button = ISButton:new(control:getX(), control:getY(), control:getWidth(), control:getHeight(), 'Edit Values', self,
     function()
-      local value = {}
-      for i in string.gmatch(control:getText(), "([^;]+)") do
-        value[#value + 1] = i
-      end
-
+      local value = CasualoidStringToTable(control:getText())
       local modal = MultiSelectModal:new(name, value);
       modal:initialise();
       modal:addToUIManager();
     end);
-
 
   control.parent:addChild(button)
 end
