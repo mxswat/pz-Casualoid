@@ -14,10 +14,12 @@ function MultiSelectModal:createChildren()
   self.tickBox = ISTickBox:new(8, 4, self:getWidth(), 0, "", self, self.onTicked)
   self.tickBox:initialise()
 
-  local res = CasualoidParseSandboxString(self.selectedValuesString)
+  local text = self.control:getText()
+  CasualoidPrint('self.control:getText(): ', text)
+  local parsed = CasualoidParseSandboxString(text)
   for _, value in ipairs(self.options) do
     local tBoxOption = self.tickBox:addOption(value:getLabel(), value:getType(), value:getTexture())
-    self.tickBox:setSelected(tBoxOption, res.map[value:getType()])
+    self.tickBox:setSelected(tBoxOption, parsed.map[value:getType()])
   end
 
   self.scrollView:addScrollChild(self.tickBox)
@@ -33,6 +35,7 @@ function MultiSelectModal:onTicked()
     end
   end
 
+  self.control:setText(string)
   CasualoidPrint('MultiSelectModal:onTicked.string', string)
 end
 
@@ -45,13 +48,13 @@ function MultiSelectModal:close()
   self:removeFromUIManager()
 end
 
-function MultiSelectModal:new(name, selectedValuesString, options)
-  local width = 260
-  local height = 300
+function MultiSelectModal:new(name, control, options)
+  local width = control:getWidth()
+  local height = 400
   local x = getCore():getScreenWidth() / 2 - (width / 2);
   local y = getCore():getScreenHeight() / 2 - (height / 2);
   local o = ISCollapsableWindowJoypad.new(self, x, y, width, height)
-  o.selectedValuesString = selectedValuesString
+  o.control = control
   o.options = options
   o.title = name;
   o.backgroundColor = {r=0, g=0, b=0, a=0.95};

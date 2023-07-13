@@ -4,7 +4,6 @@ function SandboxOptionsScreen:createPanel(page)
 
   for name, control in pairs(self.controls) do
     if string.find(name, "MultiSelect") then
-      CasualoidPrint(name)
       self:overrideTextBox(control, name)
     end
   end
@@ -46,9 +45,8 @@ function SandboxOptionsScreen:overrideTextBox(control, name)
   local button = ISButton:new(control:getX(), control:getY(), control:getWidth(), control:getHeight(), 'Edit Values',
     self,
     function()
-      local selectedValuesString = control:getText()
       local options = getOptions(tostring(name))
-      local modal = MultiSelectModal:new(name, selectedValuesString, options);
+      local modal = MultiSelectModal:new(name, control, options);
       modal:initialise();
       modal:addToUIManager();
     end);

@@ -105,13 +105,3 @@ option Casualoid.MultiSelectDisableNegativeTraits = {
 	type = string, default = Herbalist,
 	page = Casualoid, translation = MultiSelectDisableNegativeTraits,
 }
-
-option Casualoid.MultiSelect1 = {
-	type = string, default = AllThumbs;Desensitized;WeakStomach;IronGut;Hemophobic;Asthmatic,
-	page = Casualoid, translation = MultiSelect1,
-}
-
-option Casualoid.MultiSelect2 = {
-	type = string, default = AllThumbs;Desensitized;WeakStomach;IronGut;Hemophobic;Asthmatic,
-  page = Casualoid, translation = MultiSelect2,
-}
