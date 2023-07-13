@@ -1,85 +1,5 @@
 VERSION = 1,
 
-option Casualoid.RemoveAsthmatic
-{
-	type = boolean,
-	default = true,
-	page = Casualoid,
-	translation = Remove_Asthmatic,
-}
-
-option Casualoid.RemoveDeaf
-{
-	type = boolean,
-	default = true,
-	page = Casualoid,
-	translation = Remove_Deaf,
-}
-
-option Casualoid.RemoveSundayDriver
-{
-	type = boolean,
-	default = true,
-	page = Casualoid,
-	translation = Remove_SundayDriver,
-}
-
-option Casualoid.RemoveHardOfHearing
-{
-	type = boolean,
-	default = true,
-	page = Casualoid,
-	translation = Remove_HardOfHearing,
-}
-
-option Casualoid.RemoveDisorganized
-{
-	type = boolean,
-	default = true,
-	page = Casualoid,
-	translation = Remove_Disorganized,
-}
-
-option Casualoid.RemoveIlliterate
-{
-	type = boolean,
-	default = true,
-	page = Casualoid,
-	translation = Remove_Illiterate,
-}
-
-option Casualoid.RemoveClumsy
-{
-	type = boolean,
-	default = true,
-	page = Casualoid,
-	translation = Remove_Clumsy,
-}
-
-option Casualoid.RemoveNutritionist
-{
-	type = boolean,
-	default = true,
-	page = Casualoid,
-	translation = Remove_Nutritionist,
-}
-
-option Casualoid.RemoveHerbalist
-{
-	type = boolean,
-	default = true,
-	page = Casualoid,
-	translation = Remove_Herbalist,
-}
-
-option Casualoid.RemoveAllThumbs
-{
-	type = boolean,
-	default = true,
-	page = Casualoid,
-	translation = Remove_AllThumbs,
-}
-
 option Casualoid.FasterActionsModifier
 {
 	type = integer, min = 0, max = 100, default = 50,
@@ -97,11 +17,11 @@ option Casualoid.MetalWeightModifier = {
 }
 
 option Casualoid.MultiSelectDisablePositiveTraits = {
-	type = string, default = Herbalist,
+	type = string, default = ,
 	page = Casualoid, translation = MultiSelectDisablePositiveTraits,
 }
 
 option Casualoid.MultiSelectDisableNegativeTraits = {
-	type = string, default = Herbalist,
+	type = string, default = ,
 	page = Casualoid, translation = MultiSelectDisableNegativeTraits,
 }

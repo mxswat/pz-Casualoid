@@ -15,7 +15,7 @@ function CasualoidParseSandboxString(text)
     values = {},
     map = {}
   }
-  for v in string.gmatch(text, "([^;]+)") do
+  for v in string.gmatch(text or "", "([^;]+)") do
     res.values[#res.values + 1] = v
     res.map[v] = true
   end

@@ -1,16 +1,3 @@
-local old_SandboxOptionsScreen_createPanel = SandboxOptionsScreen.createPanel
-function SandboxOptionsScreen:createPanel(page)
-  local result = old_SandboxOptionsScreen_createPanel(self, page)
-
-  for name, control in pairs(self.controls) do
-    if string.find(name, "MultiSelect") then
-      self:overrideTextBox(control, name)
-    end
-  end
-
-  return result
-end
-
 local function getTraits()
   local traitIds = {
     positive = {},
@@ -41,7 +28,7 @@ local function getOptions(name)
   return {}
 end
 
-function SandboxOptionsScreen:overrideTextBox(control, name)
+local function overrideTextBox(self, control, name)
   local button = ISButton:new(control:getX(), control:getY(), control:getWidth(), control:getHeight(), 'Edit Values',
     self,
     function()
@@ -52,4 +39,29 @@ function SandboxOptionsScreen:overrideTextBox(control, name)
     end);
 
   control.parent:addChild(button)
+end
+
+local old_SandboxOptionsScreen_createPanel = SandboxOptionsScreen.createPanel
+function SandboxOptionsScreen:createPanel(page)
+  local result = old_SandboxOptionsScreen_createPanel(self, page)
+
+  for name, control in pairs(self.controls) do
+    if string.find(name, "MultiSelect") then
+      overrideTextBox(self, control, name)
+    end
+  end
+
+  return result
+end
+
+local old_ServerSettingsScreen_create = ServerSettingsScreen.create
+function ServerSettingsScreen:create()
+  old_ServerSettingsScreen_create(self)
+
+  for name, control in pairs(self.pageEdit.controls.Sandbox) do
+    CasualoidPrint('name:', name)
+    if string.find(name, "MultiSelect") then
+      overrideTextBox(self, control, name)
+    end
+  end
 end
