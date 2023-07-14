@@ -59,9 +59,26 @@ function ServerSettingsScreen:create()
   old_ServerSettingsScreen_create(self)
 
   for name, control in pairs(self.pageEdit.controls.Sandbox) do
-    CasualoidPrint('name:', name)
+    -- CasualoidPrint('name:', name)
     if string.find(name, "MultiSelect") then
       overrideTextBox(self, control, name)
     end
   end
+end
+
+local old_CharacterCreationProfession_setVisible = CharacterCreationProfession.setVisible
+function CharacterCreationProfession:setVisible(visible, joypadData)
+	local result = old_CharacterCreationProfession_setVisible(self, visible, joypadData)
+
+  if visible then
+    self.listboxTrait:clear()
+    self:populateTraitList(self.listboxTrait);
+    self.listboxBadTrait:clear()
+    self:populateBadTraitList(self.listboxBadTrait);
+
+    CharacterCreationMain.sort(self.listboxTrait.items);
+    CharacterCreationMain.invertSort(self.listboxBadTrait.items);
+  end
+
+	return result
 end

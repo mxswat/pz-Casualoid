@@ -17,11 +17,11 @@ option Casualoid.MetalWeightModifier = {
 }
 
 option Casualoid.MultiSelectDisablePositiveTraits = {
-	type = string, default = ,
+	type = string, default = None,
 	page = Casualoid, translation = MultiSelectDisablePositiveTraits,
 }
 
 option Casualoid.MultiSelectDisableNegativeTraits = {
-	type = string, default = ,
+	type = string, default = None,
 	page = Casualoid, translation = MultiSelectDisableNegativeTraits,
 }

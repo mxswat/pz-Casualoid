@@ -15,10 +15,11 @@ function MultiSelectModal:createChildren()
   self.tickBox:initialise()
 
   local text = self.control:getText()
-  CasualoidPrint('self.control:getText(): ', text)
+  -- CasualoidPrint('self.control:getText(): ', text)
   local parsed = CasualoidParseSandboxString(text)
   for _, value in ipairs(self.options) do
-    local tBoxOption = self.tickBox:addOption(value:getLabel(), value:getType(), value:getTexture())
+    local profLabel = value:isFree() and ' - Profession' or ''
+    local tBoxOption = self.tickBox:addOption(value:getLabel()..profLabel, value:getType(), value:getTexture())
     self.tickBox:setSelected(tBoxOption, parsed.map[value:getType()])
   end
 
@@ -36,7 +37,7 @@ function MultiSelectModal:onTicked()
   end
 
   self.control:setText(string)
-  CasualoidPrint('MultiSelectModal:onTicked.string', string)
+  -- CasualoidPrint('MultiSelectModal:onTicked.string', string)
 end
 
 function MultiSelectModal:onMouseDownOutside()

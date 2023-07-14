@@ -1,27 +1,18 @@
-local function isTraitDisabled(id)
+local oldGetTraits = TraitFactory.getTraits
+TraitFactory.getTraits = function()
   local positives = CasualoidParseSandboxString(SandboxVars.Casualoid.MultiSelectDisablePositiveTraits)
-  if positives.map[id] then
-    return true
-  end
-
   local negatives = CasualoidParseSandboxString(SandboxVars.Casualoid.MultiSelectDisableNegativeTraits)
-  if negatives.map[id] then
-    return true
-  end
-end
 
-local oldAddTrait = TraitFactory.addTrait
-TraitFactory.addTrait = function(...)
-	local args = { ... }
-	local traitId = args[1]
-	local name = args[2]
-	local cost = args[3]
-	local description = args[4]
-	local isProfOnly = args[5]
-	if isTraitDisabled(traitId) then
-		CasualoidPrint('Noob trap detected, remove it', traitId)
-		-- oh no! I need to set this to pro only
-		isProfOnly = true
-	end
-	return oldAddTrait(traitId, name, cost, description, isProfOnly)
+  local filteredTraits = ArrayList:new()
+
+  local traits = oldGetTraits()
+  for i = 0, traits:size() - 1 do
+    local trait = traits:get(i);
+    local traitId = trait:getType()
+    if not positives.map[traitId] and not negatives.map[traitId] then
+      filteredTraits:add(trait)
+    end
+  end
+
+  return filteredTraits
 end
