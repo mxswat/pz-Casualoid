@@ -15,17 +15,12 @@ local function getTraits()
 end
 
 local function getOptions(name)
-  if name == 'Casualoid.MultiSelectDisablePositiveTraits' then
-    local traitIds = getTraits()
-    return traitIds.positive
-  end
+  local OPTIONS = {
+    ["Casualoid.MultiSelectDisablePositiveTraits"] = getTraits().positive,
+    ["Casualoid.MultiSelectDisableNegativeTraits"] = getTraits().negative
+  }
 
-  if name == 'Casualoid.MultiSelectDisableNegativeTraits' then
-    local traitIds = getTraits()
-    return traitIds.negative
-  end
-
-  return {}
+  return OPTIONS[name] or {}
 end
 
 local function overrideTextBox(self, control, name)
@@ -59,7 +54,6 @@ function ServerSettingsScreen:create()
   old_ServerSettingsScreen_create(self)
 
   for name, control in pairs(self.pageEdit.controls.Sandbox) do
-    -- CasualoidPrint('name:', name)
     if string.find(name, "MultiSelect") then
       overrideTextBox(self, control, name)
     end

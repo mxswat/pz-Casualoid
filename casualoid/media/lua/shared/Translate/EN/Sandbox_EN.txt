@@ -1,0 +1,13 @@
+Sandbox_EN = {
+	Sandbox_Casualoid = "Casualoid",
+  Sandbox_FasterActionsModifier = "Timed Actions Modifier %",
+  Sandbox_FasterActionsModifier_tooltip = "50 means 50%, which means every action will be 50% faster, if you use 100% actions will be instantaneous, if you use 0% they won't be speed up",
+  Sandbox_WoodWeightModifier = "Wood Weight Modifier %",
+  Sandbox_WoodWeightModifier_tooltip = "50 means 50%, which means every action will be 50% lighter, if you use 100% items will have have no weight, if you use 0% it won't change",
+  Sandbox_MetalWeightModifier = "Metal Weight Modifier %",
+  Sandbox_MetalWeightModifier_tooltip = "50 means 50%, which means every action will be 50% lighter, if you use 100% items will have have no weight, if you use 0% it won't change",
+  Sandbox_MultiSelectDisablePositiveTraits = "Disable Positive Traits",
+  Sandbox_MultiSelectDisablePositiveTraits_tooltip = "Select a trait to disable it",
+  Sandbox_MultiSelectDisableNegativeTraits = "Disable Negative Traits",
+  Sandbox_MultiSelectDisableNegativeTraits_tooltip = "Select a trait to disable it",
+}
