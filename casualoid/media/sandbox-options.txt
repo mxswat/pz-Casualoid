@@ -25,3 +25,8 @@ option Casualoid.MultiSelectDisableNegativeTraits = {
 	type = string, default = None,
 	page = Casualoid, translation = MultiSelectDisableNegativeTraits,
 }
+
+option Casualoid.CanCraftStorageUpgrade = {
+  type = boolean, default = true, 
+  page = Casualoid,  translation = CanCraftStorageUpgrade,
+}

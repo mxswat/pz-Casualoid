@@ -23,3 +23,8 @@ function ImproveStorageUpgrade(inputItems, resultItem, player)
   resultItem:setName("Storage Upgrade " .. newWeight * -1 .. "kg");
   resultItem:setCustomName(true);
 end
+
+function CanCraftStorageUpgrade()
+  if SandboxVars.Casualoid.CanCraftStorageUpgrade == false then return false end
+	return true
+end

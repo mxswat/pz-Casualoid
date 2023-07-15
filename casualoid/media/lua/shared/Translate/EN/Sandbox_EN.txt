@@ -10,4 +10,5 @@ Sandbox_EN = {
   Sandbox_MultiSelectDisablePositiveTraits_tooltip = "Select a trait to disable it",
   Sandbox_MultiSelectDisableNegativeTraits = "Disable Negative Traits",
   Sandbox_MultiSelectDisableNegativeTraits_tooltip = "Select a trait to disable it",
+  Sandbox_CanCraftStorageUpgrade = "Can Craft Storage Upgrades",
 }
