@@ -1,0 +1,66 @@
+module Casualoid {
+  item StorageUpgrade
+  {
+    DisplayCategory = Material,
+    Type = Normal,
+    DisplayName = Storage Upgrade 30kg,
+    Icon = StorageUpgrade,
+    Weight = -30.01,
+  }
+
+  recipe Create Storage Upgrade
+  {
+    keep [Recipe.GetItemTypes.Saw],
+    keep [Recipe.GetItemTypes.Hammer],
+    Base.Nails=5,
+    Base.Plank=5,
+
+    Time:300.0,
+    AnimNode:Disassemble,
+    Category:Survivalist,
+    SkillRequired:Woodwork=3,
+    XP:Woodwork=3,
+
+    Result:StorageUpgrade,
+  }
+
+  recipe Improve "Storage Upgrade"
+  {
+    Casualoid.StorageUpgrade=1,
+
+    keep [Recipe.GetItemTypes.Saw],
+    keep [Recipe.GetItemTypes.Hammer],
+    Base.Plank=5,
+    Base.Nails=5,
+
+    Time:300.0,
+    AnimNode:Disassemble,
+    Category:Survivalist,
+    SkillRequired:Woodwork=3,
+    XP:Woodwork=3,
+
+    OnCreate:ImproveStorageUpgrade,
+    Result:StorageUpgrade,
+  }
+
+  /** 
+  recipe Metalworking: Storage Upgrade
+  {
+    Base.MetalPipe=2,
+    Base.SmallSheetMetal=2,
+    Base.ScrapMetal=1,
+    Base.BlowTorch=2,
+    Base.WeldingRods=1,
+    keep [Recipe.GetItemTypes.WeldingMask],
+
+    Sound:PutItemInBag,
+    Time:250.0,
+    AnimNode:Disassemble,
+    Category:Survivalist,
+    SkillRequired:MetalWelding=4,
+    XP:MetalWelding=20,
+
+    Result:StorageUpgrade,
+  }
+  **/
+}
