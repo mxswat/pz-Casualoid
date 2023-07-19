@@ -11,4 +11,7 @@ Sandbox_EN = {
   Sandbox_MultiSelectDisableNegativeTraits = "Disable Negative Traits",
   Sandbox_MultiSelectDisableNegativeTraits_tooltip = "Select a trait to disable it",
   Sandbox_CanCraftStorageUpgrade = "Can Craft Storage Upgrades",
+  Sandbox_StorageUpgradeBaseWeight = "Storage Upgrades: Base Weight",
+  Sandbox_StorageImprovementMultiplier = "Storage Upgrades: Improvement Multiplier",
+  Sandbox_StorageImprovementMultiplier_tooltip = "Sets by wich number the base weight is multiplied every time a storage upgrade is improved",
 }

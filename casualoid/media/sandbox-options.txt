@@ -30,3 +30,13 @@ option Casualoid.CanCraftStorageUpgrade = {
   type = boolean, default = true, 
   page = Casualoid,  translation = CanCraftStorageUpgrade,
 }
+
+option Casualoid.StorageUpgradeBaseWeight = {
+  type = integer, min = 10, max = 100, default = 30,
+  page = Casualoid,  translation = StorageUpgradeBaseWeight,
+}
+
+option Casualoid.StorageImprovementMultiplier = {
+  type = double, min = 2.1, max = 10, default = 2.1,
+  page = Casualoid,  translation = StorageImprovementMultiplier,
+}

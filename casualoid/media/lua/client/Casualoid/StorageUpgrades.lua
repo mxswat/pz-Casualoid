@@ -1,9 +1,19 @@
-local DEFAULT_WEIGHT = 30
+local function getBaseWeight()
+  return SandboxVars.Casualoid.StorageUpgradeBaseWeight
+end
+
+local function getImprovementMultiplier()
+  return SandboxVars.Casualoid.StorageImprovementMultiplier
+end
+
+function OnCanPerform_CanCraftStorageUpgrade()
+  return SandboxVars.Casualoid.CanCraftStorageUpgrade == true
+end
 
 local function getItemUpgradeData(item)
   local modData = item:getModData();
   local result = {
-    weightUpgrade = modData.weightUpgrade or DEFAULT_WEIGHT,
+    weightUpgrade = modData.weightUpgrade or getBaseWeight(),
     weightUpgradeCount = modData.weightUpgradeCount or 0
   }
   return result
@@ -26,13 +36,8 @@ local getUpgradeItem = function(inputItems)
   return nil
 end
 
-function OnCanPerform_CanCraftStorageUpgrade()
-  if SandboxVars.Casualoid.CanCraftStorageUpgrade == false then return false end
-  return true
-end
-
 function OnCreate_CreateStorageUpgrade(inputItems, resultItem, player)
-  resultItem:setName("Storage Upgrade " .. DEFAULT_WEIGHT .. "kg");
+  resultItem:setName("Storage Upgrade " .. getBaseWeight() .. "kg");
   resultItem:setCustomName(true);
 end
 
@@ -46,7 +51,7 @@ function OnCreate_ImproveStorageUpgrade(inputItems, resultItem, player)
   -- TODO: Implement upgrade count limit?
 
   local upgradeData = getItemUpgradeData(inputItem)
-  local newWeight = math.ceil(upgradeData.weightUpgrade * 2.1)
+  local newWeight = math.ceil(upgradeData.weightUpgrade * getImprovementMultiplier())
 
   setItemUpgradeData(resultItem, newWeight, upgradeData.weightUpgradeCount + 1)
 
