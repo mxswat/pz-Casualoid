@@ -1,0 +1,3 @@
+Tooltip_EN = {
+	Tooltip_item_StorageUpgrade = "Place in a valid container to enable the weight upgrade"
+}

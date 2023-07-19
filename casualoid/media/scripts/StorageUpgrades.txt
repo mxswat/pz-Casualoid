@@ -3,9 +3,10 @@ module Casualoid {
   {
     DisplayCategory = Material,
     Type = Normal,
-    DisplayName = Storage Upgrade 30kg,
+    DisplayName = Storage Upgrade,
     Icon = StorageUpgrade,
-    Weight = -30.01,
+    Weight = 0,
+    Tooltip = Tooltip_item_StorageUpgrade,
   }
 
   recipe Create Storage Upgrade
@@ -17,11 +18,12 @@ module Casualoid {
 
     Time:300.0,
     AnimNode:Disassemble,
-    Category:Survivalist,
+    Category:Carpentry,
     SkillRequired:Woodwork=3,
     XP:Woodwork=3,
 
-    OnCanPerform: CanCraftStorageUpgrade,
+    OnCreate:OnCreate_CreateStorageUpgrade,
+    OnCanPerform: OnCanPerform_CanCraftStorageUpgrade,
     Result:StorageUpgrade,
   }
 
@@ -36,12 +38,12 @@ module Casualoid {
 
     Time:300.0,
     AnimNode:Disassemble,
-    Category:Survivalist,
+    Category:Carpentry,
     SkillRequired:Woodwork=3,
     XP:Woodwork=3,
 
-    OnCreate:ImproveStorageUpgrade,
-    OnCanPerform: CanCraftStorageUpgrade,
+    OnCreate:OnCreate_ImproveStorageUpgrade,
+    OnCanPerform: OnCanPerform_CanCraftStorageUpgrade,
     Result:StorageUpgrade,
   }
 
@@ -58,7 +60,7 @@ module Casualoid {
     Sound:PutItemInBag,
     Time:250.0,
     AnimNode:Disassemble,
-    Category:Survivalist,
+    Category:Carpentry,
     SkillRequired:MetalWelding=4,
     XP:MetalWelding=20,
 

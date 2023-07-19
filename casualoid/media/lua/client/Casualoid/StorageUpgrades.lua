@@ -1,3 +1,20 @@
+local DEFAULT_WEIGHT = 30
+
+local function getItemUpgradeData(item)
+  local modData = item:getModData();
+  local result = {
+    weightUpgrade = modData.weightUpgrade or DEFAULT_WEIGHT,
+    weightUpgradeCount = modData.weightUpgradeCount or 0
+  }
+  return result
+end
+
+local function setItemUpgradeData(item, weightUpgrade, weightUpgradeCount)
+  local modData = item:getModData();
+  modData.weightUpgrade = weightUpgrade
+  modData.weightUpgradeCount = weightUpgradeCount
+end
+
 local getUpgradeItem = function(inputItems)
   for i = 0, (inputItems:size() - 1) do
     local item = inputItems:get(i);
@@ -9,22 +26,57 @@ local getUpgradeItem = function(inputItems)
   return nil
 end
 
-function ImproveStorageUpgrade(inputItems, resultItem, player)
+function OnCanPerform_CanCraftStorageUpgrade()
+  if SandboxVars.Casualoid.CanCraftStorageUpgrade == false then return false end
+  return true
+end
+
+function OnCreate_CreateStorageUpgrade(inputItems, resultItem, player)
+  resultItem:setName("Storage Upgrade " .. DEFAULT_WEIGHT .. "kg");
+  resultItem:setCustomName(true);
+end
+
+function OnCreate_ImproveStorageUpgrade(inputItems, resultItem, player)
   local inputItem = getUpgradeItem(inputItems)
 
   if not inputItem then
     return
   end
 
-  local newWeight = math.ceil(inputItem:getActualWeight() * 2.1)
+  -- TODO: Implement upgrade count limit?
 
-  resultItem:setActualWeight(newWeight + 0.01);
-  resultItem:setWeight(newWeight + 0.01);
-  resultItem:setName("Storage Upgrade " .. newWeight * -1 .. "kg");
+  local upgradeData = getItemUpgradeData(inputItem)
+  local newWeight = math.ceil(upgradeData.weightUpgrade * 2.1)
+
+  setItemUpgradeData(resultItem, newWeight, upgradeData.weightUpgradeCount + 1)
+
+  resultItem:setName("Storage Upgrade " .. newWeight .. "kg");
   resultItem:setCustomName(true);
 end
 
-function CanCraftStorageUpgrade()
-  if SandboxVars.Casualoid.CanCraftStorageUpgrade == false then return false end
-	return true
+-- Add recipe requirement sandbox option?
+-- https://discord.com/channels/136501320340209664/232196827577974784/1093160430966415491
+-- recipe:getSource():get(0):setCount(amount)
+-- Bigger example here: https://discord.com/channels/136501320340209664/232196827577974784/1012771329533022339
+
+local old_ISInventoryTransferAction_transferItem = ISInventoryTransferAction.transferItem
+function ISInventoryTransferAction:transferItem(item)
+  local result = old_ISInventoryTransferAction_transferItem(self, item)
+
+  if not item or item:getType() ~= 'StorageUpgrade' then
+    return result
+  end
+
+  local weightUpgrade = getItemUpgradeData(item).weightUpgrade
+
+  -- use "getSourceGrid" to check if it's a tile
+  if self.srcContainer:getSourceGrid() then
+    self.srcContainer:setCapacity(self.srcContainer:getCapacity() - weightUpgrade)
+  end
+
+  if self.destContainer:getSourceGrid() then
+    self.destContainer:setCapacity(self.destContainer:getCapacity() + weightUpgrade)
+  end
+
+  return result
 end
