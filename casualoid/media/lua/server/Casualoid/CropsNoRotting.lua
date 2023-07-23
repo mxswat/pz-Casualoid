@@ -1,3 +1,7 @@
+if isClient() then
+  return
+end
+
 require "Farming/SPlantGlobalObject"
 
 local function isDisableCropsRotting()
