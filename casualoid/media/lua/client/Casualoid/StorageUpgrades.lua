@@ -76,6 +76,7 @@ function ISInventoryTransferAction:transferItem(item)
 
   -- use "getSourceGrid" to check if it's a tile
   if self.srcContainer:getSourceGrid() then
+    -- local modData = self.srcContainer:getParent():getModData()
     self.srcContainer:setCapacity(self.srcContainer:getCapacity() - weightUpgrade)
   end
 

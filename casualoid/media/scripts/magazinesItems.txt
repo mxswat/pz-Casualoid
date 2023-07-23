@@ -1,0 +1,69 @@
+module Casualoid {
+	imports	{
+		Base
+	}
+
+	item NutritionistMag1
+    {
+      DisplayCategory = SkillBook,
+      Weight	=	0.1,
+      Type	=	Literature,
+      DisplayName	=	The Nutritionist Magazine,
+      Icon	=	NutritionistMag1,
+      TeachedRecipes  =   Nutritionist Trait,
+      ReplaceOnUse    =   NutritionistMag1,
+      StaticModel = Magazine,
+      WorldStaticModel = MagazineHerbGround,
+    }
+
+    /*Quick hack to make the tooltip appear and to toggle the read flag once is read */
+    recipe Nutritionist Trait
+    {
+      keep [Recipe.GetItemTypes.MortarPestle],
+      WildGarlic=5,
+
+      Result:WildGarlicCataplasm,
+      Time:60.0,
+      Category:Health,
+		  IsHidden:true,
+    }
+
+	item AnarchistCookbook1
+    {
+      DisplayCategory = SkillBook,
+      Weight	=	0.1,
+      Type	=	Literature,
+      DisplayName	=	The Anarchist Cookbook Vol. 1,
+      Icon	=	EngineerMag1,
+      TeachedRecipes  =   Make Flame bomb,
+      ReplaceOnUse    =   AnarchistCookbook1,
+		  StaticModel = Magazine,
+      WorldStaticModel = MagazineEngi1Ground,
+    }
+
+	item AnarchistCookbook2
+    {
+      DisplayCategory = SkillBook,
+      Weight	=	0.1,
+      Type	=	Literature,
+      DisplayName	=	The Anarchist Cookbook Vol. 2,
+      Icon	=	EngineerMag2,
+      TeachedRecipes  =   Make Pipe bomb,
+      ReplaceOnUse    =   AnarchistCookbook2,
+	  	StaticModel = Magazine,
+      WorldStaticModel = MagazineEngi1Ground,
+    }
+
+    item AnarchistCookbook3
+    {
+      DisplayCategory = SkillBook,
+      Weight	=	0.1,
+      Type	=	Literature,
+      DisplayName	=	The Anarchist Cookbook Vol. 3,
+      Icon	=	EngineerMag3,
+      TeachedRecipes  =   Make Aerosol bomb,
+      ReplaceOnUse    =   AnarchistCookbook3,
+      StaticModel = Magazine,
+      WorldStaticModel = MagazineEngi1Ground,
+    }
+}

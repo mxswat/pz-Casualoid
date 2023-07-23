@@ -14,4 +14,6 @@ Sandbox_EN = {
   Sandbox_StorageUpgradeBaseWeight = "Storage Upgrades: Base Weight",
   Sandbox_StorageImprovementMultiplier = "Storage Upgrades: Improvement Multiplier",
   Sandbox_StorageImprovementMultiplier_tooltip = "Sets by wich number the base weight is multiplied every time a storage upgrade is improved",
+  Sandbox_DisableCropsRotting = "Disable Crops Rotting",
+  Sandbox_DisableCropsRotting_tooltip = "If enabled, crops rotting will never rot. Except for over-fertilizing, over-fertilizing will still kill your plant",
 }
