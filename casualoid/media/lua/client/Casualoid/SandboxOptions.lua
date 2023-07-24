@@ -70,20 +70,15 @@ function CharacterCreationProfession:casualoidTraitsFilter()
   CharacterCreationMain.invertSort(self.listboxBadTrait.items);
 end
 
+local doOnce = true
 local old_CharacterCreationProfession_setVisible = CharacterCreationProfession.setVisible
 function CharacterCreationProfession:setVisible(visible, joypadData)
   local result = old_CharacterCreationProfession_setVisible(self, visible, joypadData)
 
-  if visible then
+  if visible and doOnce then
+    doOnce = false
     self:casualoidTraitsFilter()
   end
 
-  return result
-end
-
-local old_CharacterCreationProfession_resetTraits = CharacterCreationProfession.resetTraits
-function CharacterCreationProfession:resetTraits()
-  local result = old_CharacterCreationProfession_resetTraits(self)
-  self:casualoidTraitsFilter()
   return result
 end
