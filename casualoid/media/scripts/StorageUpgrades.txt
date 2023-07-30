@@ -17,7 +17,6 @@ module Casualoid {
     Base.Plank=5,
 
     Time:300.0,
-    AnimNode:Disassemble,
     Category:Carpentry,
     SkillRequired:Woodwork=3,
     XP:Woodwork=3,
@@ -25,6 +24,10 @@ module Casualoid {
     OnCreate:OnCreate_CreateStorageUpgrade,
     OnCanPerform: OnCanPerform_CanCraftStorageUpgrade,
     Result:StorageUpgrade,
+
+    Sound:Hammering,
+    AnimNode:BuildLow,
+    Prop1:Hammer,
   }
 
   recipe Improve "Storage Upgrade"
@@ -37,7 +40,6 @@ module Casualoid {
     Base.Nails=5,
 
     Time:300.0,
-    AnimNode:Disassemble,
     Category:Carpentry,
     SkillRequired:Woodwork=3,
     XP:Woodwork=3,
@@ -45,6 +47,10 @@ module Casualoid {
     OnCreate:OnCreate_ImproveStorageUpgrade,
     OnCanPerform: OnCanPerform_CanCraftStorageUpgrade,
     Result:StorageUpgrade,
+
+    Sound:Hammering,
+    AnimNode:BuildLow,
+    Prop1:Hammer,
   }
 
   /** 

@@ -25,6 +25,13 @@ local function setItemUpgradeData(item, weightUpgrade, weightUpgradeCount)
   modData.weightUpgradeCount = weightUpgradeCount
 end
 
+local function getParentModData(container)
+  local modData = container:getParent():getModData()
+  modData.originalCapacity = modData.originalCapacity or container:getCapacity()
+  modData.newCapacity = modData.newCapacity or 0
+  return modData
+end
+
 local getUpgradeItem = function(inputItems)
   for i = 0, (inputItems:size() - 1) do
     local item = inputItems:get(i);
@@ -76,13 +83,36 @@ function ISInventoryTransferAction:transferItem(item)
 
   -- use "getSourceGrid" to check if it's a tile
   if self.srcContainer:getSourceGrid() then
-    -- local modData = self.srcContainer:getParent():getModData()
     self.srcContainer:setCapacity(self.srcContainer:getCapacity() - weightUpgrade)
   end
 
   if self.destContainer:getSourceGrid() then
-    self.destContainer:setCapacity(self.destContainer:getCapacity() + weightUpgrade)
+    local modData = getParentModData(self.destContainer)
+    self.destContainer:setCapacity(modData.originalCapacity + weightUpgrade)
+    modData.newCapacity = self.destContainer:getCapacity()
   end
 
   return result
 end
+
+-- Ensures the new weight is properly applied when a container is unloaded in MP
+local function onLoadGridSquare(square)
+  if not square then
+    return
+  end
+
+  local squareObjects = square:getObjects();
+  for i = 0, squareObjects:size() - 1 do
+    local object = squareObjects:get(i)
+    for j = 1, object:getContainerCount() do
+      local container = object:getContainerByIndex(j - 1)
+      local modData = getParentModData(container)
+      if modData.newCapacity > 0 then
+        CasualoidPrint('modData.newCapacity:', modData.newCapacity)
+        container:setCapacity(modData.newCapacity)
+      end
+    end
+  end
+end
+
+Events.LoadGridsquare.Add(onLoadGridSquare);
