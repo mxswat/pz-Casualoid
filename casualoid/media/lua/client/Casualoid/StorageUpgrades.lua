@@ -25,13 +25,6 @@ local function setItemUpgradeData(item, weightUpgrade, weightUpgradeCount)
   modData.weightUpgradeCount = weightUpgradeCount
 end
 
-local function getParentModData(container)
-  local modData = container:getParent():getModData()
-  modData.originalCapacity = modData.originalCapacity or container:getCapacity()
-  modData.newCapacity = modData.newCapacity or 0
-  return modData
-end
-
 local getUpgradeItem = function(inputItems)
   for i = 0, (inputItems:size() - 1) do
     local item = inputItems:get(i);
@@ -87,9 +80,14 @@ function ISInventoryTransferAction:transferItem(item)
   end
 
   if self.destContainer:getSourceGrid() then
-    local modData = getParentModData(self.destContainer)
+    local modData =  self.destContainer:getParent():getModData()
+    modData.originalCapacity = modData.originalCapacity or  self.destContainer:getCapacity()
+    modData.newCapacity = modData.newCapacity or 0
+  
     self.destContainer:setCapacity(modData.originalCapacity + weightUpgrade)
     modData.newCapacity = self.destContainer:getCapacity()
+
+    self.destContainer:getParent():transmitModData()
   end
 
   return result
@@ -106,7 +104,7 @@ local function onLoadGridSquare(square)
     local object = squareObjects:get(i)
     for j = 1, object:getContainerCount() do
       local container = object:getContainerByIndex(j - 1)
-      local modData = getParentModData(container)
+      local modData = container:getParent():getModData()
       if modData.newCapacity > 0 then
         CasualoidPrint('modData.newCapacity:', modData.newCapacity)
         container:setCapacity(modData.newCapacity)
