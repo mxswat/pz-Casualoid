@@ -64,53 +64,33 @@ end
 -- recipe:getSource():get(0):setCount(amount)
 -- Bigger example here: https://discord.com/channels/136501320340209664/232196827577974784/1012771329533022339
 
-local old_ISInventoryTransferAction_transferItem = ISInventoryTransferAction.transferItem
-function ISInventoryTransferAction:transferItem(item)
-  local result = old_ISInventoryTransferAction_transferItem(self, item)
-
-  if not item or item:getType() ~= 'StorageUpgrade' then
-    return result
-  end
-
-  local weightUpgrade = getItemUpgradeData(item).weightUpgrade
-
-  -- use "getSourceGrid" to check if it's a tile
-  if self.srcContainer:getSourceGrid() then
-    self.srcContainer:setCapacity(self.srcContainer:getCapacity() - weightUpgrade)
-  end
-
-  if self.destContainer:getSourceGrid() then
-    local modData =  self.destContainer:getParent():getModData()
-    modData.originalCapacity = modData.originalCapacity or  self.destContainer:getCapacity()
-    modData.newCapacity = modData.newCapacity or 0
-  
-    self.destContainer:setCapacity(modData.originalCapacity + weightUpgrade)
-    modData.newCapacity = self.destContainer:getCapacity()
-
-    self.destContainer:getParent():transmitModData()
+-- Limit one upgrade per container
+local old_ISInventoryTransferAction_isValid = ISInventoryTransferAction.isValid
+function ISInventoryTransferAction:isValid()
+  local result = old_ISInventoryTransferAction_isValid(self)
+  if self.destContainer:getSourceGrid() and self.destContainer:contains("Casualoid.StorageUpgrade") then
+    return false
   end
 
   return result
 end
 
--- Ensures the new weight is properly applied when a container is unloaded in MP
-local function onLoadGridSquare(square)
-  if not square then
+local onRefreshInventoryWindowContainers = function(self, state)
+  local inventory = self.inventoryPane.inventory
+  if state ~= "begin" or not inventory or not inventory:getParent() or not inventory:getSourceGrid() then
     return
   end
 
-  local squareObjects = square:getObjects();
-  for i = 0, squareObjects:size() - 1 do
-    local object = squareObjects:get(i)
-    for j = 1, object:getContainerCount() do
-      local container = object:getContainerByIndex(j - 1)
-      local modData = container:getParent():getModData()
-      if modData.newCapacity > 0 then
-        CasualoidPrint('modData.newCapacity:', modData.newCapacity)
-        container:setCapacity(modData.newCapacity)
-      end
-    end
+  -- 50 is the default value coming from ItemContainer.java => public int Capacity = 50;
+  local containerCapacity = tonumber(inventory:getParent():getSprite():getProperties():Val("ContainerCapacity") or 50)
+
+  local upgradeItem = inventory:FindAndReturn("Casualoid.StorageUpgrade")
+  if not upgradeItem then
+    inventory:setCapacity(containerCapacity)
+  else
+    local upgradeData = getItemUpgradeData(upgradeItem)
+    inventory:setCapacity(containerCapacity + upgradeData.weightUpgrade)
   end
 end
 
-Events.LoadGridsquare.Add(onLoadGridSquare);
+Events.OnRefreshInventoryWindowContainers.Add(onRefreshInventoryWindowContainers)
