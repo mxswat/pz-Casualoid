@@ -76,6 +76,7 @@ function ISInventoryTransferAction:isValid()
 end
 
 local onRefreshInventoryWindowContainers = function(self, state)
+  CasualoidPrint('onRefreshInventoryWindowContainers')
   local inventory = self.inventoryPane.inventory
   if state ~= "begin" or not inventory or not inventory:getParent() or not inventory:getSourceGrid() then
     return
@@ -87,9 +88,12 @@ local onRefreshInventoryWindowContainers = function(self, state)
   local upgradeItem = inventory:FindAndReturn("Casualoid.StorageUpgrade")
   if not upgradeItem then
     inventory:setCapacity(containerCapacity)
+    self.capacity = containerCapacity
   else
     local upgradeData = getItemUpgradeData(upgradeItem)
-    inventory:setCapacity(containerCapacity + upgradeData.weightUpgrade)
+    local newCapacity = containerCapacity + upgradeData.weightUpgrade
+    inventory:setCapacity(newCapacity)
+    self.capacity = newCapacity
   end
 end
 
