@@ -64,11 +64,14 @@ end
 -- recipe:getSource():get(0):setCount(amount)
 -- Bigger example here: https://discord.com/channels/136501320340209664/232196827577974784/1012771329533022339
 
+-- Also check: function ISInventoryPage:canPutIn()
 -- Limit one upgrade per container
 local old_ISInventoryTransferAction_isValid = ISInventoryTransferAction.isValid
 function ISInventoryTransferAction:isValid()
   local result = old_ISInventoryTransferAction_isValid(self)
   if self.destContainer:getSourceGrid() and self.destContainer:contains("Casualoid.StorageUpgrade") then
+    local text = "Only one storage upgrade is allowed per container"
+		HaloTextHelper.addText(self.character, text, HaloTextHelper.getColorRed())
     return false
   end
 

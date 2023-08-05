@@ -11,11 +11,16 @@ end
 
 local function openRenameDialog(player, title, inventory)
   CasualoidPrint('openRenameDialog')
-  local modal = ISTextBox:new(0, 0, 280, 180, getText("ContextMenu_RenameBag")..': '..title, title, nil, onDialogButtonClick, player,
-    inventory)
+  local modalTitle = getText("ContextMenu_RenameBag") .. ': ' .. title
+  local modal = ISTextBox:new(0, 0, 280, 180, modalTitle, title, nil, onDialogButtonClick, player, inventory)
   modal:initialise()
   modal:addToUIManager()
   modal.entry:focus()
+end
+
+local function getInventoryTitle(inventory)
+  return (inventory:getParent() and inventory:getParent():getModData().ContainerCustomName)
+      or getTextOrNull("IGUI_ContainerTitle_" .. inventory:getType())
 end
 
 local old_ISInventoryPage_onBackpackRightMouseDown = ISInventoryPage.onBackpackRightMouseDown
@@ -50,4 +55,54 @@ function ISInventoryPage:prerender()
   end
 
   return old_ISInventoryPage_prerender(self)
+end
+
+local old_ISInventoryPage_onInventoryContainerSizeChanged = ISInventoryPage.onInventoryContainerSizeChanged
+function ISInventoryPage:onInventoryContainerSizeChanged()
+  old_ISInventoryPage_onInventoryContainerSizeChanged(self)
+  self.buttonSizeBackup = self.buttonSize
+end
+
+local old_ISInventoryPage_prerender = ISInventoryPage.prerender
+function ISInventoryPage:prerender()
+  self.buttonSizeBackup = self.buttonSizeBackup or self.buttonSize
+  self.buttonSize = math.max(self.casualoidButtonWidth or 0, self.buttonSize)
+
+  local result = old_ISInventoryPage_prerender(self)
+
+  return result
+end
+
+local old_ISInventoryPage_refreshBackpacks = ISInventoryPage.refreshBackpacks
+function ISInventoryPage:refreshBackpacks()
+  self.casualoidButtonWidth = 0
+
+  local result = old_ISInventoryPage_refreshBackpacks(self)
+
+  self.inventoryPane:setWidth(self.width - self.casualoidButtonWidth)
+
+  for _, button in ipairs(self.backpacks) do
+    button:setX(self.width - self.casualoidButtonWidth)
+    button:setWidth(self.casualoidButtonWidth)
+    -- button:forceImageSize(math.min(self.buttonSize - 2, 32), math.min(self.buttonSize - 2, 32))
+  end
+
+  return result
+end
+
+local old_ISInventoryPage_addContainerButton = ISInventoryPage.addContainerButton
+function ISInventoryPage:addContainerButton(container, texture, name, tooltip)
+  self.buttonSize = self.buttonSizeBackup or self.buttonSize
+
+  local button = old_ISInventoryPage_addContainerButton(self, container, texture, name, tooltip)
+
+  CasualoidPrint('getInventoryTitle(container):', getInventoryTitle(container))
+  button:setTitle(getInventoryTitle(container) or name)
+  button:setWidthToTitle()
+  button:forceImageSize()
+
+  self.casualoidButtonWidth = math.max(self.casualoidButtonWidth, button:getWidth())
+  -- button.tooltip = button.tooltip or name
+
+  return button
 end
