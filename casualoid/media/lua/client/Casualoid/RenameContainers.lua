@@ -11,7 +11,7 @@ end
 
 local function openRenameDialog(player, title, inventory)
   CasualoidPrint('openRenameDialog')
-  local modal = ISTextBox:new(0, 0, 280, 180, getText("ContextMenu_RenameFood")..title, title, nil, onDialogButtonClick, player,
+  local modal = ISTextBox:new(0, 0, 280, 180, getText("ContextMenu_RenameBag")..': '..title, title, nil, onDialogButtonClick, player,
     inventory)
   modal:initialise()
   modal:addToUIManager()
