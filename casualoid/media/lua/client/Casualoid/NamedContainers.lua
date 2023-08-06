@@ -7,6 +7,9 @@ local function onDialogButtonClick(target, button, inventory)
 
   inventory:getParent():getModData().ContainerCustomName = button.parent.entry:getText()
   inventory:getParent():transmitModData()
+
+  -- Force re-render
+  ISInventoryPage.renderDirty = true
 end
 
 local function openRenameDialog(player, title, inventory)
@@ -66,7 +69,9 @@ end
 local old_ISInventoryPage_prerender = ISInventoryPage.prerender
 function ISInventoryPage:prerender()
   self.buttonSizeBackup = self.buttonSizeBackup or self.buttonSize
-  self.buttonSize = math.max(self.casualoidButtonWidth or 0, self.buttonSize)
+
+  -- swap self.buttonSize to properly render the border for backpack area since is used for the calculation
+  self.buttonSize = self.casualoidButtonWidth
 
   local result = old_ISInventoryPage_prerender(self)
 
@@ -84,10 +89,27 @@ function ISInventoryPage:refreshBackpacks()
   for _, button in ipairs(self.backpacks) do
     button:setX(self.width - self.casualoidButtonWidth)
     button:setWidth(self.casualoidButtonWidth)
-    -- button:forceImageSize(math.min(self.buttonSize - 2, 32), math.min(self.buttonSize - 2, 32))
+
+    -- Forces text on the left
+    button.drawText = function(self, str, x, ...)
+      ISButton.drawText(self, str, 2 + 32, ...)
+    end
+    -- Forces icon on the left
+    button.drawTextureScaledAspect = function(self, texture, x, ...)
+      ISButton.drawTextureScaledAspect(self, texture, 2, ...)
+    end
   end
 
   return result
+end
+
+local function clapAndEllipsis(text, maxSize)
+  if #text <= maxSize then
+    return text
+  else
+    local clappedText = text:sub(1, maxSize - 3) .. "..."
+    return clappedText
+  end
 end
 
 local old_ISInventoryPage_addContainerButton = ISInventoryPage.addContainerButton
@@ -96,13 +118,21 @@ function ISInventoryPage:addContainerButton(container, texture, name, tooltip)
 
   local button = old_ISInventoryPage_addContainerButton(self, container, texture, name, tooltip)
 
-  CasualoidPrint('getInventoryTitle(container):', getInventoryTitle(container))
-  button:setTitle(getInventoryTitle(container) or name)
+  -- TODO: add mod option for max clamping
+  local newTitle = clapAndEllipsis(getInventoryTitle(container) or name, 20)
+  button:setTitle(newTitle)
   button:setWidthToTitle()
-  button:forceImageSize()
+
+  -- Force tile sprite to render as the icon
+  if container:getSourceGrid() then
+    button:setImage(getTexture(container:getParent():getSprite():getName()))
+    button:forceImageSize(64, 64)
+  end
+  -- Add extra width to compensate for the icon and text aligned on the left
+  button:setWidth(button:getWidth() + 32 + 2)
 
   self.casualoidButtonWidth = math.max(self.casualoidButtonWidth, button:getWidth())
-  -- button.tooltip = button.tooltip or name
+  -- button.tooltip = butt74on.tooltip or name
 
   return button
 end
