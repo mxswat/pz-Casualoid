@@ -121,7 +121,7 @@ function ISInventoryPage:addContainerButton(container, texture, name, tooltip)
   button:setWidthToTitle()
   button.tooltip = button.tooltip or (#newName < #oldName and oldName or nil)
 
-  -- local isTileSquare = container:getSourceGrid() and name ~= getTextOrNull("IGUI_ContainerTitle_floor")
+  -- local isTileSquare = container:getSourceGrid() and container:getType() ~= "floor"
   -- -- Force tile sprite to render as the icon
   -- if isTileSquare then
   --   button:setImage(getTexture(container:getParent():getSprite():getName()))
