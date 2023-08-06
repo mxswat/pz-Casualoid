@@ -69,7 +69,8 @@ end
 local old_ISInventoryTransferAction_isValid = ISInventoryTransferAction.isValid
 function ISInventoryTransferAction:isValid()
   local result = old_ISInventoryTransferAction_isValid(self)
-  if self.destContainer:getSourceGrid() and self.destContainer:contains("Casualoid.StorageUpgrade") then
+
+  if self.item:getType() == "StorageUpgrade" and self.destContainer:getSourceGrid() and self.destContainer:contains("Casualoid.StorageUpgrade") then
     local text = "Only one storage upgrade is allowed per container"
 		HaloTextHelper.addText(self.character, text, HaloTextHelper.getColorRed())
     return false

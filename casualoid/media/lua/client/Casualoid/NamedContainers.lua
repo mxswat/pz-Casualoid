@@ -21,7 +21,7 @@ local function openRenameDialog(player, title, inventory)
   modal.entry:focus()
 end
 
-local function getInventoryTitle(inventory)
+local function getInventoryName(inventory)
   return (inventory:getParent() and inventory:getParent():getModData().ContainerCustomName)
       or getTextOrNull("IGUI_ContainerTitle_" .. inventory:getType())
 end
@@ -100,16 +100,12 @@ function ISInventoryPage:refreshBackpacks()
     end
   end
 
-  return result
-end
-
-local function clapAndEllipsis(text, maxSize)
-  if #text <= maxSize then
-    return text
-  else
-    local clappedText = text:sub(1, maxSize - 3) .. "..."
-    return clappedText
+  if self.selectedButton then
+    -- Setting it here because "ISInventoryPage:refreshBackpacks()" sets it before
+    self.selectedButton:setBackgroundRGBA(0.3, 0.3, 0.3, 1.0)
   end
+
+  return result
 end
 
 local old_ISInventoryPage_addContainerButton = ISInventoryPage.addContainerButton
@@ -118,21 +114,30 @@ function ISInventoryPage:addContainerButton(container, texture, name, tooltip)
 
   local button = old_ISInventoryPage_addContainerButton(self, container, texture, name, tooltip)
 
+  local oldName = getInventoryName(container) or name
   -- TODO: add mod option for max clamping
-  local newTitle = clapAndEllipsis(getInventoryTitle(container) or name, 20)
-  button:setTitle(newTitle)
+  local newName = CasualoidClapAndEllipsis(getInventoryName(container) or name, 20)
+  button:setTitle(newName)
   button:setWidthToTitle()
+  button.tooltip = button.tooltip or (#newName < #oldName and oldName or nil)
 
-  -- Force tile sprite to render as the icon
-  if container:getSourceGrid() then
-    button:setImage(getTexture(container:getParent():getSprite():getName()))
-    button:forceImageSize(64, 64)
-  end
+  -- local isTileSquare = container:getSourceGrid() and name ~= getTextOrNull("IGUI_ContainerTitle_floor")
+  -- -- Force tile sprite to render as the icon
+  -- if isTileSquare then
+  --   button:setImage(getTexture(container:getParent():getSprite():getName()))
+  --   button:forceImageSize(64, 64)
+  -- else
+  --   -- Set original size
+  --   button:forceImageSize(math.min(self.buttonSize - 2, 32), math.min(self.buttonSize - 2, 32))
+  -- end
+
+  -- Setting the BG does nothing here, because it's overridden inside "ISInventoryPage:refreshBackpacks()"
+  button:setBackgroundColorMouseOverRGBA(0.2, 0.2, 0.2, 1.0)
+
   -- Add extra width to compensate for the icon and text aligned on the left
   button:setWidth(button:getWidth() + 32 + 2)
 
   self.casualoidButtonWidth = math.max(self.casualoidButtonWidth, button:getWidth())
-  -- button.tooltip = butt74on.tooltip or name
 
   return button
 end

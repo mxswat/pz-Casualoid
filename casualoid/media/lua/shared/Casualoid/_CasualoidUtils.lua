@@ -10,6 +10,15 @@ function CasualoidPrint(...)
   print('Casualoid:' .. printResult)
 end
 
+function CasualoidClapAndEllipsis(text, maxSize)
+  if #text <= maxSize then
+    return text
+  else
+    local clappedText = text:sub(1, maxSize - 3) .. "..."
+    return clappedText
+  end
+end
+
 function CasualoidParseSandboxString(text)
   local res = {
     values = {},
