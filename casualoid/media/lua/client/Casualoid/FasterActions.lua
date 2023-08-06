@@ -2,10 +2,10 @@ local ActionBlacklist = {
   ISWalkToTimedAction = true,       -- Always ignore
   ISPathFindAction = true,          -- Always ignore
   -- ISEquipWeaponAction = true,    -- Can be skill depended but enabled because makes the game snappier
-  ISReloadWeaponAction = true,      -- Skill depended and animation depended AFAIK
-  ISReadABook = true,               -- Affected by FastReader and SlowReader
-  ISGrabItemAction = true,          -- Affected by Dextrous  and AllThumbs
-  ISInventoryTransferAction = true, -- Affected by Dextrous  and AllThumbs
+  -- ISReloadWeaponAction = true,      -- Skill depended and animation depended AFAIK
+  -- ISReadABook = true,               -- Affected by FastReader and SlowReader
+  -- ISGrabItemAction = true,          -- Affected by Dextrous  and AllThumbs
+  -- ISInventoryTransferAction = true, -- Affected by Dextrous  and AllThumbs
 }
 
 
