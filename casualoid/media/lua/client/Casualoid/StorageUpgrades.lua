@@ -80,7 +80,7 @@ function ISInventoryTransferAction:isValid()
 end
 
 local onRefreshInventoryWindowContainers = function(self, state)
-  -- CasualoidPrint('onRefreshInventoryWindowContainers')
+  -- Casualoid.print('onRefreshInventoryWindowContainers')
   local inventory = self.inventoryPane.inventory
   if state ~= "begin" or not inventory or not inventory:getParent() or not inventory:getSourceGrid() then
     return

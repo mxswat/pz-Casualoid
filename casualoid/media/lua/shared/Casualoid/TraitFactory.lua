@@ -1,7 +1,7 @@
 local oldGetTraits = TraitFactory.getTraits
 TraitFactory.getTraits = function()
-  local positives = CasualoidParseSandboxString(SandboxVars.Casualoid.MultiSelectDisablePositiveTraits)
-  local negatives = CasualoidParseSandboxString(SandboxVars.Casualoid.MultiSelectDisableNegativeTraits)
+  local positives = Casualoid.parseSandboxString(SandboxVars.Casualoid.MultiSelectDisablePositiveTraits)
+  local negatives = Casualoid.parseSandboxString(SandboxVars.Casualoid.MultiSelectDisableNegativeTraits)
 
   local filteredTraits = ArrayList:new()
 

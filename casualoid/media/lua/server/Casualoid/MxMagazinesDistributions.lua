@@ -11,7 +11,7 @@ local ItemsMap = {
 local function insertMagazine(items)
   for i, item in ipairs(items) do
     if ItemsMap[item] then
-      CasualoidPrint('insertMagazine: ', ItemsMap[item], ': ', items[i + 1])
+      Casualoid.print('insertMagazine: ', ItemsMap[item], ': ', items[i + 1])
       table.insert(items, ItemsMap[item])
       table.insert(items, (items[i + 1]) + 0.1)
     end

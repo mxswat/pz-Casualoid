@@ -1,5 +1,5 @@
 local function onDialogButtonClick(target, button, inventory)
-  CasualoidPrint('renameContainer')
+  Casualoid.print('renameContainer')
   if button.internal ~= "OK" then return end
   if not button.parent.entry:getText() or button.parent.entry:getText() == "" then
     return
@@ -13,7 +13,7 @@ local function onDialogButtonClick(target, button, inventory)
 end
 
 local function openRenameDialog(player, title, inventory)
-  CasualoidPrint('openRenameDialog')
+  Casualoid.print('openRenameDialog')
   local modalTitle = getText("ContextMenu_RenameBag") .. ': ' .. title
   local modal = ISTextBox:new(0, 0, 280, 180, modalTitle, title, nil, onDialogButtonClick, player, inventory)
   modal:initialise()
@@ -116,7 +116,7 @@ function ISInventoryPage:addContainerButton(container, texture, name, tooltip)
 
   local oldName = getInventoryName(container) or name
   -- TODO: add mod option for max clamping
-  local newName = CasualoidClapAndEllipsis(getInventoryName(container) or name, 20)
+  local newName = Casualoid.clapAndEllipsis(getInventoryName(container) or name, 20)
   button:setTitle(newName)
   button:setWidthToTitle()
   button.tooltip = button.tooltip or (#newName < #oldName and oldName or nil)

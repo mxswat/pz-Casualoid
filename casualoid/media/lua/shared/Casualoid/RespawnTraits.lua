@@ -1,6 +1,6 @@
 
 local function AddRespawnTraits()
-  TraitFactory.addTrait('Respawn', getText("UI_trait_Respawn"), -5, '', false, true);
+  TraitFactory.addTrait('RespawnTrait', getText("UI_trait_Respawn"), -5, '', false, true);
 
   -- TODO: Use sandbox options to change the XP and cost
   TraitFactory.addTrait('RespawnWithPartialXP', getText("UI_trait_RespawnWithPartialXP"), -5, '', false, false);

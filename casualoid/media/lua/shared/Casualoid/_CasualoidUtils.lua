@@ -1,4 +1,6 @@
-function CasualoidPrint(...)
+Casualoid = Casualoid or {}
+
+function Casualoid.print(...)
   if not isDebugEnabled() then
     return
   end
@@ -10,7 +12,7 @@ function CasualoidPrint(...)
   print('Casualoid:' .. printResult)
 end
 
-function CasualoidClapAndEllipsis(text, maxSize)
+function Casualoid.clapAndEllipsis(text, maxSize)
   if #text <= maxSize then
     return text
   else
@@ -19,7 +21,7 @@ function CasualoidClapAndEllipsis(text, maxSize)
   end
 end
 
-function CasualoidParseSandboxString(text)
+function Casualoid.parseSandboxString(text)
   local res = {
     values = {},
     map = {}
@@ -32,7 +34,7 @@ function CasualoidParseSandboxString(text)
   return res
 end
 
-function CasualoidPrintTable(node)
+function Casualoid.printTable(node)
   local cache, stack, output = {}, {}, {}
   local depth = 1
   local output_str = "{\n"
