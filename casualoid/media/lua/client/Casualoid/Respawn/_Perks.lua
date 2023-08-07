@@ -25,3 +25,23 @@ function CasualoidPerks:save(player)
     self:savePerks(player, perks:get(i));
   end
 end
+
+function CasualoidPerks:load(player)
+  -- Hard reset player perks if the user picked up any
+  local perks = PerkFactory.PerkList;
+  local xp = player:getXp();
+  for i = 0, perks:size() - 1 do
+    local perk = perks:get(i);
+    xp:setXPToLevel(perk, 0);
+    while player:getPerkLevel(perk) > 0 do
+      player:LoseLevel(perk);
+    end
+  end
+
+  local casualoidRespawnData = Casualoid.getRespawnModData()
+  for perkId, data in pairs(casualoidRespawnData.perks) do
+    if Perks[perkId] then
+      xp:AddXP(Perks[perkId], data.totalXp, false, false, false);
+    end
+  end
+end

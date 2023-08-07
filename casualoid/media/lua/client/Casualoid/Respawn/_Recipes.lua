@@ -8,3 +8,12 @@ function CasualoidRecipes:save(player)
     casualoidRespawnData.knownRecipes[recipes:get(i)] = true
   end
 end
+
+function CasualoidRecipes:load(player)
+  local casualoidRespawnData = Casualoid.getRespawnModData()
+  local recipes = player:getKnownRecipes();
+
+  for recipe, _ in pairs(casualoidRespawnData.knownRecipes) do
+    recipes:add(recipe);
+  end
+end

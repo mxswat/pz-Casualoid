@@ -6,5 +6,6 @@ function CasualoidWeight:save(player)
 end
 
 function CasualoidWeight:load(player)
-  
+  local casualoidRespawnData = Casualoid.getRespawnModData();
+  player:getNutrition():setWeight(casualoidRespawnData.weight);
 end

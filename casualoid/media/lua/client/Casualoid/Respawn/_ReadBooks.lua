@@ -32,3 +32,10 @@ function CasualoidReadBooks:save(player)
     end
   end
 end
+
+function CasualoidReadBooks:load(player)
+  local casualoidRespawnData = Casualoid.getRespawnModData()
+  for bookFullName, readPages in pairs(casualoidRespawnData.readBooks) do
+    player:setAlreadyReadPages(bookFullName, readPages)
+  end
+end

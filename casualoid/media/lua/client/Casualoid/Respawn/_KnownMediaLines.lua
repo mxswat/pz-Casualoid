@@ -36,3 +36,8 @@ function CasualoidKnownMediaLines:save(player)
   -- The saving is not done manually
   return
 end
+
+function CasualoidKnownMediaLines:load(player)
+  -- The saving is not done manually
+  return
+end
