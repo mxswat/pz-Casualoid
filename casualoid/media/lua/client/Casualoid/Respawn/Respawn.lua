@@ -1,52 +1,42 @@
-local function getSkillBooks()
-  local skillBooks = {}
-  local other = {}
-  local media = {}
-  local allItems = getScriptManager():getAllItems()
-  for i = 1, allItems:size() do
-    local item = allItems:get(i - 1)
-    if item:getType() == Type.Literature then
-      if SkillBook[item:getSkillTrained()] then
-        table.insert(skillBooks, item)
-      elseif item:getTeachedRecipes() ~= nil then
-        table.insert(other, item)
-      end
-    end
-    local mediaCategory = item:getRecordedMediaCat()
-    if mediaCategory then
-      media[mediaCategory] = media[mediaCategory] or {}
-      table.insert(media[mediaCategory], item)
+local function saveReadBooks()
+  local player = getPlayer()
+  local casualoidRespawnData = GetCasualoidRespawnData();
+  for i, book in ipairs(CasualoidGetSkillBooks()) do
+    local readPages = player:getAlreadyReadPages(book:getFullName())
+    if readPages > 0 then
+      casualoidRespawnData.readBooks[book:getFullName()] = readPages
     end
   end
-
-  return skillBooks
-end
-
-local function getCasualoidRespawnData()
-  local casualoidRespawnData = ModData.getOrCreate("CasualoidRespawnData");
-  casualoidRespawnData.perks = casualoidRespawnData.perks or {}
-  casualoidRespawnData.knownMediaLines = casualoidRespawnData.knownMediaLines or {}
-
-  return casualoidRespawnData
 end
 
 -- Save XP, and ignore any profession based multiplier
-local function saveXP(player, perk)
+local function savePerkData(player, perk)
   local currentTotalXp = player:getXp():getXP(perk)
   if currentTotalXp <= 0 then
     return
   end
 
   local perkId = perk:getId()
-  local casualoidRespawnData = getCasualoidRespawnData();
+  local casualoidRespawnData = GetCasualoidRespawnData();
   local perkBoostId = player:getXp():getPerkBoost(perk)
-  local professionXpToSubtract = perk:getTotalXpForLevel(perkBoostId)
-  local xpToSave = currentTotalXp - professionXpToSubtract
+  local professionXpToSubtract = perkBoostId > 0 and perk:getTotalXpForLevel(perkBoostId) or 0
 
-  casualoidRespawnData.perks[perkId] = math.max(casualoidRespawnData.perks[perkId] or 0, xpToSave)
+  CasualoidPrint('professionXpToSubtract', professionXpToSubtract)
 
-  -- CasualoidPrint(perk, 'currentTotalXp:', currentTotalXp, "professionXpToIgnore:", professionXpToSubtract)
-  -- CasualoidPrint('xpToSave:', xpToSave)
+  local xpToSave = math.max(currentTotalXp - professionXpToSubtract, 0)
+
+  casualoidRespawnData.perksXp[perkId] = math.max(casualoidRespawnData.perksXp[perkId] or 0, xpToSave)
+end
+
+local function saveRecipes()
+  local player = getPlayer()
+  local knownRecipes = player:getKnownRecipes()
+
+  local casualoidRespawnData = GetCasualoidRespawnData();
+  for i = 0, knownRecipes:size() - 1 do
+    local recipeID = knownRecipes:get(i)
+    casualoidRespawnData.knownRecipes[recipeID] = true
+  end
 end
 
 local function savePlayerProgress()
@@ -54,52 +44,44 @@ local function savePlayerProgress()
   if not player:isAlive() or not player then return end
 
   CasualoidPrint('savePlayerProgress')
+
   for i = 0, Perks.getMaxIndex() - 1 do
     local perk = PerkFactory.getPerk(Perks.fromIndex(i));
-    if perk and perk:getParent():getId() ~= "None" then
-      saveXP(player, perk)
-      -- local parent = perk:getParent()
-      -- local currentTotalXp = player:getXp():getXP(perk)
-      -- local info = player:getPerkInfo(perk)
-      -- local level = info and info:getLevel() or 0
-      -- local perkBoostId = player:getXp():getPerkBoost(perk)
-      -- local totalXpForLevel = perk:getTotalXpForLevel(10)
-
-      -- CasualoidPrint('perk:', perk, 'parent:', parent, 'currentXp:', currentTotalXp, "level:", level, "perkBoost:", perkBoostId, "totalXpForLevel:", totalXpForLevel)
+    local parent = perk:getParent()
+    if perk and parent ~= Perks.None then
+      savePerkData(player, perk)
     end
   end
 
-  getSkillBooks()
+  saveRecipes()
+
+  saveReadBooks()
+
+  local casualoidRespawnData = GetCasualoidRespawnData();
+  casualoidRespawnData.weight = player:getNutrition():getWeight()
+
+  CasualoidGetSkillBooks()
 end
 
 Events.EveryHours.Add(savePlayerProgress)
 
 -- ISPlayerStatsUI.instance.char:getXp():AddXP(perk:getType(), amount, false, false, true);
 
-local injected_instance = nil
-local old_ISRadioInteractions_getInstance = ISRadioInteractions.getInstance
-function ISRadioInteractions:getInstance()
-  if injected_instance then
-    return injected_instance
+local function applySavedXP(_, player)
+  CasualoidPrint('applySavedXP', player:getHoursSurvived())
+  if player:getHoursSurvived() > 0 then return end
+  local casualoidRespawnData = GetCasualoidRespawnData();
+  
+  for perkId, xp in pairs(casualoidRespawnData.perksXp) do
+    player:getXp():AddXP(Perks[perkId], xp, false, false, false)
   end
 
-  local instance = old_ISRadioInteractions_getInstance(self)
 
-  local old_self_checkPlayer = instance.checkPlayer
-  local function new_checkPlayer(player, _guid, ...)
-    local result = old_self_checkPlayer(player, _guid, ...)
-
-    CasualoidPrint('ISRadioInteractions: _guid', _guid)
-
-    local casualoidRespawnData = getCasualoidRespawnData()
-    casualoidRespawnData.knownMediaLines[_guid] = true
-
-    return result
+  for bookFullName, readPages in pairs(casualoidRespawnData.readBooks) do
+    player:setAlreadyReadPages(bookFullName, readPages)
+    -- ISReadABook.checkMultiplier()
   end
 
-  instance.checkPlayer = new_checkPlayer
-
-  injected_instance = instance
-
-  return instance
 end
+
+Events.OnCreatePlayer.Add(applySavedXP)
