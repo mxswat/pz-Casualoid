@@ -13,7 +13,7 @@ option Casualoid.WoodWeightModifier = {
 
 option Casualoid.MetalWeightModifier = {
 	type = integer, min = 0, max = 100, default = 40,
-	page = Casualoid, translation = WoodWeightModifier,
+	page = Casualoid, translation = MetalWeightModifier,
 }
 
 option Casualoid.MultiSelectDisablePositiveTraits = {

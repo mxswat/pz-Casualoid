@@ -1,15 +1,16 @@
 local respawnProf = nil
 local function addRespawnTraits()
-  TraitFactory.addTrait("RespawnLowerXP", "Lower Respawn XP", -8, 'You will respawn with a percentage of your total XP, set in the sandbox settings', false);
+  TraitFactory.addTrait("RespawnLowerXP", "Lower Respawn XP", -8,
+    'You will respawn with a percentage of your total XP, set in the sandbox settings', false);
 
-  TraitFactory.addTrait("RespawnTrait", "Respawn", 0, 'I took Merasmus\'s "Kill Me Come Back Stronger Pills"', true);
+  TraitFactory.addTrait("RespawnTrait", "Respawn", 0, 'You took Merasmus\'s "Kill Me Come Back Stronger Pills"', true);
 
   local traits = TraitFactory.getTraits();
   for i = 0, traits:size() - 1 do
     TraitFactory.setMutualExclusive("RespawnTrait", traits:get(i):getType());
   end
 
-  respawnProf = ProfessionFactory.addProfession("Respawn", "Respawn and keep progress", "profession_respawn", 0);
+  respawnProf = ProfessionFactory.addProfession("Respawn", "Respawn and resume progress", "profession_respawn", 0);
   respawnProf:addFreeTrait("RespawnTrait");
 end
 
@@ -38,7 +39,6 @@ end
 
 function CharacterCreationProfession:addRespawnProfession()
   self.listboxProf:insertItem(2, respawnProf:getName(), respawnProf);
-  self:onSelectProf(respawnProf);
 end
 
 function CharacterCreationProfession:removeRespawnProfession()

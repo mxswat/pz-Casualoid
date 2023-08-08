@@ -12,6 +12,9 @@ registerHandler(CasualoidOccupation)
 registerHandler(CasualoidTraits)
 registerHandler(CasualoidReadSkillBooks) -- has to be last to correctly apply the XP multiplier
 
+-- Contains generic finishing touches and sync for trait gain/loss for other mods
+registerHandler(CasualoidPostRespawn) 
+
 local function savePlayerProgress(player)
   Casualoid.print('savePlayerProgress')
 

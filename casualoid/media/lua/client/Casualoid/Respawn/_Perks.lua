@@ -45,11 +45,23 @@ function CasualoidPerks:load(player)
       and SandboxVars.Casualoid.XPKeptByLowerXPTrait
       or SandboxVars.Casualoid.XPKeptOnRespawn
 
+  Casualoid.print('Respawn: xpMultiplier', xpMultiplier)
+
   for perkId, data in pairs(casualoidRespawnData.perks) do
     local perk = Perks[perkId]
     if perk then
-      xp:AddXP(perk, data.totalXp * (xpMultiplier / 100), false, false, true);
-      xp:setPerkBoost(perk, math.min(data.boost or 0, 3));
+      local boost = math.min(data.boost or 0, 3)
+      local xpToRecover = data.totalXp * (xpMultiplier / 100)
+      local minXpToRecover = boost > 0 and perk:getTotalXpForLevel(boost) or 0
+
+      if perk == Perks.Strength or perk == Perks.Fitness then
+        minXpToRecover = data.totalXp
+        minXpToRecover = data.totalXp
+      end
+
+      Casualoid.print(perk, 'xpToRecover:', xpToRecover, 'minimumXpToRecover', minXpToRecover, 'boost', boost)
+      xp:AddXP(perk, math.max(minXpToRecover, xpToRecover), false, false, false);
+      xp:setPerkBoost(perk, boost);
     end
   end
 end

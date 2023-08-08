@@ -1,5 +1,5 @@
 function Casualoid.getRespawnFilePath()
-  return 'casualoid-respawn-available.json'
+  return 'casualoid-respawns.json'
 end
 
 function Casualoid.isRespawnAvailable()

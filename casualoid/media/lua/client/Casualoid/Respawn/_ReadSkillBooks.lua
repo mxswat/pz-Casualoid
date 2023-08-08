@@ -47,8 +47,8 @@ function CasualoidReadSkillBooks:load(player)
     local skillTrainedLevel = player:getPerkLevel(SkillBook[item:getSkillTrained()].perk) + 1
     local isTooHighLvl = item:getLvlSkillTrained() > skillTrainedLevel
     local isTooLowLvl = item:getMaxLevelTrained() < skillTrainedLevel
-    if not isTooHighLvl and not isTooLowLvl then
-      Casualoid.print('Apply XP multiplier from:', item)
+    if item:getAlreadyReadPages() > 0 and not isTooHighLvl and not isTooLowLvl then
+      Casualoid.print('Apply XP multiplier from:', item:getDisplayName())
       -- checkMultiplier sets the multiplier on the player too :D
       ISReadABook.checkMultiplier(mockAction)
     end

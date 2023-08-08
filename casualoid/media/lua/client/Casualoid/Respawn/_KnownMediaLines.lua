@@ -1,4 +1,3 @@
--- Intercept the knownMediaLines
 local injected_instance = nil
 local old_ISRadioInteractions_getInstance = ISRadioInteractions.getInstance
 function ISRadioInteractions:getInstance()
@@ -12,12 +11,12 @@ function ISRadioInteractions:getInstance()
   local function new_checkPlayer(player, _guid, ...)
     local result = old_self_checkPlayer(player, _guid, ...)
 
-    if _guid ~= nil and _guid ~= "" then return end
+    if _guid ~= nil and _guid ~= "" then
+      Casualoid.print('ISRadioInteractions: _guid', _guid)
 
-    Casualoid.print('ISRadioInteractions: _guid', _guid)
-
-    local casualoidRespawnData = Casualoid.getRespawnModData()
-    casualoidRespawnData.knownMediaLines[_guid] = true
+      local casualoidRespawnData = Casualoid.getRespawnModData()
+      casualoidRespawnData.knownMediaLines[_guid] = true
+    end
 
     return result
   end
@@ -32,8 +31,7 @@ end
 CasualoidKnownMediaLines = {}
 
 function CasualoidKnownMediaLines:save(player)
-  -- The saving is not done manually
-  return
+  -- The saving is made by the ISRadioInteractions:getInstance() injection
 end
 
 function CasualoidKnownMediaLines:load(player)
