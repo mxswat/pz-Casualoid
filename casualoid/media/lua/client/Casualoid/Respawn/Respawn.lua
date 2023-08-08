@@ -7,9 +7,9 @@ end
 registerHandler(CasualoidPerks)
 registerHandler(CasualoidKnownMediaLines)
 registerHandler(CasualoidRecipes)
-registerHandler(CasualoidWeight)
 registerHandler(CasualoidOccupation)
 registerHandler(CasualoidTraits)
+registerHandler(CasualoidSimpleStats)
 registerHandler(CasualoidReadSkillBooks) -- has to be last to correctly apply the XP multiplier
 
 -- Contains generic finishing touches and sync for trait gain/loss for other mods

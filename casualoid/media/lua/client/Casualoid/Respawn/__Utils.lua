@@ -18,6 +18,8 @@ function Casualoid.getRespawnModData()
   respawnData.weight = respawnData.weight or 80
   respawnData.occupation = respawnData.occupation or nil
   respawnData.traits = respawnData.traits or {}
+  respawnData.hoursSurvived = respawnData.hoursSurvived or nil
+  respawnData.zombieKills = respawnData.zombieKills or nil
 
   return respawnData
 end
