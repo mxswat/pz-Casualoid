@@ -1,5 +1,6 @@
 Sandbox_EN = {
 	Sandbox_Casualoid = "Casualoid",
+	Sandbox_CasualoidRespawn = "Casualoid: Respawn",
   Sandbox_FasterActionsModifier = "Timed Actions Modifier %",
   Sandbox_FasterActionsModifier_tooltip = "50 means 50%, which means every action will be 50% faster, if you use 100% actions will be instantaneous, if you use 0% they won't be speed up",
   Sandbox_WoodWeightModifier = "Wood Weight Modifier %",
@@ -16,4 +17,7 @@ Sandbox_EN = {
   Sandbox_StorageImprovementMultiplier_tooltip = "Sets by wich number the base weight is multiplied every time a storage upgrade is improved",
   Sandbox_DisableCropsRotting = "Disable Crops Rotting",
   Sandbox_DisableCropsRotting_tooltip = "If enabled, crops rotting will never rot. Except for over-fertilizing, over-fertilizing will still kill your plant",
+  Sandbox_EnableRespawn = "Enable respawn",
+  Sandbox_XPKeptOnRespawn = "% of the XP kept on respawn",
+  Sandbox_XPKeptByLowerXPTrait = "% of the XP kept on respawn using the 'Lower XP' Trait",
 }

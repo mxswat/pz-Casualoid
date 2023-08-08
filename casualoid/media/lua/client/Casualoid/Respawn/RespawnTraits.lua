@@ -1,8 +1,8 @@
 local respawnProf = nil
 local function addRespawnTraits()
-  TraitFactory.addTrait("RespawnLowerXP", "Respawn with lower XP", -8, 'You will respawn with X percent of your total XP', false);
+  TraitFactory.addTrait("RespawnLowerXP", "Lower Respawn XP", -8, 'You will respawn with a percentage of your total XP, set in the sandbox settings', false);
 
-  TraitFactory.addTrait("RespawnTrait", "Respawn", 0, 'I took Merasmus\'s "Kill Me Come Back Stronger Pills"', true, false);
+  TraitFactory.addTrait("RespawnTrait", "Respawn", 0, 'I took Merasmus\'s "Kill Me Come Back Stronger Pills"', true);
 
   local traits = TraitFactory.getTraits();
   for i = 0, traits:size() - 1 do
@@ -10,7 +10,6 @@ local function addRespawnTraits()
   end
 
   respawnProf = ProfessionFactory.addProfession("Respawn", "Respawn and keep progress", "profession_respawn", 0);
-
   respawnProf:addFreeTrait("RespawnTrait");
 end
 
@@ -26,6 +25,11 @@ function CharacterCreationProfession:setVisible(visible, joypadData)
 
   self:removeRespawnProfession();
 
+  if not SandboxVars.Casualoid.EnableRespawn then
+    Casualoid.print('Respawn Disabled')
+    return
+  end
+
   if Casualoid.isRespawnAvailable() then
     Casualoid.print('Respawn Enabled')
     self:addRespawnProfession();
@@ -34,6 +38,7 @@ end
 
 function CharacterCreationProfession:addRespawnProfession()
   self.listboxProf:insertItem(2, respawnProf:getName(), respawnProf);
+  self:onSelectProf(respawnProf);
 end
 
 function CharacterCreationProfession:removeRespawnProfession()

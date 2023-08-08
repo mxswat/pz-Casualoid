@@ -10,7 +10,7 @@ registerHandler(CasualoidRecipes)
 registerHandler(CasualoidWeight)
 registerHandler(CasualoidOccupation)
 registerHandler(CasualoidTraits)
-registerHandler(CasualoidReadBooks) -- has to be last to correctly apply the XP multiplier
+registerHandler(CasualoidReadSkillBooks) -- has to be last to correctly apply the XP multiplier
 
 local function savePlayerProgress(player)
   Casualoid.print('savePlayerProgress')

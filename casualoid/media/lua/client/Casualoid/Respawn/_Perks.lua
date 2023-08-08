@@ -1,22 +1,23 @@
 CasualoidPerks = {}
 
 function CasualoidPerks:savePerks(player, perk)
-  local currentTotalXp = player:getXp():getXP(perk)
-  if currentTotalXp <= 0 then
+  local totalXp = player:getXp():getXP(perk)
+  if totalXp <= 0 then
     return
   end
 
   local perkId = perk:getId()
   local boostId = player:getXp():getPerkBoost(perk);
 
-  -- local professionXpToSubtract = boostId > 0 and perk:getTotalXpForLevel(boostId) or 0
-  -- local xpExcludingBoost = math.max(currentTotalXp - professionXpToSubtract, 0)
+  local professionXpToSubtract = boostId > 0 and perk:getTotalXpForLevel(boostId) or 0
+  local totalXpNoBoost = math.max(totalXp - professionXpToSubtract, 0)
 
   local casualoidRespawnData = Casualoid.getRespawnModData()
-  casualoidRespawnData.perks[perkId] = {
-    totalXp = currentTotalXp,
-    boost = boostId,
-  }
+  casualoidRespawnData.perks[perkId] = casualoidRespawnData.perks[perkId] or {}
+  casualoidRespawnData.perks[perkId].totalXp = math.max(totalXp, casualoidRespawnData.perks[perkId].totalXp or 0)
+  casualoidRespawnData.perks[perkId].boost = boostId
+  casualoidRespawnData.perks[perkId].totalXpNoBoost =
+      math.max(totalXpNoBoost, casualoidRespawnData.perks[perkId].totalXpNoBoost or 0)
 end
 
 function CasualoidPerks:save(player)
@@ -39,10 +40,15 @@ function CasualoidPerks:load(player)
   end
 
   local casualoidRespawnData = Casualoid.getRespawnModData()
+
+  local xpMultiplier = casualoidRespawnData.traits["RespawnLowerXP"]
+      and SandboxVars.Casualoid.XPKeptByLowerXPTrait
+      or SandboxVars.Casualoid.XPKeptOnRespawn
+
   for perkId, data in pairs(casualoidRespawnData.perks) do
     local perk = Perks[perkId]
     if perk then
-      xp:AddXP(perk, data.totalXp, false, false, true);
+      xp:AddXP(perk, data.totalXp * (xpMultiplier / 100), false, false, true);
       xp:setPerkBoost(perk, math.min(data.boost or 0, 3));
     end
   end

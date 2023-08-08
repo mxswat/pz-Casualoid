@@ -45,3 +45,18 @@ option Casualoid.DisableCropsRotting = {
   type = boolean, default = true, 
   page = Casualoid,  translation = DisableCropsRotting,
 }
+
+option Casualoid.EnableRespawn = {
+  type = boolean, default = true, 
+  page = CasualoidRespawn, translation = EnableRespawn,
+}
+
+option Casualoid.XPKeptOnRespawn = {
+  type = integer, min = 0, max = 100, default = 100,
+  page = CasualoidRespawn, translation = XPKeptOnRespawn,
+}
+
+option Casualoid.XPKeptByLowerXPTrait = {
+  type = integer, min = 0, max = 100, default = 75,
+  page = CasualoidRespawn, translation = XPKeptByLowerXPTrait,
+}

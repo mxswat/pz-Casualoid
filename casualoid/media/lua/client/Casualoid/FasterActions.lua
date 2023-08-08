@@ -1,6 +1,6 @@
 local ActionBlacklist = {
-  ISWalkToTimedAction = true,       -- Always ignore
-  ISPathFindAction = true,          -- Always ignore
+  ISWalkToTimedAction = true, -- Always ignore
+  ISPathFindAction = true,    -- Always ignore
   -- ISEquipWeaponAction = true,    -- Can be skill depended but enabled because makes the game snappier
   -- ISReloadWeaponAction = true,      -- Skill depended and animation depended AFAIK
   -- ISReadABook = true,               -- Affected by FastReader and SlowReader
@@ -16,9 +16,9 @@ function ISTimedActionQueue:addToQueue(action)
   -- Casualoid.print("FasterActions: actionType: " .. actionType)
   if not ActionBlacklist[actionType] and action.maxTime > 0 then
     local modifier = SandboxVars.Casualoid.FasterActionsModifier
-    -- Casualoid.print("FasterActions: old maxTime: " .. action.maxTime)
+    local oldMaxTime = action.maxTime
     action.maxTime = math.max(action.maxTime * (1 - (modifier * 0.01)), 0)
-    -- Casualoid.print("FasterActions: new maxTime: " .. action.maxTime)
+    Casualoid.print("FasterActions modifier:", modifier, "old maxTime: " .. oldMaxTime, "new maxTime", action.maxTime)
   end
 
   return old_ISTimedActionQueue_addToQueue(self, action)
