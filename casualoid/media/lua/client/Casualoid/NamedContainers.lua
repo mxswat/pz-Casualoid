@@ -92,7 +92,7 @@ function ISInventoryPage:refreshBackpacks()
 
     -- Forces text on the left
     button.drawText = function(self, str, x, ...)
-      ISButton.drawText(self, str, 2 + 32, ...)
+      ISButton.drawText(self, str, 4 + 32, ...)
     end
     -- Forces icon on the left
     button.drawTextureScaledAspect = function(self, texture, x, ...)
@@ -112,6 +112,11 @@ local old_ISInventoryPage_addContainerButton = ISInventoryPage.addContainerButto
 function ISInventoryPage:addContainerButton(container, texture, name, tooltip)
   self.buttonSize = self.buttonSizeBackup or self.buttonSize
 
+  local player = getSpecificPlayer(self.player)
+  if player and player:getInventory() == container then
+    name = getText("IGUI_Controller_Inventory")
+  end
+
   local button = old_ISInventoryPage_addContainerButton(self, container, texture, name, tooltip)
 
   local oldName = getInventoryName(container) or name
@@ -121,6 +126,7 @@ function ISInventoryPage:addContainerButton(container, texture, name, tooltip)
   button:setWidthToTitle()
   button.tooltip = button.tooltip or (#newName < #oldName and oldName or nil)
 
+  button:setBorderRGBA(0.6, 0.6, 0.6, 0.5)
   -- local isTileSquare = container:getSourceGrid() and container:getType() ~= "floor"
   -- -- Force tile sprite to render as the icon
   -- if isTileSquare then
