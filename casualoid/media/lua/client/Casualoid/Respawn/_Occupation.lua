@@ -6,5 +6,5 @@ function CasualoidOccupation:save(player)
 end
 
 function CasualoidOccupation:load(player)
-  
+  player:getDescriptor():setProfession(Casualoid.getRespawnModData().occupation);
 end

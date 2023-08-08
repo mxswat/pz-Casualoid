@@ -40,8 +40,10 @@ function CasualoidPerks:load(player)
 
   local casualoidRespawnData = Casualoid.getRespawnModData()
   for perkId, data in pairs(casualoidRespawnData.perks) do
-    if Perks[perkId] then
-      xp:AddXP(Perks[perkId], data.totalXp, false, false, false);
+    local perk = Perks[perkId]
+    if perk then
+      xp:AddXP(perk, data.totalXp, false, false, true);
+      xp:setPerkBoost(perk, math.min(data.boost or 0, 3));
     end
   end
 end

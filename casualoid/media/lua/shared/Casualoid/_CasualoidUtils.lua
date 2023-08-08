@@ -1,4 +1,39 @@
+local json = require("json");
+
 Casualoid = Casualoid or {}
+
+Casualoid.File = {};
+
+function Casualoid.getUserID()
+  return isClient()
+      and "player-" .. getWorld():getWorld() .. "-" .. getClientUsername()
+      or "player-" .. getWorld():getWorld();
+end
+
+function Casualoid.File.Save(path, table)
+  local file = getFileWriter(path, true, false);
+
+  file:write(json.Encode(table));
+  file:close();
+end
+
+function Casualoid.File.Load(path)
+  local file = getFileReader(path, false);
+
+  if file == nil then
+    return nil;
+  end
+
+  local content = "";
+  local line = file:readLine();
+  while line ~= nil do
+    content = content .. line;
+    line = file:readLine();
+  end
+
+  file:close();
+  return content ~= "" and json.Decode(content) or nil;
+end
 
 function Casualoid.print(...)
   if not isDebugEnabled() then

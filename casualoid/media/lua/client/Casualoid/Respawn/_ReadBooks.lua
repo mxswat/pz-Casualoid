@@ -24,7 +24,7 @@ end
 function CasualoidReadBooks:save(player)
   local casualoidRespawnData = Casualoid.getRespawnModData()
 
-  local skillBooks = CasualoidReadBooks:getSkillBooks()
+  local skillBooks = self:getSkillBooks()
   for _, book in ipairs(skillBooks) do
     local readPages = player:getAlreadyReadPages(book:getFullName())
     if readPages > 0 then
@@ -37,5 +37,12 @@ function CasualoidReadBooks:load(player)
   local casualoidRespawnData = Casualoid.getRespawnModData()
   for bookFullName, readPages in pairs(casualoidRespawnData.readBooks) do
     player:setAlreadyReadPages(bookFullName, readPages)
+  end
+
+  local skillBooks = self:getSkillBooks()
+  for i, skillBook in ipairs(skillBooks) do
+    local mockAction = ISReadABook:new(player, skillBook:InstanceItem(nil), 2)
+    -- checkMultiplier sets the multiplier on the player too :D
+    ISReadABook.checkMultiplier(mockAction)
   end
 end

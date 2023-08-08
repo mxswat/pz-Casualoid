@@ -1,3 +1,13 @@
+function Casualoid.getRespawnFilePath()
+  return 'casualoid-respawn-available.json'
+end
+
+function Casualoid.isRespawnAvailable()
+  local available = Casualoid.File.Load(Casualoid.getRespawnFilePath());
+
+  return available and available[Casualoid.getUserID()];
+end
+
 function Casualoid.getRespawnModData()
   local respawnData = ModData.getOrCreate("CasualoidRespawnData");
 

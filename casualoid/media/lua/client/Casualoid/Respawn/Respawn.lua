@@ -4,8 +4,8 @@ local function registerHandler(data)
   table.insert(respawnHandlers, data);
 end
 
-registerHandler(CasualoidKnownMediaLines)
 registerHandler(CasualoidPerks)
+registerHandler(CasualoidKnownMediaLines)
 registerHandler(CasualoidRecipes)
 registerHandler(CasualoidWeight)
 registerHandler(CasualoidOccupation)
@@ -18,6 +18,12 @@ local function savePlayerProgress(player)
   for _, handler in ipairs(respawnHandlers) do
     handler:save(player)
   end
+
+  -- Save to file that this player can respawn
+  local available = Casualoid.File.Load(Casualoid.getRespawnFilePath()) or {};
+  available[Casualoid.getUserID()] = true;
+
+  Casualoid.File.Save(Casualoid.getRespawnFilePath(), available);
 end
 
 -- TODO: Replace with OnPlayerDeath
