@@ -141,7 +141,7 @@ function ISInventoryPage:addContainerButton(container, texture, name, tooltip)
   button:setBackgroundColorMouseOverRGBA(0.2, 0.2, 0.2, 1.0)
 
   -- Add extra width to compensate for the icon and text aligned on the left
-  button:setWidth(button:getWidth() + 32 + 2)
+  button:setWidth(button:getWidth() + 32 + 4)
 
   self.casualoidButtonWidth = math.max(self.casualoidButtonWidth, button:getWidth())
 
