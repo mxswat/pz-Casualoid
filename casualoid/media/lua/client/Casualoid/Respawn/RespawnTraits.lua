@@ -1,5 +1,7 @@
 local professionCached = nil
 local function addRespawnTraits()
+  TraitFactory.addTrait("trait_respawnlowxp", "Respawn with X% XP", -8, 'You will respawn with X% of your total XP', true, false);
+
   TraitFactory.addTrait("RespawnTrait", "Respawn", 0, 'I took Merasmus\'s "Kill Me Come Back Stronger Pills"', true, false);
 
   local traits = TraitFactory.getTraits();
