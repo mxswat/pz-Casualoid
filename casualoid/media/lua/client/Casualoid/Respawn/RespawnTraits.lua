@@ -1,6 +1,6 @@
-local professionCached = nil
+local respawnProf = nil
 local function addRespawnTraits()
-  TraitFactory.addTrait("trait_respawnlowxp", "Respawn with X% XP", -8, 'You will respawn with X% of your total XP', true, false);
+  TraitFactory.addTrait("RespawnLowerXP", "Respawn with lower XP", -8, 'You will respawn with X percent of your total XP', false);
 
   TraitFactory.addTrait("RespawnTrait", "Respawn", 0, 'I took Merasmus\'s "Kill Me Come Back Stronger Pills"', true, false);
 
@@ -9,9 +9,9 @@ local function addRespawnTraits()
     TraitFactory.setMutualExclusive("RespawnTrait", traits:get(i):getType());
   end
 
-  professionCached = ProfessionFactory.addProfession("Respawn", "Respawn and keep progress", "profession_respawn", 0);
+  respawnProf = ProfessionFactory.addProfession("Respawn", "Respawn and keep progress", "profession_respawn", 0);
 
-  professionCached:addFreeTrait("RespawnTrait");
+  respawnProf:addFreeTrait("RespawnTrait");
 end
 
 Events.OnGameBoot.Add(addRespawnTraits);
@@ -33,9 +33,9 @@ function CharacterCreationProfession:setVisible(visible, joypadData)
 end
 
 function CharacterCreationProfession:addRespawnProfession()
-  self.listboxProf:insertItem(2, professionCached:getName(), professionCached);
+  self.listboxProf:insertItem(2, respawnProf:getName(), respawnProf);
 end
 
 function CharacterCreationProfession:removeRespawnProfession()
-  self.listboxProf:removeItem(professionCached:getName());
+  self.listboxProf:removeItem(respawnProf:getName());
 end
