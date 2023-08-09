@@ -8,6 +8,12 @@ function Casualoid.isRespawnAvailable()
   return available and available[Casualoid.getUserID()];
 end
 
+function Casualoid.hasRespawnModData()
+  local respawnData = ModData.getOrCreate("CasualoidRespawnData");
+
+  return respawnData.hoursSurvived ~= nil
+end
+
 function Casualoid.getRespawnModData()
   local respawnData = ModData.getOrCreate("CasualoidRespawnData");
 

@@ -1,0 +1,8 @@
+IG_UI_EN = {
+  IGUI_KeepProgressModal1 = "<CENTRE> <SIZE:large> You have saved respawn data. <LINE> <LINE> <SIZE:medium> ",
+  IGUI_KeepProgressModal2 = "You can choose to recover your saved experience points, or you can ignore this and proceed with this new character. <LINE> <LINE> ",
+  IGUI_KeepProgressModal3 = "If you recover the XP points, you will only gain the XP you earned (Excluding Strength and Fitness). <LINE> The XP recovery won't count free levels from previous occupations or traits. <LINE> <LINE> ",
+  IGUI_KeepProgressModal4 = " <RGB:1,0,0> You will lose all saved respawn data if you choose to 'Reset All Respawn Data'",
+  IGUI_KeepProgress = "Recover XP",
+  IGUI_IgnoreAndProceed = "Reset All Respawn Data",
+}

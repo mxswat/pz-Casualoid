@@ -65,3 +65,18 @@ function CasualoidPerks:load(player)
     end
   end
 end
+
+function CasualoidPerks:loadPartial(player)
+  local casualoidRespawnData = Casualoid.getRespawnModData()
+  local xpMultiplier = SandboxVars.Casualoid.XPKeptOnRespawn
+
+  local xp = player:getXp();
+  for perkId, data in pairs(casualoidRespawnData.perks) do
+    local perk = Perks[perkId]
+    if perk and perk ~= Perks.Strength or perk ~= Perks.Fitness then
+      local xpToRecover = data.totalXpNoBoost * (xpMultiplier / 100)
+
+      xp:AddXP(perk, math.max(0, xpToRecover), false, false, false);
+    end
+  end
+end
