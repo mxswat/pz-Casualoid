@@ -1,6 +1,6 @@
 local respawnProf = nil
 local function addRespawnTraits()
-  TraitFactory.addTrait("RespawnLowerXP", "Lower Respawn XP", -8,
+  TraitFactory.addTrait("RespawnLowerXP", "Lower Respawn XP", -10,
     'You will respawn with a percentage of your total XP, set in the sandbox settings', false);
 
   TraitFactory.addTrait("RespawnTrait", "Respawn", 0, 'You took Merasmus\'s "Kill Me Come Back Stronger Pills"', true);
