@@ -5,4 +5,6 @@ IG_UI_EN = {
   IGUI_KeepProgressModal4 = " <RGB:1,0,0> You will lose all saved respawn data if you choose to 'Reset All Respawn Data'",
   IGUI_KeepProgress = "Recover XP",
   IGUI_IgnoreAndProceed = "Reset All Respawn Data",
+  IGUI_SetButtonsWidth = "Set Buttons Width",
+  IGUI_SetButtonsHeight = "Set Buttons Height",
 }
