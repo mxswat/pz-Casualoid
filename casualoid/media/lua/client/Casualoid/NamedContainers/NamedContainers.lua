@@ -24,7 +24,7 @@ function ISInventoryPage:getTextMaxChars()
     text = text:sub(1, -2)
     textWidth = getTextManager():MeasureStringX(self.font, text)
   end
-  
+
   self.textMaxChar = string.len(text)
   self.lastButtonSize = self.buttonSize
   return self.textMaxChar
@@ -77,11 +77,12 @@ function ISInventoryPage:prerender()
 end
 
 -- I'm overriding the function entirelly, I don't think there is a better way
-function ISInventoryPage:casualoidOnInventoryContainerSizeChanged()
+function ISInventoryPage:onInventoryContainerSizeChanged()
   self.buttonSize = self:getSafeButtonSize()
   self.minimumWidth = 256 + self.buttonSize
   self.inventoryPane:setWidth(self.width - self.buttonSize)
-
+  self.inventoryPane.typeHeader:resize(self.inventoryPane.typeHeader.width)
+  self.inventoryPane:updateScrollbars()
   self.safeButtonHeight = ISInventoryPage.getSafeButtonHeight()
 
   for _,button in ipairs(self.buttonPool) do
@@ -98,12 +99,6 @@ function ISInventoryPage:casualoidOnInventoryContainerSizeChanged()
 		button:setHeight(self.safeButtonHeight)
 		button:forceImageSize(math.min(self.buttonSize - 2, 32), math.min(self.buttonSize - 2, 32))
 	end
-end
-
-local old_ISInventoryPage_onInventoryContainerSizeChanged = ISInventoryPage.onInventoryContainerSizeChanged
-function ISInventoryPage:onInventoryContainerSizeChanged()
-  old_ISInventoryPage_onInventoryContainerSizeChanged(self)
-  self:casualoidOnInventoryContainerSizeChanged()
 end
 
 local old_ISInventoryPage_refreshBackpacks = ISInventoryPage.refreshBackpacks
