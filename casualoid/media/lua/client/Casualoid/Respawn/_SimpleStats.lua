@@ -9,6 +9,7 @@ end
 
 function CasualoidSimpleStats:load(player)
   local casualoidRespawnData = Casualoid.getRespawnModData();
+  Casualoid.print('CasualoidSimpleStats:load')
   player:getNutrition():setWeight(casualoidRespawnData.weight);
   player:setHoursSurvived(casualoidRespawnData.hoursSurvived);
   player:setZombieKills(casualoidRespawnData.zombieKills)

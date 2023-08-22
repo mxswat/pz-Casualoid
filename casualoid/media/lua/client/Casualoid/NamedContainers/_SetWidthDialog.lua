@@ -10,7 +10,7 @@ local function onDialogButtonClick(target, button)
 end
 
 function OpenSetWidthDialog(player)
-  local modalTitle = getText("IGUI_SetButtonsWidth").."Min=32 Max=500 Vanilla=0"
+  local modalTitle = getText("IGUI_SetButtonsWidth").." | Min=32 Max=500 Vanilla=0"
   local buttonSize = ISInventoryPage.getSafeButtonSize()
   local modal = ISTextBox:new(0, 0, 280, 180, modalTitle, tostring(buttonSize), nil, onDialogButtonClick, player, {})
   modal:initialise()
