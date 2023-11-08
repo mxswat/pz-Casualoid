@@ -1,13 +1,21 @@
 require "TimedActions/ISReadABook"
 
+---@param self ISReadABook
+local function giveNutritionistTrait(self)
+  if self.item:getFullType() ~= "Casualoid.NutritionistMag1" then
+    return
+  end
+  if self.character:HasTrait("Nutritionist2") then
+    return
+  end
+
+  self.character:getTraits():add("Nutritionist2");
+  HaloTextHelper.addTextWithArrow(self.character, 'Nutritionist Trait', true, HaloTextHelper.getColorGreen())
+end
+
 local old_ISReadABook_perform = ISReadABook.perform
 function ISReadABook:perform(...)
-  if self.item:getFullType() == "Casualoid.NutritionistMag1" then
-    if not self.character:HasTrait("Nutritionist2") then
-      self.character:getTraits():add("Nutritionist2");
-      HaloTextHelper.addTextWithArrow(self.character, 'Nutritionist Trait', true, HaloTextHelper.getColorGreen())
-    end
-  end
+  giveNutritionistTrait(self)
   return old_ISReadABook_perform(self, ...)
 end
 
@@ -20,3 +28,4 @@ local function onCreatePlayer(playerNum, playerObj)
 end
 
 Events.OnCreatePlayer.Add(onCreatePlayer);
+

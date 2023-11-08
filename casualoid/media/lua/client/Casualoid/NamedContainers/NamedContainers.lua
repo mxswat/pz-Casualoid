@@ -42,12 +42,12 @@ end
 local old_ISInventoryPage_onBackpackRightMouseDown = ISInventoryPage.onBackpackRightMouseDown
 function ISInventoryPage:onBackpackRightMouseDown(x, y)
   local result = old_ISInventoryPage_onBackpackRightMouseDown(self, x, y)
-
+  
   if not self.title or self.onCharacter or self.inventory:getType() == "floor" or not self.inventory:getParent() then
     return
   end
 
-  local context = ISContextMenu.get(self.parent.player, getMouseX(), getMouseY())
+  local context = getPlayerContextMenu(self.parent.player);
 
   local title =
       self.inventory:getParent():getModData().ContainerCustomName

@@ -16,35 +16,42 @@ option Casualoid.MetalWeightModifier = {
 	page = Casualoid, translation = MetalWeightModifier,
 }
 
-option Casualoid.MultiSelectDisablePositiveTraits = {
-	type = string, default = None,
-	page = Casualoid, translation = MultiSelectDisablePositiveTraits,
-}
-
-option Casualoid.MultiSelectDisableNegativeTraits = {
-	type = string, default = None,
-	page = Casualoid, translation = MultiSelectDisableNegativeTraits,
-}
-
-option Casualoid.CanCraftStorageUpgrade = {
-  type = boolean, default = true, 
-  page = Casualoid,  translation = CanCraftStorageUpgrade,
-}
-
-option Casualoid.StorageUpgradeBaseWeight = {
-  type = integer, min = 10, max = 100, default = 30,
-  page = Casualoid,  translation = StorageUpgradeBaseWeight,
-}
-
-option Casualoid.StorageImprovementMultiplier = {
-  type = double, min = 2.1, max = 10, default = 2.1,
-  page = Casualoid,  translation = StorageImprovementMultiplier,
-}
-
 option Casualoid.DisableCropsRotting = {
   type = boolean, default = true, 
   page = Casualoid,  translation = DisableCropsRotting,
 }
+
+option Casualoid.ShowExactLevelNumber = {
+  type = boolean, default = true, 
+  page = Casualoid,  translation = ShowExactLevelNumber,
+}
+
+option Casualoid.RenameAllItems = {
+  type = boolean, default = true, 
+  page = Casualoid,  translation = RenameAllItems,
+}
+
+option Casualoid.EnableMxMagazines = {
+  type = boolean, default = true, 
+  page = Casualoid,  translation = EnableMxMagazines,
+}
+
+
+option Casualoid.CanCraftStorageUpgrade = {
+  type = boolean, default = true, 
+  page = CasualoidStorageUpgrade,  translation = CanCraftStorageUpgrade,
+}
+
+option Casualoid.StorageUpgradeBaseWeight = {
+  type = integer, min = 10, max = 100, default = 30,
+  page = CasualoidStorageUpgrade,  translation = StorageUpgradeBaseWeight,
+}
+
+option Casualoid.StorageImprovementMultiplier = {
+  type = double, min = 2.1, max = 10, default = 2.1,
+  page = CasualoidStorageUpgrade,  translation = StorageImprovementMultiplier,
+}
+
 
 option Casualoid.EnableRespawn = {
   type = boolean, default = true, 
