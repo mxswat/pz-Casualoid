@@ -1,4 +1,5 @@
 id=casualoid
 name=Casualoid
+require=MxUtilities
 poster=poster.png
 icon=icon.png

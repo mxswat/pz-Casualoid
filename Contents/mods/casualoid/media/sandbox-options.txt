@@ -36,6 +36,10 @@ option Casualoid.EnableMxMagazines = {
   page = Casualoid,  translation = EnableMxMagazines,
 }
 
+option Casualoid.DisassembleContainerWithItems = {
+  type = boolean, default = true, 
+  page = Casualoid,  translation = DisassembleContainerWithItems,
+}
 
 option Casualoid.CanCraftStorageUpgrade = {
   type = boolean, default = true, 
