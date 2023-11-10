@@ -22,15 +22,13 @@ function DisassembleWithItems:getInfoPanelDescription(_square, _object, _player,
 end
 
 function DisassembleWithItems:scrapObjectInternal(_character, _scrapDef, _square, _object, ...)
-  local result = Hooks:GetReturn()
-
   local object = _object
   if not (_scrapDef and object and _square) then
-    return result
+    return
   end
 
   if object:isFloor() and (_square:getZ() == 0) then
-    return result
+    return
   end
 
   for i = 1, object:getContainerCount() do
@@ -39,8 +37,6 @@ function DisassembleWithItems:scrapObjectInternal(_character, _scrapDef, _square
       object:getSquare():AddWorldInventoryItem(container:getItems():get(j - 1), 0.0, 0.0, 0.0)
     end
   end
-
-  return result
 end
 
 function DisassembleWithItems:canScrapObjectInternal(_result, _object)
