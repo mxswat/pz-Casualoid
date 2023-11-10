@@ -1,7 +1,9 @@
-require "TimedActions/ISReadABook"
+local Hooks = require "MxUtilities/Hooks"
 
----@param self ISReadABook
-local function giveNutritionistTrait(self)
+---@class MxMagazineRead: ISReadABook
+local MxMagazineRead = {}
+
+function MxMagazineRead:perform(...)
   if self.item:getFullType() ~= "Casualoid.NutritionistMag1" then
     return
   end
@@ -13,11 +15,7 @@ local function giveNutritionistTrait(self)
   HaloTextHelper.addTextWithArrow(self.character, 'Nutritionist Trait', true, HaloTextHelper.getColorGreen())
 end
 
-local old_ISReadABook_perform = ISReadABook.perform
-function ISReadABook:perform(...)
-  giveNutritionistTrait(self)
-  return old_ISReadABook_perform(self, ...)
-end
+Hooks:PostHooksFromTable(ISReadABook, MxMagazineRead, 'MxMagazineRead')
 
 -- This should make it compatible with the journal mod on respawn
 local function onCreatePlayer(playerNum, playerObj)
@@ -28,4 +26,3 @@ local function onCreatePlayer(playerNum, playerObj)
 end
 
 Events.OnCreatePlayer.Add(onCreatePlayer);
-

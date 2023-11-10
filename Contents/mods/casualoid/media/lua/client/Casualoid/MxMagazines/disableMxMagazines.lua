@@ -1,7 +1,7 @@
-Events.OnGameStart.Add(function()
+local function disableMxMagazines()
   local scriptManager = ScriptManager.instance;
 
-  if SandboxVars.Casualoid.EnableMxMagazines  then
+  if SandboxVars.Casualoid.EnableMxMagazines then
     return
   end
 
@@ -16,4 +16,6 @@ Events.OnGameStart.Add(function()
     local item = scriptManager:getItem(name)
     item:DoParam("OBSOLETE = true")
   end
-end)
+end
+
+return disableMxMagazines

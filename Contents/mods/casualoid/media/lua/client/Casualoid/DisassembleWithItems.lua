@@ -1,9 +1,10 @@
 local Hooks = require("MxUtilities/Hooks")
 
-local Disassemble = {}
+---@class Disassemble: ISMoveableSpriteProps
+local DisassembleWithItems = {}
 
-function Disassemble:getInfoPanelDescription(_square, _object, _player, _mode)
-  local infoTable = Hooks:getLastResult()
+function DisassembleWithItems:getInfoPanelDescription(_square, _object, _player, _mode)
+  local infoTable = Hooks:GetReturn()
   if not (InfoPanelFlags.hasItems and _mode == "scrap") then
     return infoTable
   end
@@ -20,8 +21,8 @@ function Disassemble:getInfoPanelDescription(_square, _object, _player, _mode)
   return infoTable
 end
 
-function Disassemble:scrapObjectInternal(_character, _scrapDef, _square, _object, ...)
-  local result = Hooks:getLastResult()
+function DisassembleWithItems:scrapObjectInternal(_character, _scrapDef, _square, _object, ...)
+  local result = Hooks:GetReturn()
 
   local object = _object
   if not (_scrapDef and object and _square) then
@@ -42,8 +43,8 @@ function Disassemble:scrapObjectInternal(_character, _scrapDef, _square, _object
   return result
 end
 
-function Disassemble:canScrapObjectInternal(_result, _object)
-  local canScrap = Hooks:getLastResult()
+function DisassembleWithItems:canScrapObjectInternal(_result, _object)
+  local canScrap = Hooks:GetReturn()
 
   if canScrap == false and self:objectNoContainerOrEmpty(_object) == false then
     return true
@@ -52,10 +53,4 @@ function Disassemble:canScrapObjectInternal(_result, _object)
   return canScrap
 end
 
-Events.OnGameStart.Add(function()
-  if not SandboxVars.Casualoid.DisassembleContainerWithItems then
-    return
-  end
-
-  Hooks:autoApplyPostHooks(ISMoveableSpriteProps, Disassemble)
-end);
+return DisassembleWithItems

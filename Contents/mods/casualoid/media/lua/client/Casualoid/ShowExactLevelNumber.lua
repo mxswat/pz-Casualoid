@@ -1,4 +1,4 @@
-CharacterCreationProfession = CharacterCreationProfession
+require "OptionScreens/CharacterCreationProfession"
 
 local old_CharacterCreationProfession_drawXpBoostMap = CharacterCreationProfession.drawXpBoostMap
 function CharacterCreationProfession:drawXpBoostMap(y, item, alt)

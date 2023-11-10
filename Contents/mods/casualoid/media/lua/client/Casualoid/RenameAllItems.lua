@@ -1,10 +1,6 @@
 require "ISInventoryPaneContextMenu"
 
-local RenameAllItems = function(player, context, items)
-  if not SandboxVars.Casualoid.RenameAllItems then
-    return
-  end
-
+local function renameAllItems(player, context, items)
   local canBeRenamed = nil;
   local canBeAlreadyRenamed = false
 
@@ -27,4 +23,4 @@ local RenameAllItems = function(player, context, items)
   end
 end
 
-Events.OnFillInventoryObjectContextMenu.Add(RenameAllItems);
+return renameAllItems
