@@ -1,15 +1,15 @@
 module Casualoid {
-  item StorageUpgrade
+  item ContainerUpgrade
   {
     DisplayCategory = Material,
     Type = Normal,
-    DisplayName = Storage Upgrade,
-    Icon = StorageUpgrade,
+    DisplayName = Container Upgrade,
+    Icon = ContainerUpgrade,
     Weight = 0,
-    Tooltip = Tooltip_item_StorageUpgrade,
+    Tooltip = Tooltip_item_ContainerUpgrade,
   }
 
-  recipe Create Storage Upgrade
+  recipe Create Container Upgrade
   {
     keep [Recipe.GetItemTypes.Saw],
     keep [Recipe.GetItemTypes.Hammer],
@@ -21,18 +21,18 @@ module Casualoid {
     SkillRequired:Woodwork=3,
     XP:Woodwork=3,
 
-    OnCreate:OnCreate_CreateStorageUpgrade,
-    OnCanPerform: OnCanPerform_CanCraftStorageUpgrade,
-    Result:StorageUpgrade,
+    OnCreate:OnCreate_CreateContainerUpgrade,
+    OnCanPerform: OnCanPerform_CanCraftContainerUpgrade,
+    Result:ContainerUpgrade,
 
     Sound:Hammering,
     AnimNode:BuildLow,
     Prop1:Hammer,
   }
 
-  recipe Improve "Storage Upgrade"
+  recipe Improve "Container Upgrade"
   {
-    Casualoid.StorageUpgrade=1,
+    Casualoid.ContainerUpgrade=1,
 
     keep [Recipe.GetItemTypes.Saw],
     keep [Recipe.GetItemTypes.Hammer],
@@ -44,9 +44,9 @@ module Casualoid {
     SkillRequired:Woodwork=3,
     XP:Woodwork=3,
 
-    OnCreate:OnCreate_ImproveStorageUpgrade,
-    OnCanPerform: OnCanPerform_CanCraftStorageUpgrade,
-    Result:StorageUpgrade,
+    OnCreate:OnCreate_ImproveContainerUpgrade,
+    OnCanPerform: OnCanPerform_CanCraftContainerUpgrade,
+    Result:ContainerUpgrade,
 
     Sound:Hammering,
     AnimNode:BuildLow,
@@ -54,7 +54,7 @@ module Casualoid {
   }
 
   /** 
-  recipe Metalworking: Storage Upgrade
+  recipe Metalworking: Container Upgrade
   {
     Base.MetalPipe=2,
     Base.SmallSheetMetal=2,
@@ -70,7 +70,7 @@ module Casualoid {
     SkillRequired:MetalWelding=4,
     XP:MetalWelding=20,
 
-    Result:StorageUpgrade,
+    Result:ContainerUpgrade,
   }
   **/
 }

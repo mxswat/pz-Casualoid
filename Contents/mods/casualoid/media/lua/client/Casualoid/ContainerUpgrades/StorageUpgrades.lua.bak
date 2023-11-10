@@ -1,13 +1,13 @@
 local function getBaseWeight()
-  return SandboxVars.Casualoid.StorageUpgradeBaseWeight
+  return SandboxVars.Casualoid.ContainerUpgradeBaseWeight
 end
 
 local function getImprovementMultiplier()
-  return SandboxVars.Casualoid.StorageImprovementMultiplier
+  return SandboxVars.Casualoid.ContainerImprovementMultiplier
 end
 
-function OnCanPerform_CanCraftStorageUpgrade()
-  return SandboxVars.Casualoid.CanCraftStorageUpgrade == true
+function OnCanPerform_CanCraftContainerUpgrade()
+  return SandboxVars.Casualoid.CanCraftContainerUpgrade == true
 end
 
 local function getItemUpgradeData(item)
@@ -28,7 +28,7 @@ end
 local getUpgradeItem = function(inputItems)
   for i = 0, (inputItems:size() - 1) do
     local item = inputItems:get(i);
-    if item:getType() == 'StorageUpgrade' then
+    if item:getType() == 'ContainerUpgrade' then
       return item
     end
   end
@@ -36,12 +36,12 @@ local getUpgradeItem = function(inputItems)
   return nil
 end
 
-function OnCreate_CreateStorageUpgrade(inputItems, resultItem, player)
-  resultItem:setName("Storage Upgrade " .. getBaseWeight() .. "kg");
+function OnCreate_CreateContainerUpgrade(inputItems, resultItem, player)
+  resultItem:setName("Container Upgrade " .. getBaseWeight() .. "kg");
   resultItem:setCustomName(true);
 end
 
-function OnCreate_ImproveStorageUpgrade(inputItems, resultItem, player)
+function OnCreate_ImproveContainerUpgrade(inputItems, resultItem, player)
   local inputItem = getUpgradeItem(inputItems)
 
   if not inputItem then
@@ -55,7 +55,7 @@ function OnCreate_ImproveStorageUpgrade(inputItems, resultItem, player)
 
   setItemUpgradeData(resultItem, newWeight, upgradeData.weightUpgradeCount + 1)
 
-  resultItem:setName("Storage Upgrade " .. newWeight .. "kg");
+  resultItem:setName("Container Upgrade " .. newWeight .. "kg");
   resultItem:setCustomName(true);
 end
 
@@ -70,8 +70,8 @@ local old_ISInventoryTransferAction_isValid = ISInventoryTransferAction.isValid
 function ISInventoryTransferAction:isValid()
   local result = old_ISInventoryTransferAction_isValid(self)
 
-  if self.item:getType() == "StorageUpgrade" and self.destContainer:getSourceGrid() and self.destContainer:contains("Casualoid.StorageUpgrade") then
-    local text = "Only one storage upgrade is allowed per container"
+  if self.item:getType() == "ContainerUpgrade" and self.destContainer:getSourceGrid() and self.destContainer:contains("Casualoid.ContainerUpgrade") then
+    local text = "Only one container upgrade is allowed per container"
 		HaloTextHelper.addText(self.character, text, HaloTextHelper.getColorRed())
     return false
   end
@@ -89,7 +89,7 @@ local onRefreshInventoryWindowContainers = function(self, state)
   -- 50 is the default value coming from ItemContainer.java => public int Capacity = 50;
   local containerCapacity = tonumber(inventory:getParent():getSprite():getProperties():Val("ContainerCapacity") or 50)
 
-  local upgradeItem = inventory:FindAndReturn("Casualoid.StorageUpgrade")
+  local upgradeItem = inventory:FindAndReturn("Casualoid.ContainerUpgrade")
   if not upgradeItem then
     inventory:setCapacity(containerCapacity)
     self.capacity = containerCapacity

@@ -1,40 +1,66 @@
 local Debug = require("Casualoid/Debug")
 
----@param playerIndex int
----@param context ISContextMenu
----@param worldObjects table
-local function contextMenu(playerIndex, context, worldObjects)
-  local player = getSpecificPlayer(playerIndex)
+local containerUpgradeIcon = getTexture("media/textures/Item_ContainerUpgrade.png")
 
-  ---@type table<string, IsoObject>
-  local validObjects = {};
-  local hasValidObjects = false;
+---@param context ISContextMenu
+---@param player IsoPlayer
+local function createUpgradeOption(context, player)
+  local option = context:addOption(getText("ContextMenu_UpgradeContainer"), player, nil);
+  option.iconTexture = containerUpgradeIcon;
+  return option
+end
+
+---@param worldObjects table
+---@return table<string, IsoObject>
+local function extractValidObjects(worldObjects)
+  local validObjects = {}
+
   for _, object in ipairs(worldObjects) do
-    local square = object:getSquare();
+    local square = object:getSquare()
+
     if square then
-      local moveProps = ISMoveableSpriteProps.fromObject(object);
+      local moveProps = ISMoveableSpriteProps.fromObject(object)
 
       if moveProps and object:getContainerCount() == 1 then
-        local getContainerCount = object:getContainerCount()
-        Debug:print(tostring(object), getContainerCount)
-        validObjects[tostring(object)] = object;
-        hasValidObjects = true
+        validObjects[tostring(object)] = object
       end
     end
   end
 
-  if not hasValidObjects then
+  return validObjects
+end
+
+---@param playerIndex int
+---@param context ISContextMenu
+---@param worldObjects table
+local function upgradeContextMenu(playerIndex, context, worldObjects)
+  local player = getSpecificPlayer(playerIndex)
+
+  if not player:getInventory():FindAndReturn("Casualoid.ContainerUpgrade") then
+    local option = createUpgradeOption(context, player)
+    option.notAvailable = true
+
+    local tooltip = ISInventoryPaneContextMenu.addToolTip();
+    tooltip.description = getText("ContextMenu_MissingUpgradeContainerItem");
+    option.toolTip = tooltip;
     return
   end
 
-  local disassembleMenu = context:addOption(getText("ContextMenu_UpgradeContainer"), player, nil);
+  local validObjects = extractValidObjects(worldObjects)
+
+  Debug:print('validObjects:', Debug:printTable(validObjects))
+
+  if table.isempty(validObjects) then
+    return
+  end
+
+  local upgradeOption = createUpgradeOption(context, player)
   local subMenu = context:getNew(context);
-  context:addSubMenu(disassembleMenu, subMenu);
+  context:addSubMenu(upgradeOption, subMenu);
 
   local color = getCore():getGoodHighlitedColor();
 
   for _, object in pairs(validObjects) do
-    -- local object = object
     local objName = object:getName() or object:getProperties():Val("CustomName") or "Unknown Object (Unnamed)"
 
     local option = subMenu:addOption(Translator.getMoveableDisplayName(objName), {}, function() end, object);
@@ -67,6 +93,4 @@ local function contextMenu(playerIndex, context, worldObjects)
   end
 end
 
-Events.OnFillWorldObjectContextMenu.Add(contextMenu)
-
-return contextMenu
+return upgradeContextMenu

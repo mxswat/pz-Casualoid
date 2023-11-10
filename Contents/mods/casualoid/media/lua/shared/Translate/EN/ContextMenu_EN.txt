@@ -1,0 +1,4 @@
+ContextMenu_EN = {	
+	ContextMenu_UpgradeContainer = "Upgrade Container",
+	ContextMenu_MissingUpgradeContainerItem = "Missing Upgrade Item",
+}
