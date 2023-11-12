@@ -1,60 +1,43 @@
 module Casualoid {
-  item ContainerUpgrade
+  item WoodenContainerUpgrade
   {
     DisplayCategory = Material,
     Type = Normal,
-    DisplayName = Container Upgrade,
+    DisplayName = Wooden Container Upgrade,
     Icon = ContainerUpgrade,
     Weight = 0,
     Tooltip = Tooltip_item_ContainerUpgrade,
   }
 
-  recipe Create Container Upgrade
+  recipe Create Wooden Container Upgrade
   {
-    keep [Recipe.GetItemTypes.Saw],
     keep [Recipe.GetItemTypes.Hammer],
-    Base.Nails=5,
-    Base.Plank=5,
+    Base.Nails=3,
+    Base.Plank=3,
 
     Time:300.0,
-    Category:Carpentry,
+    Category:ContainerUpgrades,
     SkillRequired:Woodwork=3,
     XP:Woodwork=3,
 
-    OnCreate:OnCreate_CreateContainerUpgrade,
-    OnCanPerform: OnCanPerform_CanCraftContainerUpgrade,
-    Result:ContainerUpgrade,
+    Result:WoodenContainerUpgrade,
 
     Sound:Hammering,
     AnimNode:BuildLow,
     Prop1:Hammer,
   }
 
-  recipe Improve "Container Upgrade"
+  item MetalContainerUpgrade
   {
-    Casualoid.ContainerUpgrade=1,
-
-    keep [Recipe.GetItemTypes.Saw],
-    keep [Recipe.GetItemTypes.Hammer],
-    Base.Plank=5,
-    Base.Nails=5,
-
-    Time:300.0,
-    Category:Carpentry,
-    SkillRequired:Woodwork=3,
-    XP:Woodwork=3,
-
-    OnCreate:OnCreate_ImproveContainerUpgrade,
-    OnCanPerform: OnCanPerform_CanCraftContainerUpgrade,
-    Result:ContainerUpgrade,
-
-    Sound:Hammering,
-    AnimNode:BuildLow,
-    Prop1:Hammer,
+    DisplayCategory = Material,
+    Type = Normal,
+    DisplayName = Metal Container Upgrade,
+    Icon = ContainerUpgrade,
+    Weight = 0,
+    Tooltip = Tooltip_item_ContainerUpgrade,
   }
 
-  /** 
-  recipe Metalworking: Container Upgrade
+  recipe Create Metal Container Upgrade
   {
     Base.MetalPipe=2,
     Base.SmallSheetMetal=2,
@@ -64,13 +47,14 @@ module Casualoid {
     keep [Recipe.GetItemTypes.WeldingMask],
 
     Sound:PutItemInBag,
-    Time:250.0,
-    AnimNode:Disassemble,
-    Category:Carpentry,
+    Time:300.0,
+    Category:ContainerUpgrades,
     SkillRequired:MetalWelding=4,
     XP:MetalWelding=20,
 
-    Result:ContainerUpgrade,
+    Result:MetalContainerUpgrade,
+    AnimNode:BlowTorchFloor,
+    Prop1:BlowTorch,
   }
-  **/
+
 }
