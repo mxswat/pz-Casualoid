@@ -1,14 +1,14 @@
 local Debug = require("Casualoid/Debug")
 local HookableToolTip = require("MxUtilities/HookableTooltip")
-
+local applyUpgradeToObjectContainer = require("Casualoid/ContainerUpgrades/applyUpgradeToObjectContainer")
 local getContainerUpgradeInfoTable = require("Casualoid/ContainerUpgrades/getContainerUpgradeInfoTable")
 
 local containerUpgradeIcon = getTexture("media/textures/Item_ContainerUpgrade.png")
 
 ---@class UpgradeContainerContextMenu
 UpgradeContainerContextMenu = {
-  hasWoodenUpgrade = false, ---@type boolean
-  hasMetalUpgrade = false ---@type boolean
+  woodenUpgrade = nil, ---@type InventoryItem|nil
+  metalUpgrade = nil ---@type InventoryItem|nil
 }
 
 ---@param moveProps ISMoveableSpriteProps
@@ -51,8 +51,8 @@ function UpgradeContainerContextMenu:extractValidMoveProps(worldObjects)
       local moveProps = ISMoveableSpriteProps.fromObject(object)
 
       if moveProps and object:getContainerCount() > 0 then
-        moveProps.hasWoodenUpgrade = self.hasWoodenUpgrade
-        moveProps.hasMetalUpgrade = self.hasMetalUpgrade
+        moveProps.hasWoodenUpgrade = self.woodenUpgrade
+        moveProps.hasMetalUpgrade = self.metalUpgrade
         validObjects[tostring(object)] = moveProps
       end
     end
@@ -62,8 +62,15 @@ function UpgradeContainerContextMenu:extractValidMoveProps(worldObjects)
 end
 
 ---@param moveProps ISMoveableSpriteProps
----@return ISToolTip
-function UpgradeContainerContextMenu:createUpgradeToolTip(moveProps)
+---@param upgradeItem InventoryItem
+---@return ISToolTip,boolean
+function UpgradeContainerContextMenu:createUpgradeToolTip(moveProps, upgradeItem)
+  if not upgradeItem then
+    local tooltip = ISInventoryPaneContextMenu.addToolTip()
+    tooltip.description = getText("ContextMenu_MissingUpgradeContainerItem")
+    return tooltip, true
+  end
+
   local tooltipFont = ISToolTip.GetFont()
 
   local toolTip = self:createHightlightToolTip(moveProps, true)
@@ -71,12 +78,14 @@ function UpgradeContainerContextMenu:createUpgradeToolTip(moveProps)
   toolTip:setVisible(false)
   toolTip:setTexture(moveProps.object:getSprite():getName())
 
-  local infoTable = getContainerUpgradeInfoTable(moveProps)
+  local infoTable = getContainerUpgradeInfoTable(moveProps, upgradeItem)
 
   local column2 = 0
   for _, t1 in ipairs(infoTable) do
     if #t1 == 2 then
-      local textWid = getTextManager():MeasureStringX(tooltipFont, t1[1])
+      -- removes Text Between Angle Brackets, including the spaces
+      local sanitized = t1[1]:gsub("%s*<%s*.-%s*>%s*", "")
+      local textWid = getTextManager():MeasureStringX(tooltipFont, sanitized)
       column2 = math.max(column2, textWid + 10)
     end
   end
@@ -89,7 +98,7 @@ function UpgradeContainerContextMenu:createUpgradeToolTip(moveProps)
     toolTip.description = toolTip.description .. " <LINE> <INDENT:0> "
   end
 
-  return toolTip
+  return toolTip, false
 end
 
 ---@param subMenuContext table
@@ -98,12 +107,12 @@ end
 function UpgradeContainerContextMenu:createUpgradableObjectMenu(subMenuContext, moveProps)
   local object = moveProps.object
   local objName = moveProps.name or "Unknown Object (Unnamed)"
-  local objectOption = subMenuContext:addOption(Translator.getMoveableDisplayName(objName), object, function() end)
+  local objectOption = subMenuContext:addOption(Translator.getMoveableDisplayName(objName), nil, nil)
 
   local toolTip = self:createHightlightToolTip(moveProps)
   toolTip:initialise()
   toolTip:setVisible(false)
-  
+
   objectOption.toolTip = toolTip
 
   local upgradeObjectMenuContext = ISContextMenu:getNew(subMenuContext)
@@ -118,18 +127,8 @@ end
 function UpgradeContainerContextMenu:renderContextMenu(playerIndex, context, worldObjects)
   local player = getSpecificPlayer(playerIndex)
 
-  self.hasWoodenUpgrade = not not player:getInventory():FindAndReturn("Casualoid.WoodenContainerUpgrade")
-  self.hasMetalUpgrade = not not player:getInventory():FindAndReturn("Casualoid.MetalContainerUpgrade")
-
-  if not self.hasWoodenUpgrade and not self.hasMetalUpgrade then
-    local option = self:createUpgradeContainerMenu(context)
-    option.notAvailable = true
-
-    local tooltip = ISInventoryPaneContextMenu.addToolTip()
-    tooltip.description = getText("ContextMenu_MissingUpgradeContainerItem")
-    option.toolTip = tooltip
-    return
-  end
+  self.woodenUpgrade = player:getInventory():FindAndReturn("Casualoid.WoodenContainerUpgrade")
+  self.metalUpgrade = player:getInventory():FindAndReturn("Casualoid.MetalContainerUpgrade")
 
   local validProps = self:extractValidMoveProps(worldObjects)
 
@@ -145,15 +144,15 @@ function UpgradeContainerContextMenu:renderContextMenu(playerIndex, context, wor
     local upgradeObjectOption, upgradeObjectMenuContext = self:createUpgradableObjectMenu(upgradeMenuContext,
       moveProps)
 
-    if self.hasWoodenUpgrade then
-      local woodenOption = upgradeObjectMenuContext:addOption("Wooden Upgrade", nil, nil);
-      woodenOption.toolTip = self:createUpgradeToolTip(moveProps)
-    end
+    local woodenOption = upgradeObjectMenuContext:addOption("Wooden Upgrade", moveProps.object, applyUpgradeToObjectContainer, self.woodenUpgrade);
+    local woodenToolTip, woodenNotAvailable = self:createUpgradeToolTip(moveProps, self.woodenUpgrade)
+    woodenOption.toolTip = woodenToolTip
+    woodenOption.notAvailable = woodenNotAvailable
 
-    if self.hasMetalUpgrade then
-      local metalOption = upgradeObjectMenuContext:addOption("Metal Upgrade", nil, nil);
-      metalOption.toolTip = self:createUpgradeToolTip(moveProps)
-    end
+    local metalOption = upgradeObjectMenuContext:addOption("Metal Upgrade", moveProps.object, applyUpgradeToObjectContainer, self.metalUpgrade);
+    local metalToolTip, metalNotAvailable = self:createUpgradeToolTip(moveProps, self.metalUpgrade)
+    metalOption.toolTip = metalToolTip
+    metalOption.notAvailable = metalNotAvailable
   end
 end
 

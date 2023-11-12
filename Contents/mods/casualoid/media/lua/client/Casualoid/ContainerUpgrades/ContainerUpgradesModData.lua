@@ -1,24 +1,24 @@
 local getSpriteBaseCapacity = require "Casualoid/ContainerUpgrades/getSpriteBaseCapacity"
 
---- @class CUModData
+--- @class ContainerUpgradesModData
 --- @field capacityUpgrade number
 
 local modDataKey = 'ContainerUpgrades'
 local ContainerUpgradesModData = {}
 
 ---@param object IsoObject
----@return CUModData
-function ContainerUpgradesModData:getUpgradeModData(object)
-  object:getModData()[modDataKey] = object:getModData()[modDataKey] or self:getUpgradeDefaultModData(object)
+---@return ContainerUpgradesModData
+function ContainerUpgradesModData:get(object)
+  object:getModData()[modDataKey] = object:getModData()[modDataKey] or self:getDefault(object)
 
   return object:getModData()[modDataKey]
 end
 
 ---@param object IsoObject
----@return CUModData
-function ContainerUpgradesModData:getUpgradeDefaultModData(object)
+---@return ContainerUpgradesModData
+function ContainerUpgradesModData:getDefault(object)
   return {
-    capacityUpgrade = getSpriteBaseCapacity(object:getSprite()),
+    capacityUpgrade = 0,
   }
 end
 
