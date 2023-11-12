@@ -143,12 +143,12 @@ function UpgradeContainerContextMenu:renderContextMenu(playerIndex, context, wor
 
     if self.hasWoodenUpgrade then
       local woodenOption = upgradeObjectMenuContext:addOption("Wooden Upgrade", nil, nil);
-      woodenOption.toolTip = self:createUpgradeToolTip(upgradeMenuContext, moveProps)
+      woodenOption.toolTip = self:createUpgradeToolTip(upgradeObjectMenuContext, moveProps)
     end
 
     if self.hasMetalUpgrade then
       local metalOption = upgradeObjectMenuContext:addOption("Metal Upgrade", nil, nil);
-      metalOption.toolTip = self:createUpgradeToolTip(upgradeMenuContext, moveProps)
+      metalOption.toolTip = self:createUpgradeToolTip(upgradeObjectMenuContext, moveProps)
     end
   end
 end
