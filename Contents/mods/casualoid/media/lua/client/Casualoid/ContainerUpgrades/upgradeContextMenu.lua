@@ -1,12 +1,13 @@
-local Debug = require("Casualoid/Debug")
-local HookableToolTip = require("MxUtilities/HookableTooltip")
+local Debug                         = require("Casualoid/Debug")
+local HookableToolTip               = require("MxUtilities/HookableTooltip")
 local applyUpgradeToObjectContainer = require("Casualoid/ContainerUpgrades/applyUpgradeToObjectContainer")
-local getContainerUpgradeInfoTable = require("Casualoid/ContainerUpgrades/getContainerUpgradeInfoTable")
+local getContainerUpgradeInfoTable  = require("Casualoid/ContainerUpgrades/getContainerUpgradeInfoTable")
+local UpgradeContainerAction        = require("Casualoid/ContainerUpgrades/UpgradeContainerAction")
 
-local containerUpgradeIcon = getTexture("media/textures/Item_ContainerUpgrade.png")
+local containerUpgradeIcon          = getTexture("media/textures/Item_ContainerUpgrade.png")
 
 ---@class UpgradeContainerContextMenu
-UpgradeContainerContextMenu = {
+UpgradeContainerContextMenu         = {
   woodenUpgrade = nil, ---@type InventoryItem|nil
   metalUpgrade = nil ---@type InventoryItem|nil
 }
@@ -144,15 +145,29 @@ function UpgradeContainerContextMenu:renderContextMenu(playerIndex, context, wor
     local upgradeObjectOption, upgradeObjectMenuContext = self:createUpgradableObjectMenu(upgradeMenuContext,
       moveProps)
 
-    local woodenOption = upgradeObjectMenuContext:addOption("Wooden Upgrade", moveProps.object, applyUpgradeToObjectContainer, self.woodenUpgrade);
+    local function upgradeAction(upgradeItem)
+      local adjacent = AdjacentFreeTileFinder.Find(moveProps.object:getSquare(), player)
+      if adjacent ~= nil then
+        ISTimedActionQueue.add(ISWalkToTimedAction:new(player, adjacent))
+      end
+      return ISTimedActionQueue.add(UpgradeContainerAction:new(player, moveProps.object, upgradeItem))
+    end
+
+    local woodenOption = upgradeObjectMenuContext:addOption("Wooden Upgrade", self.woodenUpgrade, upgradeAction);
     local woodenToolTip, woodenNotAvailable = self:createUpgradeToolTip(moveProps, self.woodenUpgrade)
     woodenOption.toolTip = woodenToolTip
     woodenOption.notAvailable = woodenNotAvailable
 
-    local metalOption = upgradeObjectMenuContext:addOption("Metal Upgrade", moveProps.object, applyUpgradeToObjectContainer, self.metalUpgrade);
+    local metalOption = upgradeObjectMenuContext:addOption("Metal Upgrade", self.metalUpgrade, upgradeAction);
     local metalToolTip, metalNotAvailable = self:createUpgradeToolTip(moveProps, self.metalUpgrade)
     metalOption.toolTip = metalToolTip
     metalOption.notAvailable = metalNotAvailable
+
+    --- Add show info option
+    -- local woodenOption = upgradeObjectMenuContext:addOption("Wooden Upgrade", self.woodenUpgrade, upgradeAction);
+    -- local woodenToolTip, woodenNotAvailable = self:createUpgradeToolTip(moveProps, self.woodenUpgrade)
+    -- woodenOption.toolTip = woodenToolTip
+    -- woodenOption.notAvailable = woodenNotAvailable
   end
 end
 
