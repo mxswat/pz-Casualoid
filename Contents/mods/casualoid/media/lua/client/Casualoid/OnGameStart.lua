@@ -4,6 +4,7 @@ local DisassembleWithItems = require "Casualoid/DisassembleWithItems"
 local renameAllItems = require "Casualoid/renameAllItems"
 local disableMxMagazines = require "Casualoid/MxMagazines/disableMxMagazines"
 local UpgradeContainerContextMenu = require "Casualoid/ContainerUpgrades/UpgradeContextMenu"
+local onRefreshInventoryWindowContainers = require "Casualoid/ContainerUpgrades/OnRefreshInventoryWindowContainers"
 
 local function initCasualoidHooks()
   Debug:print('Initalizing Casualoid Hooks')
@@ -21,6 +22,7 @@ local function initCasualoidHooks()
 
   if SandboxVars.Casualoid.EnableContainerUpgrades then
     Events.OnFillWorldObjectContextMenu.Add(UpgradeContainerContextMenu.onFillWorldObjectContextMenu)
+    Events.OnRefreshInventoryWindowContainers.Add(onRefreshInventoryWindowContainers)
   end
 end
 

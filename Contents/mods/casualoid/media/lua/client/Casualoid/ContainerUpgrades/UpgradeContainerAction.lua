@@ -44,16 +44,19 @@ function UpgradeContainerAction:perform()
   local container = self.upgradeItem:getContainer()
   container:DoRemoveItem(self.upgradeItem)
 
-  -- if isClient() then
-  --   self.object:transmitModData()
-  --   local sin = self.object:getObjectIndex()
-  --   local dobrexd = self.object:getSquare()
-  --   local sx = dobrexd:getX()
-  --   local sy = dobrexd:getY()
-  --   local sz = dobrexd:getZ()
-  --   sendClientCommand(self.character, "KAMER_RepairWall", "updateHealth",
-  --     { kamerSin = sin, kamerX = sx, kamerY = sy, kamerZ = sz, kamerLv = addLV });
-  -- end
+
+  ISInventoryPage.dirtyUI()
+
+  if isClient() then
+    self.object:transmitModData()
+    -- local sin = self.object:getObjectIndex()
+    -- local dobrexd = self.object:getSquare()
+    -- local sx = dobrexd:getX()
+    -- local sy = dobrexd:getY()
+    -- local sz = dobrexd:getZ()
+    -- sendClientCommand(self.character, "KAMER_RepairWall", "updateHealth",
+    --   { kamerSin = sin, kamerX = sx, kamerY = sy, kamerZ = sz, kamerLv = addLV });
+  end
   ISBaseTimedAction.perform(self);
 end
 
