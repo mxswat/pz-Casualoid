@@ -1,6 +1,5 @@
 local Debug                         = require("Casualoid/Debug")
 local HookableToolTip               = require("MxUtilities/HookableTooltip")
-local applyUpgradeToObjectContainer = require("Casualoid/ContainerUpgrades/applyUpgradeToObjectContainer")
 local getContainerUpgradeInfoTable  = require("Casualoid/ContainerUpgrades/getContainerUpgradeInfoTable")
 local UpgradeContainerAction        = require("Casualoid/ContainerUpgrades/UpgradeContainerAction")
 

@@ -49,13 +49,14 @@ function UpgradeContainerAction:perform()
 
   if isClient() then
     self.object:transmitModData()
-    -- local sin = self.object:getObjectIndex()
-    -- local dobrexd = self.object:getSquare()
-    -- local sx = dobrexd:getX()
-    -- local sy = dobrexd:getY()
-    -- local sz = dobrexd:getZ()
-    -- sendClientCommand(self.character, "KAMER_RepairWall", "updateHealth",
-    --   { kamerSin = sin, kamerX = sx, kamerY = sy, kamerZ = sz, kamerLv = addLV });
+    local square = self.object:getSquare()
+
+    local args = {
+      x = square:getX(),
+      y = square:getY(),
+      z = square:getZ(),
+    }
+    sendClientCommand(self.character, "Casualoid", "broadcastContainerUpgrade", args);
   end
   ISBaseTimedAction.perform(self);
 end
