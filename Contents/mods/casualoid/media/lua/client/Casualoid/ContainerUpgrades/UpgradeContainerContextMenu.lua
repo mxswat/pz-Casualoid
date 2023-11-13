@@ -78,7 +78,9 @@ function UpgradeContainerContextMenu:createUpgradeToolTip(moveProps, upgradeItem
   toolTip:setVisible(false)
   toolTip:setTexture(moveProps.object:getSprite():getName())
 
-  local infoTable = getContainerUpgradeInfoTable(moveProps, upgradeItem)
+  local infoTable, infoData = getContainerUpgradeInfoTable(moveProps, upgradeItem)
+
+  local disableOption = infoData.upgradedCapacity > infoData.maxCapacity
 
   local column2 = 0
   for _, t1 in ipairs(infoTable) do
@@ -98,7 +100,7 @@ function UpgradeContainerContextMenu:createUpgradeToolTip(moveProps, upgradeItem
     toolTip.description = toolTip.description .. " <LINE> <INDENT:0> "
   end
 
-  return toolTip, false
+  return toolTip, disableOption
 end
 
 ---@param subMenuContext table

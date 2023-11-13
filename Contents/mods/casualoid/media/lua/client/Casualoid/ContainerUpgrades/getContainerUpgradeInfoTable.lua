@@ -4,9 +4,8 @@ local getCapacityUpgrade       = require "Casualoid/ContainerUpgrades/getCapacit
 
 ---@param moveProps ISMoveableSpriteProps
 ---@param upgradeItem InventoryItem
----@return string[][]
 local function getContainerUpgradeInfoTable(moveProps, upgradeItem)
-  local capacity = getSpriteBaseCapacity(moveProps.sprite)
+  local baseCapacity = getSpriteBaseCapacity(moveProps.sprite)
 
   -- local containerType = moveProps.object:getContainerByIndex(0):getType()
 
@@ -14,17 +13,29 @@ local function getContainerUpgradeInfoTable(moveProps, upgradeItem)
 
   local newCapacityUpgrade = getCapacityUpgrade(upgradeItem)
 
+  local currentCapacity = baseCapacity + capacityUpgrade.capacityUpgrade
+  local upgradedCapacity = currentCapacity + newCapacityUpgrade
+  local maxCapacity = SandboxVars.Casualoid.ContainerUpgradeMaxCapacity
+
+  local data = {
+    currentCapacity = currentCapacity,
+    upgradedCapacity = upgradedCapacity,
+    maxCapacity = maxCapacity,
+  }
+
+  local maxCapacityColor = upgradedCapacity > maxCapacity and ' <RGB:1,0,0> ' or ' <RGB:1,1,1> '
+
   local info = {
     { moveProps.name },
     -- { 'Container Name:',   getTextOrNull("IGUI_ContainerTitle_" .. containerType) },
     { '' },
-    { 'Base Capacity:',     capacity },
-    { ' <RGB:1,1,0> Current Capacity:',  capacity + capacityUpgrade.capacityUpgrade },
-    { '' },
-    { ' <RGB:0,1,0> Upgraded Capacity:', capacity + capacityUpgrade.capacityUpgrade + newCapacityUpgrade },
+    { 'Base Capacity:',                           baseCapacity },
+    { ' <RGB:1,1,0> Current Capacity:',           currentCapacity },
+    { ' <RGB:0,1,0> Upgraded Capacity:',          upgradedCapacity },
+    { maxCapacityColor .. 'Max Upgraded Capacity:', maxCapacity },
   }
 
-  return info
+  return info, data
 end
 
 return getContainerUpgradeInfoTable

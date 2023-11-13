@@ -1,1 +1,7 @@
 Investigate "media\scripts\multistagebuild.txt" Maybe this can be used to upgrade tiles capacity ?
+
+
+-- Add recipe requirement sandbox option?
+-- https://discord.com/channels/136501320340209664/232196827577974784/1093160430966415491
+-- recipe:getSource():get(0):setCount(amount)
+-- Bigger example here: https://discord.com/channels/136501320340209664/232196827577974784/1012771329533022339

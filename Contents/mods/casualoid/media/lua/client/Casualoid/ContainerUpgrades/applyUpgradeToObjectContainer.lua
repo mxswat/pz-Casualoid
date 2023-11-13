@@ -9,7 +9,8 @@ local function applyUpgradeToObjectContainer(object, upgradeItem)
 
   local capacityUpgrade = getCapacityUpgrade(upgradeItem)
 
-  modData.capacityUpgrade = modData.capacityUpgrade + capacityUpgrade
+  modData.capacityUpgrade =
+      Math.min(modData.capacityUpgrade + capacityUpgrade, SandboxVars.Casualoid.ContainerUpgradeMaxCapacity)
 
   Debug:printTable(modData)
 end
