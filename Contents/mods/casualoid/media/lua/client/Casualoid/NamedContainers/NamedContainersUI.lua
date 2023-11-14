@@ -8,52 +8,7 @@ local tempWidth = 100
 ---@class NamedContainersUI: ISInventoryPage
 local NamedContainersUI = {}
 
-function NamedContainersUI:createChildren()
-  Debug:print('NamedContainersUI:createChildren', 'self.onCharacter', self.onCharacter)
-  self.inventoryPane:setWidth(self.width - tempWidth)
-end
-
-function NamedContainersUI:addContainerButton(container, texture, name, tooltip)
-  ---@type ISButton
-  local button = Hooks:GetReturn()
-  button:setY(button:getY() + self.buttonSize)
-end
-
-function NamedContainersUI:onResizeIconsColumn()
-  self.inventoryPane:setWidth(self.iconsHeader.x - 1)
-end
-
-local old_drawRectBorder = ISInventoryPage.drawRectBorder
-function ISInventoryPage.drawRectBorder(self, x, y, w, h, ...)
-  -- Intecepts the "Draw backpack border over backpacks"
-  local titleBarHeight = self:titleBarHeight()
-  local height = self:getHeight();
-  if x == self:getWidth() - self.buttonSize
-      and y == titleBarHeight - 1
-      and w == self.buttonSize
-      and h == height - titleBarHeight - 7
-  then
-    x = self:getWidth() - tempWidth
-    w = tempWidth
-  end
-
-  return old_drawRectBorder(self, x, y, w, h, ...)
-end
-
-function NamedContainersUI:render()
-  if not self.iconsHeader then
-    return
-  end
-  local resize = self.iconsHeader.mouseOverResize or self.iconsHeader.resizing
-
-  if resize then
-    local height = self.inventoryPane:getHeight()
-    self:repaintStencilRect(self.inventoryPane:getRight() + 1, self.inventoryPane.y, 2, height)
-    self:drawRectStatic(self.inventoryPane:getRight() + 1, self.inventoryPane.y, 2, height, 0.5, 1, 1, 1)
-  end
-end
-
-function NamedContainersUI:refreshBackpacks()
+function NamedContainersUI.createIconHeader(self)
   if self.iconsHeader then
     self:removeChild(self.iconsHeader)
   end
@@ -75,8 +30,66 @@ function NamedContainersUI:refreshBackpacks()
   self:addChild(self.iconsHeader);
 end
 
+function NamedContainersUI:createChildren()
+  Debug:print('NamedContainersUI:createChildren', 'self.onCharacter', self.onCharacter)
+end
+
+function NamedContainersUI:addContainerButton()
+  ---@type ISButton
+  local button = Hooks:GetReturn()
+  button:setY(button:getY() + self.iconsHeader:getHeight())
+  button:setWidth(self.iconsHeader:getWidth())
+  button:setX(self.iconsHeader.x)
+end
+
+function NamedContainersUI.onResizeIconsColumn(self)
+  self.inventoryPane:setWidth(self.iconsHeader.x - 1)
+
+  ---@param button ISButton
+  for _, button in ipairs(self.backpacks) do
+    button:setWidth(self.iconsHeader:getWidth())
+    button:setX(self.iconsHeader.x)
+  end
+end
+
+local old_drawRectBorder = ISInventoryPage.drawRectBorder
+function ISInventoryPage.drawRectBorder(self, x, y, w, h, ...)
+  -- Intecepts the "Draw backpack border over backpacks"
+  local titleBarHeight = self:titleBarHeight()
+  local height = self:getHeight();
+  if x == self:getWidth() - self.buttonSize
+      and y == titleBarHeight - 1
+      and w == self.buttonSize
+      and h == height - titleBarHeight - 7
+  then
+    x = self:getWidth() - self.iconsHeader:getWidth()
+    w = self.iconsHeader:getWidth()
+  end
+
+  return old_drawRectBorder(self, x, y, w, h, ...)
+end
+
+function NamedContainersUI:refreshBackpacks()
+  NamedContainersUI.onResizeIconsColumn(self)
+end
+
+function NamedContainersUI:render()
+  if not self.iconsHeader then
+    return
+  end
+  local resize = self.iconsHeader.mouseOverResize or self.iconsHeader.resizing
+
+  if resize then
+    local height = self.inventoryPane:getHeight()
+    self:repaintStencilRect(self.inventoryPane:getRight() + 1, self.inventoryPane.y, 2, height)
+    self:drawRectStatic(self.inventoryPane:getRight() + 1, self.inventoryPane.y, 2, height, 0.5, 1, 1, 1)
+  end
+end
+
 Events.OnRefreshInventoryWindowContainers.Add(function(self, reason)
-  if reason ~= "buttonsAdded" then return end
+  if reason ~= "begin" then return end
+
+  NamedContainersUI.createIconHeader(self)
 end)
 
 Hooks:PostHooksFromTable(ISInventoryPage, NamedContainersUI, 'NamedContainersUI')
