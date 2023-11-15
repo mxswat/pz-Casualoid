@@ -3,31 +3,39 @@ require "ISUI/ISInventoryPage"
 local Hooks = require "MxUtilities/Hooks"
 local Debug = require("Casualoid/Debug")
 
-local tempWidth = 100
-
 ---@class NamedContainersUI: ISInventoryPage
 local NamedContainersUI = {}
 
-function NamedContainersUI.createIconHeader(self)
-  if self.iconsHeader then
-    self:removeChild(self.iconsHeader)
+function NamedContainersUI.saveSize(self)
+  -- save the data
+  local namedContainersUIdata = NamedContainersUI.getModData()
+  if self.onCharacter then
+    namedContainersUIdata.sizeCharacter = self.iconsHeader:getWidth()
+    return
+  end
+  namedContainersUIdata.sizeLoot = self.iconsHeader:getWidth()
+end
+
+
+function NamedContainersUI.getSavedSize(self)
+  local modData = NamedContainersUI.getModData()
+  if self.onCharacter then
+    return modData.sizeCharacter
   end
 
-  local x = self.width - tempWidth
-  local y = self:titleBarHeight()
-  local fontHgtSmall = getTextManager():getFontHeight(UIFont.Small)
-  self.iconsHeader = ISResizableButton:new(x, y, tempWidth, fontHgtSmall + 1, "~", self, function() end);
-  self.iconsHeader.borderColor.a = 0.2;
-  self.iconsHeader:setBackgroundRGBA(0.0, 0.0, 0.0, 0.0)
-  self.iconsHeader:setBackgroundColorMouseOverRGBA(0.3, 0.3, 0.3, 1.0)
-  self.iconsHeader:setTextureRGBA(1.0, 1.0, 1.0, 1.0)
-  self.iconsHeader.minimumWidth = self.buttonSize
-  self.iconsHeader.resizeLeft = true
-  self.iconsHeader.anchorRight = true
-  self.iconsHeader.maximumWidth = 200
-  self.iconsHeader:initialise();
-  self.iconsHeader.onresize = { NamedContainersUI.onResizeIconsColumn, self, self.iconsHeader }
-  self:addChild(self.iconsHeader);
+  return modData.sizeLoot
+end
+
+function NamedContainersUI.getModData()
+  ---@class NamedContainersUIModata
+  ---@field sizeLoot number
+  ---@field sizeCharacter number
+  local modData = ModData.getOrCreate('NamedContainersUI')
+
+  modData.sizeLoot = modData.sizeLoot or 100
+  modData.sizeCharacter = modData.sizeCharacter or 100
+
+  return modData
 end
 
 function NamedContainersUI:createChildren()
@@ -37,18 +45,26 @@ end
 function NamedContainersUI:addContainerButton()
   ---@type ISButton
   local button = Hooks:GetReturn()
-  button:setY(button:getY() + self.iconsHeader:getHeight())
+  button:setY(button:getY() + self.iconsHeader:getHeight() + 1)
   button:setWidth(self.iconsHeader:getWidth())
   button:setX(self.iconsHeader.x)
 end
 
-function NamedContainersUI.onResizeIconsColumn(self)
+function NamedContainersUI.onResizeIconsColumn(self, button)
   self.inventoryPane:setWidth(self.iconsHeader.x - 1)
 
   ---@param button ISButton
   for _, button in ipairs(self.backpacks) do
     button:setWidth(self.iconsHeader:getWidth())
     button:setX(self.iconsHeader.x)
+    button:setBorderRGBA(0.6, 0.6, 0.6, 0.5)
+    if button.inventory ~= self.inventory then
+      button:setBackgroundRGBA(0.1, 0.1, 0.1, 0.7)
+    end
+  end
+
+  if button then
+    NamedContainersUI.saveSize(self)
   end
 end
 
@@ -69,7 +85,30 @@ function ISInventoryPage.drawRectBorder(self, x, y, w, h, ...)
   return old_drawRectBorder(self, x, y, w, h, ...)
 end
 
-function NamedContainersUI:refreshBackpacks()
+local old_ISInventoryPage_refreshBackpacks = ISInventoryPage.refreshBackpacks
+function ISInventoryPage:refreshBackpacks()
+  if self.iconsHeader then
+    self:removeChild(self.iconsHeader)
+  end
+
+  local size = NamedContainersUI.getSavedSize(self)
+  local x = self.width - size
+  local y = self:titleBarHeight()
+  local fontHgtSmall = getTextManager():getFontHeight(UIFont.Small)
+  self.iconsHeader = ISResizableButton:new(x, y, size, fontHgtSmall + 1, "~");
+  self.iconsHeader.borderColor.a = 0.2;
+  self.iconsHeader:setBackgroundRGBA(0.0, 0.0, 0.0, 0.0)
+  self.iconsHeader:setBackgroundColorMouseOverRGBA(0.3, 0.3, 0.3, 1.0)
+  self.iconsHeader:setTextureRGBA(1.0, 1.0, 1.0, 1.0)
+  self.iconsHeader.minimumWidth = self.buttonSize
+  self.iconsHeader.resizeLeft = true
+  self.iconsHeader.anchorRight = true
+  self.iconsHeader.maximumWidth = 200
+  self.iconsHeader:initialise();
+  self.iconsHeader.onresize = { NamedContainersUI.onResizeIconsColumn, self, self.iconsHeader }
+  self:addChild(self.iconsHeader);
+
+  old_ISInventoryPage_refreshBackpacks(self)
   NamedContainersUI.onResizeIconsColumn(self)
 end
 
@@ -85,11 +124,5 @@ function NamedContainersUI:render()
     self:drawRectStatic(self.inventoryPane:getRight() + 1, self.inventoryPane.y, 2, height, 0.5, 1, 1, 1)
   end
 end
-
-Events.OnRefreshInventoryWindowContainers.Add(function(self, reason)
-  if reason ~= "begin" then return end
-
-  NamedContainersUI.createIconHeader(self)
-end)
 
 Hooks:PostHooksFromTable(ISInventoryPage, NamedContainersUI, 'NamedContainersUI')
