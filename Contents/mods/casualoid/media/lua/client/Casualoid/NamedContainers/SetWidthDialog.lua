@@ -3,7 +3,9 @@ local SetWidthDialog = {}
 
 ---@param inventoryPage ISInventoryPage
 function SetWidthDialog.open(inventoryPage)
-  local minWidth = inventoryPage.buttonSize
+  local sizes = { 32, 40, 48 }
+  local vanillaButtonSize = sizes[getCore():getOptionInventoryContainerSize()]
+  local minWidth = vanillaButtonSize
   local modalTitle = getText("IGUI_SetButtonsWidth") .. " | Min:"..(tostring(minWidth)).." Max:400"
   local size = NamedContainersUIData.getSavedSize(inventoryPage)
 

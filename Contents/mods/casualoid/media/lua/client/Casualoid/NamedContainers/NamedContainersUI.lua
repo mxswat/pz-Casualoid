@@ -12,50 +12,10 @@ function NamedContainersUI:createChildren()
 end
 
 function NamedContainersUI.onResizeIconsColumn(self, button)
-  self.inventoryPane:setWidth(self.iconsHeader.x)
-
-  if self.iconsHeader.x <= (self.inventoryPane.typeHeader.x + 100) then
-    self.inventoryPane.typeHeader:resize(100)
-    self.inventoryPane:onResizeColumn(self.inventoryPane.typeHeader)
-  end
-
-  self.inventoryPane:recalcSize()
-  self.inventoryPane.vscroll:setX(self.inventoryPane.width - self.inventoryPane.vscroll.width)
-  self:updateScrollbars();
-  -- self.inventoryPane:refreshContainer()
-
-  ---@param button ISButton
-  for _, button in ipairs(self.backpacks) do
-    button:setY(button:getY() + self.iconsHeader:getHeight() + 1)
-    button:setWidth(NamedContainersUIData.getSavedSize(self))
-    button:setX(self.iconsHeader.x)
-    button:setBorderRGBA(0.6, 0.6, 0.6, 0.5)
-    if button.inventory ~= self.inventory then
-      button:setBackgroundRGBA(0.1, 0.1, 0.1, 0.7)
-    end
-  end
-
   if button then
     NamedContainersUI.saveSize(self)
     -- self:refreshBackpacks()
   end
-end
-
-local old_drawRectBorder = ISInventoryPage.drawRectBorder
-function ISInventoryPage.drawRectBorder(self, x, y, w, h, ...)
-  -- Intecepts the "Draw backpack border over backpacks"
-  local titleBarHeight = self:titleBarHeight()
-  local height = self:getHeight();
-  if x == self:getWidth() - self.buttonSize
-      and y == titleBarHeight - 1
-      and w == self.buttonSize
-      and h == height - titleBarHeight - 7
-  then
-    x = self:getWidth() - NamedContainersUIData.getSavedSize(self)
-    w = NamedContainersUIData.getSavedSize(self)
-  end
-
-  return old_drawRectBorder(self, x, y, w, h, ...)
 end
 
 ---@param reason string
@@ -65,10 +25,13 @@ function NamedContainersUI.onRefreshBackpacks(self, reason)
     self:removeChild(self.iconsHeader)
   end
 
+  local titleBarHeight = self:titleBarHeight()
+
   local size = NamedContainersUIData.getSavedSize(self)
+  self.buttonSize = size
   self.minimumWidth = 256 + size
   local x = self.width - size
-  local y = self:titleBarHeight()
+  local y = titleBarHeight
   local fontHgtSmall = getTextManager():getFontHeight(UIFont.Small)
   self.iconsHeader = ISButton:new(x, y, size, fontHgtSmall + 1, "~", self, SetWidthDialog.open);
   self.iconsHeader.borderColor.a = 0.2;
@@ -82,7 +45,40 @@ function NamedContainersUI.onRefreshBackpacks(self, reason)
   self.iconsHeader:initialise()
   self:addChild(self.iconsHeader);
 
-  NamedContainersUI.onResizeIconsColumn(self)
+  local newPaneWidth = self.width - NamedContainersUIData.getSavedSize(self)
+
+  self.inventoryPane:setWidth(newPaneWidth)
+  self.inventoryPane:setHeight(self.height-titleBarHeight-9)
+  self.inventoryPane:recalcSize()
+
+  if self.iconsHeader.x <= (self.inventoryPane.typeHeader.x + 100) then
+    self.inventoryPane.typeHeader:resize(100)
+    self.inventoryPane:onResizeColumn(self.inventoryPane.typeHeader)
+  end
+
+  self.inventoryPane.vscroll:setX(newPaneWidth - 16)
+  self.inventoryPane:updateScrollbars();
+
+  self.inventoryPane.borderColor.a = 1;
+  self.inventoryPane.borderColor.r = 1;
+  -- self.inventoryPane:onResize()
+
+  local sizes = { 32, 40, 48 }
+  local vanillaButtonSize = sizes[getCore():getOptionInventoryContainerSize()]
+
+  ---@param button ISButton
+  for i, button in ipairs(self.backpacks) do
+
+    local y = ((i - 1) * vanillaButtonSize) + titleBarHeight - 1
+    button:setY(y + self.iconsHeader:getHeight() + 1)
+    button:setWidth(NamedContainersUIData.getSavedSize(self))
+    button:setHeight(vanillaButtonSize)
+    button:setX(self.iconsHeader.x)
+    button:setBorderRGBA(0.6, 0.6, 0.6, 0.5)
+    if button.inventory ~= self.inventory then
+      button:setBackgroundRGBA(0.1, 0.1, 0.1, 0.7)
+    end
+  end
 end
 
 Events.OnRefreshInventoryWindowContainers.Add(NamedContainersUI.onRefreshBackpacks)
