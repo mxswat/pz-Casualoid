@@ -55,7 +55,7 @@ function ISInventoryPage:onBackpackRightMouseDown(x, y)
       or ""
 
   local renameOption = context:addOption(getText("ContextMenu_RenameBag"), self.inventory, function()
-    OpenRenameDialog(self.player, title, self.inventory)
+    openRenameDialog(self.player, title, self.inventory)
   end);
   renameOption.iconTexture = getTexture("media/ui/RenameIcon.png");
 

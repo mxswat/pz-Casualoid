@@ -3,30 +3,42 @@ local SetWidthDialog = require "Casualoid/NamedContainers/SetWidthDialog"
 local NamedContainersUIData = require "Casualoid/NamedContainers/NamedContainersUIData"
 local Hooks = require "MxUtilities/Hooks"
 local Debug = require "Casualoid/Debug"
+local RenameDialog = require "Casualoid/NamedContainers/RenameDialog"
 
 ---@class NamedContainersUI: ISInventoryPage
 local NamedContainersUI = {}
-
-function NamedContainersUI.onResizeIconsColumn(self, button)
-  if button then
-    NamedContainersUI.saveSize(self)
-    -- self:refreshBackpacks()
-  end
-end
 
 local function getInventoryName(inventory)
   return (inventory:getParent() and inventory:getParent():getModData().ContainerCustomName)
       or getTextOrNull("IGUI_ContainerTitle_" .. inventory:getType())
 end
 
+function NamedContainersUI:onBackpackRightMouseDown(x, y)
+  local page = self.parent
 
-function NamedContainersUI:addContainerButton(container, texture, name, tooltip)
-  ---@type ISButton
-  local button = Hooks:GetReturn()
-  local oldName = getInventoryName(container) or name
+  if page.onCharacter or self.inventory:getContainingItem() then
+    return
+  end
 
-  local maxWidth = NamedContainersUIData.getSavedSize(self) - 42
+  local context = getPlayerContextMenu(page.player);
 
+  if not context:getIsVisible() then
+    context = ISContextMenu.get(page.player, getMouseX(), getMouseY());
+    context.origin = page
+    context.mouseOver = 1
+    setJoypadFocus(page.player, context)
+  end
+
+  context:addOption(getText("ContextMenu_RenameBag"), self.inventory, function ()
+    RenameDialog.open(self.player, self.name, self.inventory)
+  end);
+
+  Debug:print('context', context, context:getIsVisible() and 1 or 0)
+end
+
+---@param oldName string
+function NamedContainersUI.getTrimmedName(self, oldName)
+  local maxWidth = NamedContainersUIData.getSavedSize(self) - 48
   local nameWidth = getTextManager():MeasureStringX(self.font, oldName)
 
   local newName = oldName
@@ -46,11 +58,24 @@ function NamedContainersUI:addContainerButton(container, texture, name, tooltip)
     end
 
     newName = oldName:sub(1, high) .. "..."
-
-    Debug:print('newName', newName)
   end
 
+  return newName
+end
+
+function NamedContainersUI:addContainerButton(container, texture, name, tooltip)
+  ---@type ISButton
+  local button = Hooks:GetReturn()
+  local player = getSpecificPlayer(self.player)
+  if player and player:getInventory() == container then
+    name = getText("IGUI_Controller_Inventory")
+  end
+
+  local oldName = getInventoryName(container) or name
+  local newName = NamedContainersUI.getTrimmedName(self, oldName)
+
   button:setTitle(newName)
+  button.name = oldName
 
   -- Forces text on the left
   button.drawText = function(self, str, x, ...)
@@ -92,7 +117,7 @@ function NamedContainersUI.onRefreshBackpacks(self, reason)
   local newPaneWidth = self.width - NamedContainersUIData.getSavedSize(self)
 
   self.inventoryPane:setWidth(newPaneWidth)
-  self.inventoryPane:setHeight(self.height-titleBarHeight-9)
+  self.inventoryPane:setHeight(self.height - titleBarHeight - 9)
   self.inventoryPane:recalcSize()
 
   if self.iconsHeader.x <= (self.inventoryPane.typeHeader.x + 100) then
@@ -105,14 +130,12 @@ function NamedContainersUI.onRefreshBackpacks(self, reason)
 
   self.inventoryPane.borderColor.a = 1;
   self.inventoryPane.borderColor.r = 1;
-  -- self.inventoryPane:onResize()
 
   local sizes = { 32, 40, 48 }
   local vanillaButtonSize = sizes[getCore():getOptionInventoryContainerSize()]
 
   ---@param button ISButton
   for i, button in ipairs(self.backpacks) do
-
     local y = ((i - 1) * vanillaButtonSize) + titleBarHeight - 1
     button:setY(y + self.iconsHeader:getHeight() + 1)
     button:setWidth(NamedContainersUIData.getSavedSize(self))
@@ -121,6 +144,8 @@ function NamedContainersUI.onRefreshBackpacks(self, reason)
     button:setBorderRGBA(0.6, 0.6, 0.6, 0.5)
     if button.inventory ~= self.inventory then
       button:setBackgroundRGBA(0.1, 0.1, 0.1, 0.7)
+    else
+      self.title = button.name
     end
   end
 end

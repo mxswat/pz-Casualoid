@@ -1,5 +1,6 @@
-local function onDialogButtonClick(target, button, inventory)
-  Casualoid.print('renameContainer')
+local RenameDialog = {}
+
+function RenameDialog.onDialogButtonClick(target, button, inventory)
   if button.internal ~= "OK" then return end
   if not button.parent.entry:getText() or button.parent.entry:getText() == "" then
     return
@@ -12,11 +13,12 @@ local function onDialogButtonClick(target, button, inventory)
   ISInventoryPage.renderDirty = true
 end
 
-function OpenRenameDialog(player, title, inventory)
-  Casualoid.print('openRenameDialog')
+function RenameDialog.open(player, title, inventory)
   local modalTitle = getText("ContextMenu_RenameBag") .. ': ' .. title
-  local modal = ISTextBox:new(0, 0, 280, 180, modalTitle, title, nil, onDialogButtonClick, player, inventory)
+  local modal = ISTextBox:new(0, 0, 280, 180, modalTitle, title, nil, RenameDialog.onDialogButtonClick, player, inventory)
   modal:initialise()
   modal:addToUIManager()
   modal.entry:focus()
 end
+
+return RenameDialog
