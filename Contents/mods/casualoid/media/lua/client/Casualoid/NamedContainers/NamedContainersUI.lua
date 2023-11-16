@@ -7,14 +7,58 @@ local Debug = require "Casualoid/Debug"
 ---@class NamedContainersUI: ISInventoryPage
 local NamedContainersUI = {}
 
-function NamedContainersUI:createChildren()
-  self.inventoryPane.anchorRight = false;
-end
-
 function NamedContainersUI.onResizeIconsColumn(self, button)
   if button then
     NamedContainersUI.saveSize(self)
     -- self:refreshBackpacks()
+  end
+end
+
+local function getInventoryName(inventory)
+  return (inventory:getParent() and inventory:getParent():getModData().ContainerCustomName)
+      or getTextOrNull("IGUI_ContainerTitle_" .. inventory:getType())
+end
+
+
+function NamedContainersUI:addContainerButton(container, texture, name, tooltip)
+  ---@type ISButton
+  local button = Hooks:GetReturn()
+  local oldName = getInventoryName(container) or name
+
+  local maxWidth = NamedContainersUIData.getSavedSize(self) - 42
+
+  local nameWidth = getTextManager():MeasureStringX(self.font, oldName)
+
+  local newName = oldName
+  if nameWidth > maxWidth then
+    local low = 1
+    local high = string.len(oldName)
+
+    while low <= high do
+      local mid = math.floor((low + high) / 2)
+      local midWidth = getTextManager():MeasureStringX(self.font, oldName:sub(1, mid))
+
+      if midWidth > maxWidth then
+        high = mid - 1
+      else
+        low = mid + 1
+      end
+    end
+
+    newName = oldName:sub(1, high) .. "..."
+
+    Debug:print('newName', newName)
+  end
+
+  button:setTitle(newName)
+
+  -- Forces text on the left
+  button.drawText = function(self, str, x, ...)
+    ISButton.drawText(self, str, 4 + 32, ...)
+  end
+  -- Forces icon on the left
+  button.drawTextureScaledAspect = function(self, texture, x, ...)
+    ISButton.drawTextureScaledAspect(self, texture, 2, ...)
   end
 end
 
