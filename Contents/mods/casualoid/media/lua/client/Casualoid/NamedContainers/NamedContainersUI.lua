@@ -4,6 +4,7 @@ local NamedContainersUIData = require "Casualoid/NamedContainers/NamedContainers
 local Hooks = require "MxUtilities/Hooks"
 local Debug = require "Casualoid/Debug"
 local RenameDialog = require "Casualoid/NamedContainers/RenameDialog"
+local Utils = require "MxUtilities/Utils"
 
 ---@class NamedContainersUI: ISInventoryPage
 local NamedContainersUI = {}
@@ -29,53 +30,28 @@ function NamedContainersUI:onBackpackRightMouseDown(x, y)
     setJoypadFocus(page.player, context)
   end
 
-  context:addOption(getText("ContextMenu_RenameBag"), self.inventory, function ()
+  context:addOption(getText("ContextMenu_RenameBag"), self.inventory, function()
     RenameDialog.open(self.player, self.name, self.inventory)
   end);
 
   Debug:print('context', context, context:getIsVisible() and 1 or 0)
 end
 
----@param oldName string
-function NamedContainersUI.getTrimmedName(self, oldName)
-  local maxWidth = NamedContainersUIData.getSavedSize(self) - 48
-  local nameWidth = getTextManager():MeasureStringX(self.font, oldName)
-
-  local newName = oldName
-  if nameWidth > maxWidth then
-    local low = 1
-    local high = string.len(oldName)
-
-    while low <= high do
-      local mid = math.floor((low + high) / 2)
-      local midWidth = getTextManager():MeasureStringX(self.font, oldName:sub(1, mid))
-
-      if midWidth > maxWidth then
-        high = mid - 1
-      else
-        low = mid + 1
-      end
-    end
-
-    newName = oldName:sub(1, high) .. "..."
-  end
-
-  return newName
-end
-
-function NamedContainersUI:addContainerButton(container, texture, name, tooltip)
+function NamedContainersUI:addContainerButton(container, texture, _name, tooltip)
   ---@type ISButton
   local button = Hooks:GetReturn()
   local player = getSpecificPlayer(self.player)
   if player and player:getInventory() == container then
-    name = getText("IGUI_Controller_Inventory")
+    _name = getText("IGUI_Controller_Inventory")
   end
 
-  local oldName = getInventoryName(container) or name
-  local newName = NamedContainersUI.getTrimmedName(self, oldName)
+  local name = getInventoryName(container) or _name
 
-  button:setTitle(newName)
-  button.name = oldName
+  local maxWidth = NamedContainersUIData.getSavedSize(self) - 48
+  local trimmedName = Utils:trimTextWithEllipsis(self.font, name, maxWidth)
+
+  button:setTitle(trimmedName)
+  button.name = name
 
   -- Forces text on the left
   button.drawText = function(self, str, x, ...)
