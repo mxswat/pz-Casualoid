@@ -1,8 +1,15 @@
-CasualoidReadSkillBooks = {}
+local Debug = require("Casualoid/Debug")
 
-CasualoidReadSkillBooks.skillBooksCache = nil
+local KeepBooksMultiplier = {}
 
-function CasualoidReadSkillBooks:getSkillBooks()
+KeepBooksMultiplier.skillBooksCache = nil
+
+
+function KeepBooksMultiplier:getModData()
+  return ModData.getOrCreate("KeepBooksMultiplier");
+end
+
+function KeepBooksMultiplier:getSkillBooks()
   if self.skillBooksCache then
     return self.skillBooksCache
   end
@@ -21,21 +28,22 @@ function CasualoidReadSkillBooks:getSkillBooks()
   return self.skillBooksCache
 end
 
-function CasualoidReadSkillBooks:save(player)
-  local casualoidRespawnData = Casualoid.getRespawnModData()
+function KeepBooksMultiplier:save(player)
+  local modData = self:getModData()
 
   local skillBooks = self:getSkillBooks()
   for _, book in ipairs(skillBooks) do
     local readPages = player:getAlreadyReadPages(book:getFullName())
     if readPages > 0 then
-      casualoidRespawnData.readBooks[book:getFullName()] = readPages
+      modData[book:getFullName()] = readPages
     end
   end
 end
 
-function CasualoidReadSkillBooks:load(player)
-  local casualoidRespawnData = Casualoid.getRespawnModData()
-  for bookFullName, readPages in pairs(casualoidRespawnData.readBooks) do
+function KeepBooksMultiplier:load(player)
+  local modData = self:getModData()
+
+  for bookFullName, readPages in pairs(modData) do
     player:setAlreadyReadPages(bookFullName, readPages)
   end
 
@@ -48,16 +56,26 @@ function CasualoidReadSkillBooks:load(player)
     local isTooHighLvl = item:getLvlSkillTrained() > skillTrainedLevel
     local isTooLowLvl = item:getMaxLevelTrained() < skillTrainedLevel
     if item:getAlreadyReadPages() > 0 and not isTooHighLvl and not isTooLowLvl then
-      Casualoid.print('Apply XP multiplier from:', item:getDisplayName())
+      Debug:print('Apply XP multiplier from:', item:getDisplayName())
       -- checkMultiplier sets the multiplier on the player too :D
       ISReadABook.checkMultiplier(mockAction)
     end
   end
 end
 
--- To avoid tediousness, reapply existing multiplier on new level up after the first load
-function CasualoidReadSkillBooks.onLevelPerk(player, perk, perkLevel)
-  CasualoidReadSkillBooks:load(player)
+function KeepBooksMultiplier:init()
+  Events.LevelPerk.Add(function(character)
+    -- To avoid tediousness, reapply existing multiplier on new level up
+    KeepBooksMultiplier:load(character)
+  end);
+
+  Events.OnCreatePlayer.Add(function(_, player)
+    KeepBooksMultiplier:load(player)
+  end);
+
+  Events.OnPlayerDeath.Add(function(player)
+    KeepBooksMultiplier:save(player)
+  end)
 end
 
-Events.LevelPerk.Add(CasualoidReadSkillBooks.onLevelPerk);
+return KeepBooksMultiplier
