@@ -8,10 +8,9 @@ Sandbox_EN = {
   Sandbox_WoodWeightModifier_tooltip = "50 means 50%, which means every action will be 50% lighter, if you use 100% items will have have no weight, if you use 0% it won't change",
   Sandbox_MetalWeightModifier = "Metal Weight Modifier %",
   Sandbox_MetalWeightModifier_tooltip = "50 means 50%, which means every action will be 50% lighter, if you use 100% items will have have no weight, if you use 0% it won't change",
-  Sandbox_MultiSelectDisablePositiveTraits = "MP Only - Disable Positive Traits",
-  Sandbox_MultiSelectDisablePositiveTraits_tooltip = "Select a trait to disable it",
-  Sandbox_MultiSelectDisableNegativeTraits = "MP Only - Disable Negative Traits",
-  Sandbox_MultiSelectDisableNegativeTraits_tooltip = "Select a trait to disable it",
+  Sandbox_DisableCropsRotting = "Disable Crops Rotting",
+  Sandbox_EnableMxMagazines = "Enable Mx's Magazines spawn",
+  Sandbox_EnableMxMagazines_tooltip = "If enabled, It will spawn The Nutritionist trait magazine, and The Anarchist Cookbook 1 to 3",
 
   Sandbox_EnableContainerUpgrades = "Enable Container Upgrades",
   Sandbox_WoodenContainerUpgradeCapacity = "Wooden Container UpgradeCapacity",
@@ -21,7 +20,10 @@ Sandbox_EN = {
   Sandbox_ContainerUpgradeMaxCapacity = "Container Upgrade Max Capacity",
   Sandbox_ContainerUpgradeMaxCapacity_tooltip = "Sets the max capacity you can achieve using container upgrades",
 
-  Sandbox_DisableCropsRotting = "Disable Crops Rotting",
+  Sandbox_CasualoidKeepBooksMultiplier = "Casualoid: Keep Books Multiplier on Death",
+  Sandbox_KeepBooksMultiplier = "Keep Books Multiplier on Death",
+  Sandbox_KeepBooksMultiplier_tooltip = "If enabled, when you die you won't have to re-read skill books you already read",
+
   Sandbox_DisableCropsRotting_tooltip = "If enabled, crops rotting will never rot.<br>Over-fertilizing will still kill your plant",
   Sandbox_ShowExactLevelNumber = "Show Exact Level Number in Character creation",
   Sandbox_ShowExactLevelNumber_tooltip = "If enabled, It will show the exact Level Number in Character creation after the skill name<br>eg: Carpentry(3) |||",

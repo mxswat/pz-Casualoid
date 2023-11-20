@@ -63,7 +63,7 @@ option Casualoid.ContainerUpgradeMaxCapacity = {
 
 option Casualoid.KeepBooksMultiplier = {
   type = boolean, default = true, 
-  page = CasualoidRespawn, translation = KeepBooksMultiplier,
+  page = CasualoidKeepBooksMultiplier, translation = KeepBooksMultiplier,
 }
 
 option Casualoid.EnableRespawn = {
