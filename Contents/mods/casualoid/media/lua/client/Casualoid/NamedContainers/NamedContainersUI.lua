@@ -1,6 +1,6 @@
 require "ISUI/ISInventoryPage"
 local SetWidthDialog = require "Casualoid/NamedContainers/SetWidthDialog"
-local NamedContainersUIData = require "Casualoid/NamedContainers/NamedContainersUIData"
+local NamedContainersSettings = require "Casualoid/NamedContainers/NamedContainersSettings"
 local Hooks = require "MxUtilities/Hooks"
 local Debug = require "Casualoid/Debug"
 local RenameDialog = require "Casualoid/NamedContainers/RenameDialog"
@@ -42,7 +42,7 @@ end
 
 function NamedContainersUI:addContainerButton(container, texture, _name, tooltip)
   local name = NamedContainersUI.getInventoryName(self, container) or _name
-  local maxWidth = NamedContainersUIData.getSavedSize(self) - 48
+  local maxWidth = NamedContainersSettings.getSavedSize(self) - 48
   local trimmedName = Utils:trimTextWithEllipsis(self.font, name, maxWidth)
 
   ---@type ISButton
@@ -61,7 +61,7 @@ end
 
 function NamedContainersUI.createIconsHeader(self)
   local titleBarHeight = self:titleBarHeight()
-  local size = NamedContainersUIData.getSavedSize(self)
+  local size = NamedContainersSettings.getSavedSize(self)
   local x = self.width - size
   local y = titleBarHeight
   local fontHgtSmall = getTextManager():getFontHeight(UIFont.Small)
@@ -80,7 +80,7 @@ function NamedContainersUI.createIconsHeader(self)
 end
 
 function NamedContainersUI.patchInventoryPane(self)
-  local newWidth = self.width - NamedContainersUIData.getSavedSize(self)
+  local newWidth = self.width - NamedContainersSettings.getSavedSize(self)
   local newHeight = self.height - self:titleBarHeight() - 9
   self.inventoryPane:setWidth(newWidth)
   self.inventoryPane:setHeight(newHeight)
@@ -103,7 +103,7 @@ function NamedContainersUI:refreshBackpacks()
     self:removeChild(self.iconsHeader)
   end
 
-  local savedSize = NamedContainersUIData.getSavedSize(self)
+  local savedSize = NamedContainersSettings.getSavedSize(self)
 
   self.buttonSize = savedSize
   self.minimumWidth = 256 + savedSize

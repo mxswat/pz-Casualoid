@@ -1,4 +1,4 @@
-local NamedContainersUIData = require "Casualoid/NamedContainers/NamedContainersUIData"
+local NamedContainersSettings = require "Casualoid/NamedContainers/NamedContainersSettings"
 local SetWidthDialog = {}
 
 ---@param inventoryPage ISInventoryPage
@@ -7,7 +7,7 @@ function SetWidthDialog.open(inventoryPage)
   local vanillaButtonSize = sizes[getCore():getOptionInventoryContainerSize()]
   local minWidth = vanillaButtonSize
   local modalTitle = getText("IGUI_SetButtonsWidth") .. " | Min:"..(tostring(minWidth)).." Max:400"
-  local size = NamedContainersUIData.getSavedSize(inventoryPage)
+  local size = NamedContainersSettings.getSavedSize(inventoryPage)
 
   -- self.speedScale = ISSliderPanel:new(self.width / 2 - 400 / 2, self.bottomPanel.y - 30, 400, 20, self, self.onSpeedScaleChanged)
 	-- self.speedScale.anchorTop = false
@@ -24,7 +24,7 @@ function SetWidthDialog.open(inventoryPage)
     local value = tonumber(entry:getInternalText()) or 0
 
     local newSize = math.max(math.min(value, 400), minWidth)
-    NamedContainersUIData.saveSize(inventoryPage, newSize)
+    NamedContainersSettings.saveSize(inventoryPage, newSize)
 
     inventoryPage:refreshBackpacks()
   end

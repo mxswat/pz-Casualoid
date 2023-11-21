@@ -3,6 +3,7 @@ local CasualoidSettings = {}
 
 ---@class CasualoidSettingsData
 ---@field respawnData table
+---@field namedContainers NamedContainersSettings
 
 ---@type CasualoidSettingsData
 CasualoidSettings.data = nil
@@ -12,6 +13,7 @@ function CasualoidSettings:get()
   self.data = self.data or Utils:loadTableFromJSONFile(self.filePath)
 
   self.data.respawnData = self.data.respawnData or {}
+  self.data.namedContainers = self.data.namedContainers or {}
 
   return self.data
 end
