@@ -1,5 +1,7 @@
 require "Items/Distributions"
 require "Items/ProceduralDistributions"
+local Debug = require "Casualoid/Debug"
+
 
 local ItemsMap = {
   ["CookingMag1"]     = "Casualoid.NutritionistMag1",
@@ -11,7 +13,7 @@ local ItemsMap = {
 local function insertMagazine(items)
   for i, item in ipairs(items) do
     if ItemsMap[item] then
-      Casualoid.print('insertMagazine: ', ItemsMap[item], ': ', items[i + 1])
+      Debug:print('insertMagazine: ', ItemsMap[item], ': ', items[i + 1])
       table.insert(items, ItemsMap[item])
       table.insert(items, (items[i + 1]) + 0.1)
     end

@@ -1,3 +1,6 @@
+local RespawnUtils = require "Casualoid/Respawn/RespawnUtils"
+local Debug = require "Casualoid/Debug"
+
 CasualoidPerks = {}
 
 function CasualoidPerks:savePerks(player, perk)
@@ -12,7 +15,7 @@ function CasualoidPerks:savePerks(player, perk)
   local professionXpToSubtract = boostId > 0 and perk:getTotalXpForLevel(boostId) or 0
   local totalXpNoBoost = math.max(totalXp - professionXpToSubtract, 0)
 
-  local casualoidRespawnData = Casualoid.getRespawnModData()
+  local casualoidRespawnData = RespawnUtils.getRespawnModData()
   casualoidRespawnData.perks[perkId] = casualoidRespawnData.perks[perkId] or {}
   casualoidRespawnData.perks[perkId].totalXp = math.max(totalXp, casualoidRespawnData.perks[perkId].totalXp or 0)
   casualoidRespawnData.perks[perkId].boost = boostId
@@ -39,13 +42,13 @@ function CasualoidPerks:load(player)
     end
   end
 
-  local casualoidRespawnData = Casualoid.getRespawnModData()
+  local casualoidRespawnData = RespawnUtils.getRespawnModData()
 
   local xpMultiplier = casualoidRespawnData.traits["RespawnLowerXP"]
       and SandboxVars.Casualoid.XPKeptByLowerXPTrait
       or SandboxVars.Casualoid.XPKeptOnRespawn
 
-  Casualoid.print('Respawn: xpMultiplier', xpMultiplier)
+  Debug:print('Respawn: xpMultiplier', xpMultiplier)
 
   for perkId, data in pairs(casualoidRespawnData.perks) do
     local perk = Perks[perkId]
@@ -59,7 +62,7 @@ function CasualoidPerks:load(player)
         minXpToRecover = data.totalXp
       end
 
-      Casualoid.print(perk, 'xpToRecover:', xpToRecover, 'minimumXpToRecover', minXpToRecover, 'boost', boost)
+      Debug:print(perk, 'xpToRecover:', xpToRecover, 'minimumXpToRecover', minXpToRecover, 'boost', boost)
       xp:AddXP(perk, math.max(minXpToRecover, xpToRecover), false, false, false);
       xp:setPerkBoost(perk, boost);
     end
@@ -67,7 +70,7 @@ function CasualoidPerks:load(player)
 end
 
 function CasualoidPerks:loadPartial(player)
-  local casualoidRespawnData = Casualoid.getRespawnModData()
+  local casualoidRespawnData = RespawnUtils.getRespawnModData()
   local xpMultiplier = SandboxVars.Casualoid.XPKeptOnRespawn
 
   local xp = player:getXp();

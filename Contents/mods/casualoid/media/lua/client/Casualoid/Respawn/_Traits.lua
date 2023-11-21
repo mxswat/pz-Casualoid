@@ -1,7 +1,9 @@
+local RespawnUtils = require "Casualoid/Respawn/RespawnUtils"
+
 CasualoidTraits = {};
 
 function CasualoidTraits:save(player)
-  local casualoidRespawnData = Casualoid.getRespawnModData()
+  local casualoidRespawnData = RespawnUtils.getRespawnModData()
   -- Reset the table, in case the player has lost or gained traits
   casualoidRespawnData.traits = {}
 
@@ -12,7 +14,7 @@ function CasualoidTraits:save(player)
 end
 
 function CasualoidTraits:load(player)
-  local casualoidRespawnData = Casualoid.getRespawnModData()
+  local casualoidRespawnData = RespawnUtils.getRespawnModData()
 
   -- Hard reset existing traits
   player:getTraits():clear();

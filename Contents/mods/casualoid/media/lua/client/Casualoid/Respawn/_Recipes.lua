@@ -1,7 +1,9 @@
+local RespawnUtils = require "Casualoid/Respawn/RespawnUtils"
+
 CasualoidRecipes = {}
 
 function CasualoidRecipes:save(player)
-  local casualoidRespawnData = Casualoid.getRespawnModData()
+  local casualoidRespawnData = RespawnUtils.getRespawnModData()
 
   local recipes = player:getKnownRecipes();
   for i = 0, recipes:size() - 1 do
@@ -10,7 +12,7 @@ function CasualoidRecipes:save(player)
 end
 
 function CasualoidRecipes:load(player)
-  local casualoidRespawnData = Casualoid.getRespawnModData()
+  local casualoidRespawnData = RespawnUtils.getRespawnModData()
   local recipes = player:getKnownRecipes();
 
   for recipe, _ in pairs(casualoidRespawnData.knownRecipes) do

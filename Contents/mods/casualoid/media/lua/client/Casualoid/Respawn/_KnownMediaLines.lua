@@ -1,3 +1,6 @@
+local RespawnUtils = require "Casualoid/Respawn/RespawnUtils"
+local Debug = require "Casualoid/Debug"
+
 local injected_instance = nil
 local old_ISRadioInteractions_getInstance = ISRadioInteractions.getInstance
 function ISRadioInteractions:getInstance()
@@ -12,9 +15,9 @@ function ISRadioInteractions:getInstance()
     local result = old_self_checkPlayer(player, _guid, ...)
 
     if _guid ~= nil and _guid ~= "" then
-      Casualoid.print('ISRadioInteractions: _guid', _guid)
+      Debug:print('ISRadioInteractions: _guid', _guid)
 
-      local casualoidRespawnData = Casualoid.getRespawnModData()
+      local casualoidRespawnData = RespawnUtils.getRespawnModData()
       casualoidRespawnData.knownMediaLines[_guid] = true
     end
 
@@ -35,7 +38,7 @@ function CasualoidKnownMediaLines:save(player)
 end
 
 function CasualoidKnownMediaLines:load(player)
-  local knownMediaLines = Casualoid.getRespawnModData().knownMediaLines
+  local knownMediaLines = RespawnUtils.getRespawnModData().knownMediaLines
   for guid, _ in pairs(knownMediaLines) do
     player:addKnownMediaLine(guid)
   end

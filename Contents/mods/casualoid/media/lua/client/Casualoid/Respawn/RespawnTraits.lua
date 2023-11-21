@@ -1,3 +1,6 @@
+local Debug = require "Casualoid/Debug"
+local RespawnUtils = require "Casualoid/Respawn/RespawnUtils"
+
 function CharacterCreationProfession:createRespawnTraits()
   local respawnTrait = TraitFactory.addTrait("RespawnTrait", "Respawn", 0, 'You took Merasmus\'s "Kill Me Come Back Stronger Pills"', true);
 
@@ -37,11 +40,11 @@ function CharacterCreationProfession:setVisible(visible, joypadData)
   self:removeRespawnProfession();
 
   if not SandboxVars.Casualoid.EnableRespawn then
-    return Casualoid.print('Respawn Disabled')
+    return Debug:print('Respawn Disabled')
   end
 
-  if Casualoid.isRespawnAvailable() then
-    Casualoid.print('Respawn Enabled')
+  if RespawnUtils.isRespawnAvailable() then
+    Debug:print('Respawn Enabled')
     self:addRespawnProfession();
   end
 end
