@@ -15,7 +15,7 @@ local function insertMagazine(items)
     if ItemsMap[item] then
       Debug:print('insertMagazine: ', ItemsMap[item], ': ', items[i + 1])
       table.insert(items, ItemsMap[item])
-      table.insert(items, (items[i + 1]) + 0.1)
+      table.insert(items, (items[i + 1]))
     end
   end
 end
