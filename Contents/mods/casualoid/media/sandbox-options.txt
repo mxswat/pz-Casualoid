@@ -41,6 +41,11 @@ option Casualoid.DisassembleContainerWithItems = {
   page = Casualoid,  translation = DisassembleContainerWithItems,
 }
 
+option Casualoid.NoHatAndGlassesDrop = {
+  type = boolean, default = true, 
+  page = Casualoid,  translation = NoHatAndGlassesDrop,
+}
+
 option Casualoid.EnableContainerUpgrades = {
   type = boolean, default = true, 
   page = CasualoidContainerUpgrade,  translation = EnableContainerUpgrades,

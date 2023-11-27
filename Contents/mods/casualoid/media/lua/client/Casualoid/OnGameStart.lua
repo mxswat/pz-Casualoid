@@ -6,6 +6,7 @@ local disableMxMagazines = require "Casualoid/MxMagazines/disableMxMagazines"
 local UpgradeContainerContextMenu = require "Casualoid/ContainerUpgrades/UpgradeContainerContextMenu"
 local onRefreshInventoryWindowContainers = require "Casualoid/ContainerUpgrades/onRefreshInventoryWindowContainers"
 local KeepBooksMultiplier = require "Casualoid/KeepBooksMultiplier/KeepBooksMultiplier"
+local NoHatAndGlassesDrop = require "Casualoid/NoHatAndGlassesDrop"
 
 local function initCasualoidHooks()
   Debug:print('Initalizing Casualoid Hooks')
@@ -28,6 +29,10 @@ local function initCasualoidHooks()
 
   if SandboxVars.Casualoid.KeepBooksMultiplier then
     KeepBooksMultiplier:init()
+  end
+
+  if SandboxVars.Casualoid.NoHatAndGlassesDrop then
+    NoHatAndGlassesDrop:init()
   end
 end
 
