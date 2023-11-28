@@ -10,7 +10,8 @@ CasualoidSettings.data = nil
 CasualoidSettings.filePath = 'casualoid-settings.json'
 
 function CasualoidSettings:get()
-  self.data = self.data or Utils:loadTableFromJSONFile(self.filePath)
+  -- Remember to return an empty table is the file is nil
+  self.data = self.data or Utils:loadTableFromJSONFile(self.filePath) or {}
 
   self.data.respawnData = self.data.respawnData or {}
   self.data.namedContainers = self.data.namedContainers or {}
