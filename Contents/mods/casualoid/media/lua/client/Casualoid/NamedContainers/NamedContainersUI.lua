@@ -9,6 +9,11 @@ local Utils = require "MxUtilities/Utils"
 ---@class NamedContainersUI: ISInventoryPage
 local NamedContainersUI = {}
 
+function NamedContainersUI.getVanillaButtonSize()
+  local sizes = { 32, 40, 48 }
+  return sizes[getCore():getOptionInventoryContainerSize()]
+end
+
 function NamedContainersUI.getInventoryName(self, inventory)
   if getSpecificPlayer(self.player):getInventory() == inventory then
     return getText("IGUI_Controller_Inventory")
@@ -114,13 +119,12 @@ function NamedContainersUI:refreshBackpacks()
   NamedContainersUI.patchInventoryPane(self)
 
   local titleBarHeight = self:titleBarHeight()
-  local sizes = { 32, 40, 48 }
-  local vanillaButtonSize = sizes[getCore():getOptionInventoryContainerSize()]
+  local vanillaButtonSize = NamedContainersUI.getVanillaButtonSize()
   ---@param button ISButton
   for i, button in ipairs(self.backpacks) do
     -- Patch buttons location and backgroundColor as it's done inside the original refreshBackpacks
-    local y = ((i - 1) * vanillaButtonSize) + titleBarHeight - 1
-    button:setY(y + self.iconsHeader:getHeight() + 1)
+    local y = ((i - 1) * vanillaButtonSize) + (titleBarHeight - 1 + self.iconsHeader:getHeight() + 1)
+    button:setY(y)
     button:setWidth(savedSize)
     button:setHeight(vanillaButtonSize)
     button:setX(self.iconsHeader.x)
