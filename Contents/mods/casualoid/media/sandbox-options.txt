@@ -46,6 +46,11 @@ option Casualoid.NoHatAndGlassesDrop = {
   page = Casualoid,  translation = NoHatAndGlassesDrop,
 }
 
+option Casualoid.NoAccessoriesWeight = {
+  type = boolean, default = true, 
+  page = Casualoid,  translation = NoAccessoriesWeight,
+}
+
 option Casualoid.EnableContainerUpgrades = {
   type = boolean, default = true, 
   page = CasualoidContainerUpgrade,  translation = EnableContainerUpgrades,

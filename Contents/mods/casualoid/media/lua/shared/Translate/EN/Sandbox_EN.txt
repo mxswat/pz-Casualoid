@@ -16,6 +16,10 @@ Sandbox_EN = {
   Sandbox_RenameAllItems_tooltip = "If enabled, It allows you to rename all items via context menu",
   Sandbox_EnableMxMagazines = "Enable Mx's Magazines spawn",
   Sandbox_EnableMxMagazines_tooltip = "If enabled, It will spawn The Nutritionist trait magazine, and The Anarchist Cookbook 1 to 3",
+  Sandbox_NoHatAndGlassesDrop = "Enable 'No Hat And Glasses Drop'",
+  Sandbox_NoHatAndGlassesDrop_tooltip = "If enabled, hats, glasses, and similiar items wont't fall when you hit the ground.",
+  Sandbox_NoAccessoriesWeight = "Enable 'No Accessories Weight'",
+  Sandbox_NoAccessoriesWeight_tooltip = "If enabled, It will set to 0 weight of all cosmetic items.",
 
   Sandbox_CasualoidContainerUpgrade = "Casualoid: Container Upgrade",
   Sandbox_EnableContainerUpgrades = "Enable Container Upgrades",
