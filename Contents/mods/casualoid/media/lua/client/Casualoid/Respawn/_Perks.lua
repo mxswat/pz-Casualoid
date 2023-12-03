@@ -44,8 +44,8 @@ function CasualoidPerks:load(player)
 
   local casualoidRespawnData = RespawnUtils.getRespawnModData()
 
-  local xpMultiplier = casualoidRespawnData.traits["RespawnLowerXP"]
-      and SandboxVars.Casualoid.XPKeptByLowerXPTrait
+  local xpMultiplier = casualoidRespawnData.traits["RespawnPenalty"]
+      and SandboxVars.Casualoid.XPKeptByRespawnPenaltyTrait
       or SandboxVars.Casualoid.XPKeptOnRespawn
 
   Debug:print('Respawn: xpMultiplier', xpMultiplier)

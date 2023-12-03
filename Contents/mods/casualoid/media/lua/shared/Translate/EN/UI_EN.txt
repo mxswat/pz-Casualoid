@@ -4,5 +4,5 @@ UI_EN = {
   UI_prof_RespawnProfession = "Respawn and resume progress",
 
   UI_trait_RespawnPenalty = "Respawn XP Penalty",
-  UI_trait_RespawnPenalty_desc = "Respawn with %1% XP instead of %2%",
+  UI_trait_RespawnPenalty_desc = "Respawn with %1%XP instead of %2%",
 }
