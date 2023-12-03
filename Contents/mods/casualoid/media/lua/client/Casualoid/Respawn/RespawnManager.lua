@@ -81,6 +81,7 @@ function RespawnManager:openKeepProgressModal()
 end
 
 local function onCreatePlayer()
+  if not SandboxVars.Casualoid.EnableRespawn then return end
   if getPlayer():HasTrait('RespawnTrait') then
     RespawnManager:loadPlayerProgress()
   elseif getPlayer():getHoursSurvived() == 0 and RespawnUtils.hasRespawnModData() then
