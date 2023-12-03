@@ -1,74 +1,79 @@
 VERSION = 1,
 
-option Casualoid.FasterActionsModifier
-{
-	type = integer, min = 0, max = 100, default = 50,
-	page = Casualoid, translation = FasterActionsModifier,
-}
-
-option Casualoid.WoodWeightModifier = {
-	type = integer, min = 0, max = 100, default = 40,
-	page = Casualoid, translation = WoodWeightModifier,
-}
-
-option Casualoid.MetalWeightModifier = {
-	type = integer, min = 0, max = 100, default = 40,
-	page = Casualoid, translation = MetalWeightModifier,
-}
-
-option Casualoid.DisableCropsRotting = {
-  type = boolean, default = true, 
-  page = Casualoid,  translation = DisableCropsRotting,
-}
-
-option Casualoid.ShowExactLevelNumber = {
-  type = boolean, default = true, 
-  page = Casualoid,  translation = ShowExactLevelNumber,
-}
-
 option Casualoid.RenameAllItems = {
   type = boolean, default = true, 
-  page = Casualoid,  translation = RenameAllItems,
-}
-
-option Casualoid.EnableMxMagazines = {
-  type = boolean, default = true, 
-  page = Casualoid,  translation = EnableMxMagazines,
+  page = Casualoid, translation = RenameAllItems,
 }
 
 option Casualoid.DisassembleContainerWithItems = {
   type = boolean, default = true, 
-  page = Casualoid,  translation = DisassembleContainerWithItems,
+  page = Casualoid, translation = DisassembleContainerWithItems,
+}
+
+option Casualoid.EnableMxMagazines = {
+  type = boolean, default = true, 
+  page = Casualoid, translation = EnableMxMagazines,
+}
+
+option Casualoid.ShowExactLevelNumber = {
+  type = boolean, default = true, 
+  page = CasualoidUI, translation = ShowExactLevelNumber,
+}
+
+option Casualoid.NamedContainersUI = {
+  type = boolean, default = true, 
+  page = CasualoidUI, translation = NamedContainersUI,
+}
+
+option Casualoid.FasterActionsModifier
+{
+	type = integer, min = 0, max = 100, default = 50,
+	page = CasualoidComfort, translation = FasterActionsModifier,
+}
+
+option Casualoid.WoodWeightModifier = {
+	type = integer, min = 0, max = 100, default = 50,
+	page = CasualoidComfort, translation = WoodWeightModifier,
+}
+
+option Casualoid.MetalWeightModifier = {
+	type = integer, min = 0, max = 100, default = 50,
+	page = CasualoidComfort, translation = MetalWeightModifier,
+}
+
+option Casualoid.DisableCropsRotting = {
+  type = boolean, default = true, 
+  page = CasualoidComfort, translation = DisableCropsRotting,
 }
 
 option Casualoid.NoHatAndGlassesDrop = {
   type = boolean, default = true, 
-  page = Casualoid,  translation = NoHatAndGlassesDrop,
+  page = CasualoidComfort, translation = NoHatAndGlassesDrop,
 }
 
 option Casualoid.NoAccessoriesWeight = {
   type = boolean, default = true, 
-  page = Casualoid,  translation = NoAccessoriesWeight,
+  page = CasualoidComfort, translation = NoAccessoriesWeight,
 }
 
 option Casualoid.EnableContainerUpgrades = {
   type = boolean, default = true, 
-  page = CasualoidContainerUpgrade,  translation = EnableContainerUpgrades,
+  page = CasualoidContainerUpgrade, translation = EnableContainerUpgrades,
 }
 
 option Casualoid.WoodenContainerUpgradeCapacity = {
   type = integer, min = 10, max = 100, default = 25,
-  page = CasualoidContainerUpgrade,  translation = WoodenContainerUpgradeCapacity,
+  page = CasualoidContainerUpgrade, translation = WoodenContainerUpgradeCapacity,
 }
 
 option Casualoid.MetalContainerUpgradeCapacity = {
   type = integer, min = 10, max = 100, default = 40,
-  page = CasualoidContainerUpgrade,  translation = MetalContainerUpgradeCapacity,
+  page = CasualoidContainerUpgrade, translation = MetalContainerUpgradeCapacity,
 }
 
 option Casualoid.ContainerUpgradeMaxCapacity = {
   type = integer, min = 0, max = 1000, default = 250,
-  page = CasualoidContainerUpgrade,  translation = ContainerUpgradeMaxCapacity,
+  page = CasualoidContainerUpgrade, translation = ContainerUpgradeMaxCapacity,
 }
 
 option Casualoid.KeepBooksMultiplier = {

@@ -137,4 +137,8 @@ function NamedContainersUI:refreshBackpacks()
   end
 end
 
-Hooks:PostHooksFromTable(ISInventoryPage, NamedContainersUI, 'NamedContainersUI')
+function NamedContainersUI:init()
+  Hooks:PostHooksFromTable(ISInventoryPage, NamedContainersUI, 'NamedContainersUI')
+end
+
+return NamedContainersUI

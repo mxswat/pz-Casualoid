@@ -8,6 +8,7 @@ local onRefreshInventoryWindowContainers = require "Casualoid/ContainerUpgrades/
 local KeepBooksMultiplier = require "Casualoid/KeepBooksMultiplier/KeepBooksMultiplier"
 local NoHatAndGlassesDrop = require "Casualoid/NoHatAndGlassesDrop"
 local noAccessoriesWeight = require "Casualoid/noAccessoriesWeight"
+local NamedContainersUI = require "Casualoid/NamedContainers/NamedContainersUI"
 
 local function initCasualoidHooks()
   Debug:print('Initalizing Casualoid Hooks')
@@ -35,9 +36,13 @@ local function initCasualoidHooks()
   if SandboxVars.Casualoid.NoHatAndGlassesDrop then
     NoHatAndGlassesDrop:init()
   end
-  
+
   if SandboxVars.Casualoid.NoAccessoriesWeight then
     noAccessoriesWeight()
+  end
+
+  if SandboxVars.Casualoid.NamedContainersUI then
+    NamedContainersUI:init()
   end
 end
 
