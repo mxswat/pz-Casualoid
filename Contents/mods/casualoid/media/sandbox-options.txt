@@ -91,7 +91,17 @@ option Casualoid.XPKeptOnRespawn = {
   page = CasualoidRespawn, translation = XPKeptOnRespawn,
 }
 
-option Casualoid.XPKeptByLowerXPTrait = {
+option Casualoid.EnableRespawnPenaltyTrait = {
+  type = boolean, default = true, 
+  page = CasualoidRespawn, translation = EnableRespawnPenaltyTrait,
+}
+
+option Casualoid.RespawnPenaltyTraitCost = {
+  type = integer, min = -100, max = 0, default = -8,
+  page = CasualoidRespawn, translation = RespawnPenaltyTraitCost,
+}
+
+option Casualoid.XPKeptByRespawnPenaltyTrait = {
   type = integer, min = 0, max = 100, default = 75,
-  page = CasualoidRespawn, translation = XPKeptByLowerXPTrait,
+  page = CasualoidRespawn, translation = XPKeptByRespawnPenaltyTrait,
 }

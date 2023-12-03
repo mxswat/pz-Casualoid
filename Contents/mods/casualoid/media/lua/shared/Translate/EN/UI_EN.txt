@@ -1,0 +1,8 @@
+UI_EN = {
+  UI_trait_RespawnTrait = "Respawn Trait",
+	UI_trait_RespawnTrait_desc = "Respawn and resume progress",
+  UI_prof_RespawnProfession = "Respawn and resume progress",
+
+  UI_trait_RespawnPenalty = "Respawn XP Penalty",
+  UI_trait_RespawnPenalty_desc = "Respawn with %1% XP instead of %2%",
+}

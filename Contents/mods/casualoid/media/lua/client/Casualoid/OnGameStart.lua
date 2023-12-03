@@ -10,8 +10,8 @@ local NoHatAndGlassesDrop = require "Casualoid/NoHatAndGlassesDrop"
 local noAccessoriesWeight = require "Casualoid/noAccessoriesWeight"
 local NamedContainersUI = require "Casualoid/NamedContainers/NamedContainersUI"
 
-local function initCasualoidHooks()
-  Debug:print('Initalizing Casualoid Hooks')
+local function onGameStart()
+  Debug:print('Initalizing Casualoid onGameStart Hooks')
   if SandboxVars.Casualoid.DisassembleContainerWithItems then
     Hooks:PostHooksFromTable(ISMoveableSpriteProps, DisassembleWithItems, 'DisassembleWithItem')
   end
@@ -46,4 +46,4 @@ local function initCasualoidHooks()
   end
 end
 
-Events.OnGameStart.Add(initCasualoidHooks);
+Events.OnGameStart.Add(onGameStart);
