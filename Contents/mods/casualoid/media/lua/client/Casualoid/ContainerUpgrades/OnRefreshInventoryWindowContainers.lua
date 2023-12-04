@@ -12,7 +12,7 @@ local function onRefreshInventoryWindowContainers(self, state)
     ---@type ItemContainer
     local inventory = button.inventory
     local object = inventory:getParent()
-    if instanceof(object, "IsoObject") then
+    if instanceof(object, "IsoObject") and not instanceof(object, "BaseVehicle") then
       local moddata = ContainerUpgradesModData:get(object)
       local newCapacity = moddata.capacityUpgrade + moddata.baseCapacity
       button.capacity = newCapacity
