@@ -90,8 +90,8 @@ function KeepBooksMultiplier:load(player)
   end
 
   local skillToBookMap = self:getSkillToBookMap()
-  Debug:print('skillToBookMap')
-  Debug:printTable(skillToBookMap)
+  -- Debug:print('skillToBookMap')
+  -- Debug:printTable(skillToBookMap)
   local perks = PerkFactory.PerkList;
   for i = 0, perks:size() - 1 do
     local perk = perks:get(i);

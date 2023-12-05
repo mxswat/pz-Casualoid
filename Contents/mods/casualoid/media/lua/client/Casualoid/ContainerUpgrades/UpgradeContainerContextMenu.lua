@@ -6,7 +6,7 @@ local UpgradeContainerAction        = require("Casualoid/ContainerUpgrades/Upgra
 local containerUpgradeIcon          = getTexture("media/textures/Item_ContainerUpgrade.png")
 
 ---@class UpgradeContainerContextMenu
-UpgradeContainerContextMenu         = {
+local UpgradeContainerContextMenu = {
   woodenUpgrade = nil, ---@type InventoryItem|nil
   metalUpgrade = nil ---@type InventoryItem|nil
 }

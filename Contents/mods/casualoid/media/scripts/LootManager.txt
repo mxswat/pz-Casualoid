@@ -1,0 +1,11 @@
+module Casualoid {
+	imports	{
+		Base
+	}
+
+  recipe Make LootManager
+	{
+	  Sheet=2,
+	  Result:Moveables.loot_manager_0_0,
+	}
+}
