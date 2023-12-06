@@ -6,6 +6,6 @@ module Casualoid {
   recipe Make LootManager
 	{
 	  Sheet=2,
-	  Result:Moveables.loot_manager_0_0,
+	  Result:Moveables.loot_manager_0,
 	}
 }
