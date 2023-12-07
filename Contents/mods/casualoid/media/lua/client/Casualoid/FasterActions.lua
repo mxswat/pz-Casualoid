@@ -1,5 +1,4 @@
 local Debug = require("Casualoid/Debug")
-local Hooks = require("MxUtilities/Hooks")
 
 local ActionBlacklist = {
   ISWalkToTimedAction = true, -- Always ignore
@@ -11,22 +10,17 @@ local ActionBlacklist = {
   -- ISInventoryTransferAction = true, -- Affected by Dextrous  and AllThumbs
 }
 
----@class FasterActions: ISTimedActionQueue
-local FasterActions = {}
-function FasterActions:addToQueue(action)
+
+local old_ISTimedActionQueue_addToQueue = ISTimedActionQueue.addToQueue
+function ISTimedActionQueue:addToQueue(action)
   local actionType = getmetatable(action).Type
 
-  if ActionBlacklist[actionType] or action.maxTime <= 0 then
-    return
+  if not ActionBlacklist[actionType] and action.maxTime > 0 then
+    local modifier = SandboxVars.Casualoid.FasterActionsModifier
+    local oldMaxTime = action.maxTime
+    action.maxTime = math.max(action.maxTime * (1 - (modifier * 0.01)), 0)
+    Debug:print("[FasterActions] modifier: ", modifier, "| oldMaxTime: " .. oldMaxTime, "| new maxTime", action.maxTime)
   end
 
-  local modifier = SandboxVars.Casualoid.FasterActionsModifier
-  local oldMaxTime = action.maxTime
-  action.maxTime = math.max(action.maxTime * (1 - (modifier * 0.01)), 0)
-
-  Debug:print("FasterActions modifier:", modifier, "old maxTime: " .. oldMaxTime, "new maxTime", action.maxTime)
-
-  return action
+  return old_ISTimedActionQueue_addToQueue(self, action)
 end
-
-Hooks:PostHooksFromTable(ISTimedActionQueue, FasterActions, 'FasterActions')
