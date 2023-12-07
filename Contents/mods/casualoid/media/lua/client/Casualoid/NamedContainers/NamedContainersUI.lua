@@ -9,6 +9,40 @@ local Utils = require "MxUtilities/Utils"
 ---@class NamedContainersUI: ISInventoryPage
 local NamedContainersUI = {}
 
+function NamedContainersUI.createIconsHeader(self)
+  local titleBarHeight = self:titleBarHeight()
+  local size = NamedContainersSettings.getSavedSize(self)
+  local x = self.width - size
+  local y = titleBarHeight
+  local fontHgtSmall = getTextManager():getFontHeight(UIFont.Small)
+  local iconsHeader = ISButton:new(x, y, size, fontHgtSmall + 1, "~", self, SetWidthDialog.open);
+  iconsHeader.borderColor.a = 0.2;
+  iconsHeader:setBackgroundRGBA(0.0, 0.0, 0.0, 0.0)
+  iconsHeader:setBackgroundColorMouseOverRGBA(0.3, 0.3, 0.3, 1.0)
+  iconsHeader:setTextureRGBA(1.0, 1.0, 1.0, 1.0)
+  iconsHeader.anchorLeft = false
+  iconsHeader.anchorTop = true
+  iconsHeader.anchorRight = true
+  iconsHeader.anchorBottom = false
+  iconsHeader:initialise()
+  -- -- Apparently instantiate is needed otherwise it won't render properly
+  -- iconsHeader:instantiate()
+
+  return iconsHeader
+end
+
+local pre_ISInventoryPage_createChildren = ISInventoryPage.createChildren
+function ISInventoryPage:createChildren()
+  pre_ISInventoryPage_createChildren(self)
+
+  -- Sadly, it's the only way to do add the button on createChildren, cause they are create before the `OnGameStart` is fired :( 
+  if not SandboxVars.Casualoid.NamedContainersUI then return end
+
+  local iconsHeader = NamedContainersUI.createIconsHeader(self)
+  self:addChild(iconsHeader)
+  self.iconsHeader = iconsHeader
+end
+
 function NamedContainersUI.getVanillaButtonSize()
   local sizes = { 32, 40, 48 }
   return sizes[getCore():getOptionInventoryContainerSize()]
@@ -64,26 +98,6 @@ function NamedContainersUI:addContainerButton(container, texture, _name, tooltip
   end
 end
 
-function NamedContainersUI.createIconsHeader(self)
-  local titleBarHeight = self:titleBarHeight()
-  local size = NamedContainersSettings.getSavedSize(self)
-  local x = self.width - size
-  local y = titleBarHeight
-  local fontHgtSmall = getTextManager():getFontHeight(UIFont.Small)
-  local iconsHeader = ISButton:new(x, y, size, fontHgtSmall + 1, "~", self, SetWidthDialog.open);
-  iconsHeader.borderColor.a = 0.2;
-  iconsHeader:setBackgroundRGBA(0.0, 0.0, 0.0, 0.0)
-  iconsHeader:setBackgroundColorMouseOverRGBA(0.3, 0.3, 0.3, 1.0)
-  iconsHeader:setTextureRGBA(1.0, 1.0, 1.0, 1.0)
-  iconsHeader.anchorLeft = false
-  iconsHeader.anchorTop = false
-  iconsHeader.anchorRight = true
-  iconsHeader.anchorBottom = false
-  iconsHeader:initialise()
-
-  return iconsHeader
-end
-
 function NamedContainersUI.patchInventoryPane(self)
   local newWidth = self.width - NamedContainersSettings.getSavedSize(self)
   local newHeight = self.height - self:titleBarHeight() - 9
@@ -104,17 +118,10 @@ function NamedContainersUI.patchInventoryPane(self)
 end
 
 function NamedContainersUI:refreshBackpacks()
-  if self.iconsHeader then
-    self:removeChild(self.iconsHeader)
-  end
-
   local savedSize = NamedContainersSettings.getSavedSize(self)
 
   self.buttonSize = savedSize
   self.minimumWidth = 256 + savedSize
-
-  self.iconsHeader = NamedContainersUI.createIconsHeader(self)
-  self:addChild(self.iconsHeader);
 
   NamedContainersUI.patchInventoryPane(self)
 
