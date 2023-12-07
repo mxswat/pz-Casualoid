@@ -37,9 +37,6 @@ function LootManagerWorldMenu:toggleLootManager(object, character)
   local square = object:getSquare() 
   square:transmitRemoveItemFromSquare(object)
 
-  -- local tileCursor = ISBrushToolTileCursor:new(spriteName, spriteName, character)
-
-  -- tileCursor:tryBuild(square:getX(),square:getY(), square:getZ())
   ISBrushToolTileCursor:create(square:getX(),square:getY(), square:getZ(), nil, spriteName)
 end
 
