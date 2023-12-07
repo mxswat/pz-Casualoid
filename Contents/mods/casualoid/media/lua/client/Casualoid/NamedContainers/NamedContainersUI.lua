@@ -25,8 +25,6 @@ function NamedContainersUI.createIconsHeader(self)
   iconsHeader.anchorRight = true
   iconsHeader.anchorBottom = false
   iconsHeader:initialise()
-  -- -- Apparently instantiate is needed otherwise it won't render properly
-  -- iconsHeader:instantiate()
 
   return iconsHeader
 end
