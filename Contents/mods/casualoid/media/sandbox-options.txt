@@ -61,6 +61,11 @@ option Casualoid.NoAccessoriesWeight = {
   page = CasualoidComfort, translation = NoAccessoriesWeight,
 }
 
+option Casualoid.KeepBooksMultiplier = {
+  type = boolean, default = true, 
+  page = CasualoidComfort, translation = KeepBooksMultiplier,
+}
+
 option Casualoid.EnableContainerUpgrades = {
   type = boolean, default = true, 
   page = CasualoidContainerUpgrade, translation = EnableContainerUpgrades,
@@ -79,11 +84,6 @@ option Casualoid.MetalContainerUpgradeCapacity = {
 option Casualoid.ContainerUpgradeMaxCapacity = {
   type = integer, min = 0, max = 1000, default = 250,
   page = CasualoidContainerUpgrade, translation = ContainerUpgradeMaxCapacity,
-}
-
-option Casualoid.KeepBooksMultiplier = {
-  type = boolean, default = true, 
-  page = CasualoidKeepBooksMultiplier, translation = KeepBooksMultiplier,
 }
 
 option Casualoid.EnableRespawn = {

@@ -40,7 +40,7 @@ Sandbox_EN = {
   Sandbox_ContainerUpgradeMaxCapacity = "Container Upgrade Max Capacity",
   Sandbox_ContainerUpgradeMaxCapacity_tooltip = "Sets the max capacity you can achieve using container upgrades",
 
-	Sandbox_CasualoidRespawn = "Casualoid: Respawn & On Death",
+	Sandbox_CasualoidRespawn = "Casualoid: Respawn",
   Sandbox_EnableRespawn = "Enable respawn",
   Sandbox_XPKeptOnRespawn = "XP Recovery Percentage",
   Sandbox_EnableRespawnPenaltyTrait = "Enable respawn Penatly trait",
