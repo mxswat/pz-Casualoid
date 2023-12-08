@@ -7,4 +7,5 @@ IG_UI_EN = {
   IGUI_IgnoreAndProceed = "Reset All Respawn Data",
   IGUI_SetButtonsWidth = "Set Buttons Width",
   IGUI_SetButtonsHeight = "Set Buttons Height",
+  IGUI_NoUniqueItemsToGrab = "No unique or non-duplicate items found for grabbing.",
 }

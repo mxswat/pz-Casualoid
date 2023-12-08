@@ -6,6 +6,8 @@ Sandbox_EN = {
   Sandbox_RenameAllItems_tooltip = "If enabled, It allows you to rename all items via context menu",
   Sandbox_EnableMxMagazines = "Enable Mx's Magazines spawn",
   Sandbox_EnableMxMagazines_tooltip = "If enabled, It will spawn The Nutritionist trait magazine, and The Anarchist Cookbook 1 to 3",
+  Sandbox_GrabNonDuplicates = "Enable 'Grab Non-Duplicate Items'",
+  Sandbox_GrabNonDuplicates_tooltip = "If enabled, It allows you to Grab Non-Duplicate Items via context menu",
 
   Sandbox_CasualoidUI = "Casualoid: UI",
   Sandbox_ShowExactLevelNumber = "Show Exact Level Number in Character creation",

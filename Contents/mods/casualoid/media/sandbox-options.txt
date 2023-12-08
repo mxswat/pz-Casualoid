@@ -15,6 +15,11 @@ option Casualoid.EnableMxMagazines = {
   page = Casualoid, translation = EnableMxMagazines,
 }
 
+option Casualoid.GrabNonDuplicates = {
+  type = boolean, default = true, 
+  page = Casualoid, translation = GrabNonDuplicates,
+}
+
 option Casualoid.ShowExactLevelNumber = {
   type = boolean, default = true, 
   page = CasualoidUI, translation = ShowExactLevelNumber,

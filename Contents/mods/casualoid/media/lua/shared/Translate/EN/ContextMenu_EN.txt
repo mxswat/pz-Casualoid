@@ -1,4 +1,5 @@
 ContextMenu_EN = {	
 	ContextMenu_UpgradeContainer = "Upgrade Container",
 	ContextMenu_MissingUpgradeContainerItem = "Missing Upgrade Item",
+  ContextMenu_GrabNonDuplicates = "Grab Non-Duplicate Items"
 }

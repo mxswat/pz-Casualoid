@@ -9,6 +9,7 @@ local KeepBooksMultiplier = require "Casualoid/KeepBooksMultiplier/KeepBooksMult
 local NoHatAndGlassesDrop = require "Casualoid/NoHatAndGlassesDrop"
 local noAccessoriesWeight = require "Casualoid/noAccessoriesWeight"
 local NamedContainersUI = require "Casualoid/NamedContainers/NamedContainersUI"
+local GrabNonDuplicates = require "Casualoid/GrabNonDuplicates"
 
 local function onGameStart()
   Debug:print('Initalizing Casualoid onGameStart Hooks')
@@ -43,6 +44,10 @@ local function onGameStart()
 
   if SandboxVars.Casualoid.NamedContainersUI then
     NamedContainersUI:init()
+  end
+
+  if SandboxVars.Casualoid.GrabNonDuplicates then
+    GrabNonDuplicates:init()
   end
 end
 
