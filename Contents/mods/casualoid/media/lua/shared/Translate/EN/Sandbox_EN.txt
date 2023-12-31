@@ -14,6 +14,8 @@ Sandbox_EN = {
   Sandbox_ShowExactLevelNumber_tooltip = "If enabled, It will show the exact Level Number in Character creation after the skill name<br>eg: Carpentry(3) |||",
   Sandbox_NamedContainersUI = "Enable 'Named Containers UI'",
   Sandbox_NamedContainersUI_tooltip = "If enabled, It will enable resizing the containers icons column, and allows renaming containers",
+  Sandbox_ShowPlayersOnMinimap = "Show Players On Minimap",
+  Sandbox_ShowPlayersOnMinimap_tooltip = "If enabled, It will show players on the minimap",
 
   Sandbox_CasualoidComfort = "Casualoid: Comfort",
   Sandbox_FasterActionsModifier = "Timed Actions Modifier %",

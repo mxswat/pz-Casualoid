@@ -30,6 +30,11 @@ option Casualoid.NamedContainersUI = {
   page = CasualoidUI, translation = NamedContainersUI,
 }
 
+option Casualoid.ShowPlayersOnMinimap = {
+  type = boolean, default = true, 
+  page = CasualoidUI, translation = ShowPlayersOnMinimap,
+}
+
 option Casualoid.FasterActionsModifier
 {
 	type = integer, min = 0, max = 100, default = 50,
