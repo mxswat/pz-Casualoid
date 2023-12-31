@@ -1,14 +1,16 @@
-local old_ISMiniMap_InitPlayer = ISMiniMap.InitPlayer
-function ISMiniMap.InitPlayer(playerNum)
-  local MINIMAP = old_ISMiniMap_InitPlayer(playerNum)
+local Hooks = require "MxUtilities/Hooks"
 
-  if not SandboxVars.Casualoid.ShowPlayersOnMinimap then
-    return MINIMAP
-  end
+--- @class PlayersOnMinimap: ISMiniMap, HookedTable
+local PlayersOnMinimap = Hooks:CreateHookedTable(ISMiniMap)
+
+function PlayersOnMinimap:InitPlayer()
+  if not SandboxVars.Casualoid.ShowPlayersOnMinimap then return end
+
+  local MINIMAP = Hooks:GetReturn()
 
   local INNER = MINIMAP.inner
   INNER.mapAPI:setBoolean("RemotePlayers", true)
   INNER.mapAPI:setBoolean("PlayerNames", true)
-
-  return MINIMAP
 end
+
+PlayersOnMinimap:AttachHooks()
