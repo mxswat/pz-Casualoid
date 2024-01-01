@@ -4,4 +4,3 @@ require=MxUtilities
 poster=poster.png
 icon=icon.png
 pack=casualoid
-tiledef=casualoid_tile_def 1312
