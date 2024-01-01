@@ -1,4 +1,4 @@
-local Debug                         = require("Casualoid/Debug")
+local MxDebug                       = require("MxUtilities/MxDebug")
 local HookableToolTip               = require("MxUtilities/HookableTooltip")
 local getContainerUpgradeInfoTable  = require("Casualoid/ContainerUpgrades/getContainerUpgradeInfoTable")
 local UpgradeContainerAction        = require("Casualoid/ContainerUpgrades/UpgradeContainerAction")
@@ -133,8 +133,6 @@ function UpgradeContainerContextMenu:renderContextMenu(playerIndex, context, wor
   self.metalUpgrade = player:getInventory():FindAndReturn("Casualoid.MetalContainerUpgrade")
 
   local validProps = self:extractValidMoveProps(worldObjects)
-
-  Debug:print('validObjects:', Debug:printTable(validProps))
 
   if table.isempty(validProps) then
     return

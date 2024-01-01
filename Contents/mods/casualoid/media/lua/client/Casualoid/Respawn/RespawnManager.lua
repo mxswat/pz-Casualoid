@@ -1,4 +1,4 @@
-local Debug = require "Casualoid/Debug"
+local MxDebug = require "MxUtilities/MxDebug"
 local CasualoidSettings = require "Casualoid/CasualoidSettings"
 local Utils = require "MxUtilities/Utils"
 local RespawnUtils = require "Casualoid/Respawn/RespawnUtils"
@@ -8,7 +8,7 @@ local RespawnManager = {}
 RespawnManager.respawnHandlers = {}
 
 function RespawnManager:registerHandler(data)
-  Debug:print('self.respawnHandlers', self.respawnHandlers)
+  MxDebug:print('self.respawnHandlers', self.respawnHandlers)
   table.insert(self.respawnHandlers, data);
 end
 
@@ -24,7 +24,7 @@ function RespawnManager:init()
 end
 
 function RespawnManager:savePlayerProgress(player)
-  Debug:print('savePlayerProgress')
+  MxDebug:print('savePlayerProgress')
 
   for _, handler in ipairs(self.respawnHandlers) do
     handler:save(player)
@@ -45,7 +45,7 @@ function RespawnManager:loadPlayerProgress()
 end
 
 function RespawnManager:onKeepProgressModalClick(button)
-  Debug:print('KeepProgressModalClick', button.internal)
+  MxDebug:print('KeepProgressModalClick', button.internal)
   if button.internal == "YES" then
     CasualoidPerks:loadPartial(getPlayer())
   else

@@ -1,5 +1,5 @@
 local Hooks = require "MxUtilities/Hooks"
-local Debug = require "Casualoid/Debug"
+local MxDebug = require "MxUtilities/MxDebug"
 local DisassembleWithItems = require "Casualoid/DisassembleWithItems"
 local renameAllItems = require "Casualoid/renameAllItems"
 local disableMxMagazines = require "Casualoid/MxMagazines/disableMxMagazines"
@@ -12,7 +12,7 @@ local NamedContainersUI = require "Casualoid/NamedContainers/NamedContainersUI"
 local GrabNonDuplicates = require "Casualoid/GrabNonDuplicates"
 
 local function onGameStart()
-  Debug:print('Initalizing Casualoid onGameStart Hooks')
+  MxDebug:print('Initalizing Casualoid onGameStart Hooks')
   if SandboxVars.Casualoid.DisassembleContainerWithItems then
     Hooks:PostHooksFromTable(ISMoveableSpriteProps, DisassembleWithItems, 'DisassembleWithItem')
   end

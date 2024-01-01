@@ -1,5 +1,5 @@
 local RespawnUtils = require "Casualoid/Respawn/RespawnUtils"
-local Debug = require "Casualoid/Debug"
+local MxDebug = require "MxUtilities/MxDebug"
 
 CasualoidPerks = {}
 
@@ -48,7 +48,7 @@ function CasualoidPerks:load(player)
       and SandboxVars.Casualoid.XPKeptByRespawnPenaltyTrait
       or SandboxVars.Casualoid.XPKeptOnRespawn
 
-  Debug:print('Respawn: xpMultiplier', xpMultiplier)
+  MxDebug:print('Respawn: xpMultiplier', xpMultiplier)
 
   for perkId, data in pairs(casualoidRespawnData.perks) do
     local perk = Perks[perkId]
@@ -62,7 +62,7 @@ function CasualoidPerks:load(player)
         minXpToRecover = data.totalXp
       end
 
-      Debug:print(perk, 'xpToRecover:', xpToRecover, 'minimumXpToRecover', minXpToRecover, 'boost', boost)
+      MxDebug:print(perk, 'xpToRecover:', xpToRecover, 'minimumXpToRecover', minXpToRecover, 'boost', boost)
       xp:AddXP(perk, math.max(minXpToRecover, xpToRecover), false, false, false);
       xp:setPerkBoost(perk, boost);
     end

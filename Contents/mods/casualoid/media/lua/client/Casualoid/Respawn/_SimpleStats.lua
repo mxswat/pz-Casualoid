@@ -1,5 +1,5 @@
 local RespawnUtils = require "Casualoid/Respawn/RespawnUtils"
-local Debug = require "Casualoid/Debug"
+local MxDebug = require "MxUtilities/MxDebug"
 
 CasualoidSimpleStats = {};
 
@@ -12,7 +12,7 @@ end
 
 function CasualoidSimpleStats:load(player)
   local casualoidRespawnData = RespawnUtils.getRespawnModData();
-  Debug:print('CasualoidSimpleStats:load')
+  MxDebug:print('CasualoidSimpleStats:load')
   player:getNutrition():setWeight(casualoidRespawnData.weight);
   player:setHoursSurvived(casualoidRespawnData.hoursSurvived);
   player:setZombieKills(casualoidRespawnData.zombieKills)

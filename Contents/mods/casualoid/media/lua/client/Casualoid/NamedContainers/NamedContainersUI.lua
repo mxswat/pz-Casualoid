@@ -2,7 +2,7 @@ require "ISUI/ISInventoryPage"
 local SetWidthDialog = require "Casualoid/NamedContainers/SetWidthDialog"
 local NamedContainersSettings = require "Casualoid/NamedContainers/NamedContainersSettings"
 local Hooks = require "MxUtilities/Hooks"
-local Debug = require "Casualoid/Debug"
+local MxDebug = require "MxUtilities/MxDebug"
 local RenameDialog = require "Casualoid/NamedContainers/RenameDialog"
 local Utils = require "MxUtilities/Utils"
 
@@ -74,7 +74,7 @@ function NamedContainersUI:onBackpackRightMouseDown(x, y)
     RenameDialog.open(self.player, self.name, self.inventory)
   end);
 
-  Debug:print('context', context, context:getIsVisible() and 1 or 0)
+  MxDebug:print('context', context, context:getIsVisible() and 1 or 0)
 end
 
 function NamedContainersUI:addContainerButton(container, texture, _name, tooltip)

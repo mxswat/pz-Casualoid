@@ -1,5 +1,5 @@
 local RespawnUtils = require "Casualoid/Respawn/RespawnUtils"
-local Debug = require "Casualoid/Debug"
+local MxDebug = require "MxUtilities/MxDebug"
 
 local injected_instance = nil
 local old_ISRadioInteractions_getInstance = ISRadioInteractions.getInstance
@@ -15,7 +15,7 @@ function ISRadioInteractions:getInstance()
     local result = old_self_checkPlayer(player, _guid, ...)
 
     if _guid ~= nil and _guid ~= "" then
-      Debug:print('ISRadioInteractions: _guid', _guid)
+      MxDebug:print('ISRadioInteractions: _guid', _guid)
 
       local casualoidRespawnData = RespawnUtils.getRespawnModData()
       casualoidRespawnData.knownMediaLines[_guid] = true

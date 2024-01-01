@@ -1,4 +1,4 @@
-local Debug = require("Casualoid/Debug")
+local MxDebug  = require("MxUtilities/MxDebug ")
 
 ---@class KeepBooksMultiplier
 local KeepBooksMultiplier = {}
@@ -76,8 +76,8 @@ function KeepBooksMultiplier:giveXpMultiplier(player, perk)
   end
 
   local mockAction = ISReadABook:new(player, book, 2)
-  Debug:print('PerkName:', perk, '|', 'Level:', level)
-  Debug:print('Apply XP multiplier from:', book:getDisplayName())
+  MxDebug:print('PerkName:', perk, '|', 'Level:', level)
+  MxDebug:print('Apply XP multiplier from:', book:getDisplayName())
   -- checkMultiplier sets the multiplier on the player too :D
   ISReadABook.checkMultiplier(mockAction)
 end
@@ -90,8 +90,8 @@ function KeepBooksMultiplier:load(player)
   end
 
   local skillToBookMap = self:getSkillToBookMap()
-  -- Debug:print('skillToBookMap')
-  -- Debug:printTable(skillToBookMap)
+  -- MxDebug:print('skillToBookMap')
+  -- MxDebug:printTable(skillToBookMap)
   local perks = PerkFactory.PerkList;
   for i = 0, perks:size() - 1 do
     local perk = perks:get(i);

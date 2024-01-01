@@ -1,4 +1,4 @@
-local Debug = require("Casualoid/Debug")
+local MxDebug  = require("MxUtilities/MxDebug ")
 
 local function broadcastContainerUpgrade(module, command, srcPlayer, args)
   if not isServer() or module ~= "Casualoid" then return end;
@@ -7,7 +7,7 @@ local function broadcastContainerUpgrade(module, command, srcPlayer, args)
     return
   end
 
-  Debug:print(srcPlayer:getUsername(), 'upgraded a container')
+  MxDebug:print(srcPlayer:getUsername(), 'upgraded a container')
 
   local players = getOnlinePlayers();
   local x = args.x; -- Get X and Y of the square with the upgraded container.
@@ -21,10 +21,10 @@ local function broadcastContainerUpgrade(module, command, srcPlayer, args)
       local x2, y2 = player:getX(), player:getY();
       local vDist = math.sqrt(((x - x2) ^ 2) + ((y - y2) ^ 2));
 
-      Debug:print('vDist', vDist)
+      MxDebug:print('vDist', vDist)
 
       if vDist < 4 then -- Find the closest players.
-        Debug:print(player:getUsername(), 'is in range:', vDist, 'notified to update ISInventoryPage UI')
+        MxDebug:print(player:getUsername(), 'is in range:', vDist, 'notified to update ISInventoryPage UI')
         sendServerCommand(player, "Casualoid", "refreshUIOnClient", {});
       end
     end

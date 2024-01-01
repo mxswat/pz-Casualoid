@@ -1,5 +1,5 @@
 local ContainerUpgradesModData = require "Casualoid/ContainerUpgrades/ContainerUpgradesModData"
-local Debug = require("Casualoid/Debug")
+local MxDebug  = require("MxUtilities/MxDebug ")
 local getCapacityUpgrade = require("Casualoid/ContainerUpgrades/getCapacityUpgrade")
 
 ---@param object IsoObject
@@ -12,7 +12,7 @@ local function applyUpgradeToObjectContainer(object, upgradeItem)
   modData.capacityUpgrade =
       Math.min(modData.capacityUpgrade + capacityUpgrade, SandboxVars.Casualoid.ContainerUpgradeMaxCapacity)
 
-  Debug:printTable(modData)
+  MxDebug:printTable(modData)
 end
 
 

@@ -1,6 +1,6 @@
 require "Items/Distributions"
 require "Items/ProceduralDistributions"
-local Debug = require "Casualoid/Debug"
+local MxDebug = require "MxUtilities/MxDebug"
 
 
 local ItemsMap = {
@@ -13,7 +13,7 @@ local ItemsMap = {
 local function insertMagazine(items)
   for i, item in ipairs(items) do
     if ItemsMap[item] then
-      Debug:print('insertMagazine: ', ItemsMap[item], ': ', items[i + 1])
+      MxDebug:print('insertMagazine: ', ItemsMap[item], ': ', items[i + 1])
       table.insert(items, ItemsMap[item])
       table.insert(items, (items[i + 1]))
     end

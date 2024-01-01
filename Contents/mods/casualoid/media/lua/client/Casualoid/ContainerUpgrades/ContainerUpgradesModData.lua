@@ -1,6 +1,6 @@
 local getSpriteBaseCapacity = require "Casualoid/ContainerUpgrades/getSpriteBaseCapacity"
 local Utils                 = require "MxUtilities/Utils"
-local Debug = require("Casualoid/Debug")
+local MxDebug  = require("MxUtilities/MxDebug ")
 
 --- @class ContainerUpgradesModData
 --- @field capacityUpgrade number

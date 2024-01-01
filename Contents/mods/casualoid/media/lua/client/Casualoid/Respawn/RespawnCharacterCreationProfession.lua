@@ -1,4 +1,4 @@
-local Debug = require "Casualoid/Debug"
+local MxDebug = require "MxUtilities/MxDebug"
 local RespawnUtils = require "Casualoid/Respawn/RespawnUtils"
 local Hooks = require "MxUtilities/Hooks"
 local MxClientEvents = require "MxUtilities/MxClientEvents"
@@ -48,11 +48,11 @@ function RespawnCharacterCreationProfession:setVisible(visible)
   RespawnCharacterCreationProfession.removeRespawnProfession(self)
 
   if not SandboxVars.Casualoid.EnableRespawn then
-    return Debug:print('Respawn Disabled')
+    return MxDebug:print('Respawn Disabled')
   end
 
   if RespawnUtils.isRespawnAvailable() then
-    Debug:print('Respawn Enabled')
+    MxDebug:print('Respawn Enabled')
     RespawnCharacterCreationProfession.addRespawnProfession(self);
   end
 end

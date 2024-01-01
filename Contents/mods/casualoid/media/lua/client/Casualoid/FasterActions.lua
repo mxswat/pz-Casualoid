@@ -1,5 +1,4 @@
-local Debug = require("Casualoid/Debug")
-
+local MxDebug = require "MxUtilities/MxDebug"
 local ActionBlacklist = {
   ISWalkToTimedAction = true, -- Always ignore
   ISPathFindAction = true,    -- Always ignore
@@ -19,7 +18,7 @@ function ISTimedActionQueue:addToQueue(action)
     local modifier = SandboxVars.Casualoid.FasterActionsModifier
     local oldMaxTime = action.maxTime
     action.maxTime = math.max(action.maxTime * (1 - (modifier * 0.01)), 0)
-    Debug:print("[FasterActions] modifier: ", modifier, "| oldMaxTime: " .. oldMaxTime, "| new maxTime", action.maxTime)
+    MxDebug:print("[FasterActions] modifier: ", modifier, "| oldMaxTime: " .. oldMaxTime, "| new maxTime", action.maxTime)
   end
 
   return old_ISTimedActionQueue_addToQueue(self, action)

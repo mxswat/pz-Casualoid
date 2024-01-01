@@ -1,8 +1,8 @@
-local Debug = require "Casualoid/Debug"
+local MxDebug = require "MxUtilities/MxDebug"
 local RespawnCharacterCreationProfession = require "Casualoid/Respawn/RespawnCharacterCreationProfession"
 
 local function onGameBoot()
-  Debug:print('Initalizing Casualoid onGameBoot Hooks')
+  MxDebug:print('Initalizing Casualoid onGameBoot Hooks')
 
   if SandboxVars.Casualoid.EnableRespawn then
     RespawnCharacterCreationProfession:init()

@@ -1,4 +1,3 @@
-local Debug = require "Casualoid/Debug"
 local Hooks = require "MxUtilities/Hooks"
 
 ---@class GrabNonDuplicates: ISInventoryPaneContextMenu
@@ -46,8 +45,6 @@ function GrabNonDuplicates.grabItems(lootItems, playerIdx)
     end
   end
 
-  -- Debug:printTable(playerItemsMap)
-  -- Debug:printTable(actualLootItems)
   if lootedItems > 0 then return end
   -- player:Say(getText("IGUI_NoUniqueItemsToGrab"))
   HaloTextHelper.addText(player, getText("IGUI_NoUniqueItemsToGrab"), HaloTextHelper.getColorRed())
